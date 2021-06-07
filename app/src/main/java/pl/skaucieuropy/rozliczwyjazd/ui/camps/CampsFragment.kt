@@ -1,4 +1,4 @@
-package pl.skaucieuropy.rozliczwyjazd.ui.notifications
+package pl.skaucieuropy.rozliczwyjazd.ui.camps
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import pl.skaucieuropy.rozliczwyjazd.R
-import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentNotificationsBinding
+import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
 
-class NotificationsFragment : Fragment() {
+class CampsFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private var _binding: FragmentNotificationsBinding? = null
+    private lateinit var viewModel: CampsViewModel
+    private var _binding: FragmentCampsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,14 +24,14 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this).get(CampsViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentCampsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        viewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/summaryFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="pl.skaucieuropy.rozliczwyjazd.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/summaryFragment"
+        android:name="pl.skaucieuropy.rozliczwyjazd.ui.summary.SummaryFragment"
+        android:label="@string/title_summary"
+        tools:layout="@layout/fragment_summary" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="pl.skaucieuropy.rozliczwyjazd.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/documentsFragment"
+        android:name="pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsFragment"
+        android:label="@string/title_documents"
+        tools:layout="@layout/fragment_documents" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="pl.skaucieuropy.rozliczwyjazd.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/campsFragment"
+        android:name="pl.skaucieuropy.rozliczwyjazd.ui.camps.CampsFragment"
+        android:label="@string/title_camps"
+        tools:layout="@layout/fragment_camps" />
 </navigation>

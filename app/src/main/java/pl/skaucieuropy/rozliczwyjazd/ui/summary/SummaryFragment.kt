@@ -1,4 +1,4 @@
-package pl.skaucieuropy.rozliczwyjazd.ui.dashboard
+package pl.skaucieuropy.rozliczwyjazd.ui.summary
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import pl.skaucieuropy.rozliczwyjazd.R
-import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDashboardBinding
+import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentSummaryBinding
 
-class DashboardFragment : Fragment() {
+class SummaryFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private lateinit var viewModel: SummaryViewModel
+    private var _binding: FragmentSummaryBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,14 +24,14 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this).get(SummaryViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentSummaryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        val textView: TextView = binding.textHome
+        viewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
