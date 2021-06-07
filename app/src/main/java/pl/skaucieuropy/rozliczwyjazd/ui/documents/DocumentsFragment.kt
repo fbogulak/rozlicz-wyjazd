@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
+import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
 
 class DocumentsFragment : Fragment() {
 
@@ -23,18 +22,20 @@ class DocumentsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel =
             ViewModelProvider(this).get(DocumentsViewModel::class.java)
 
         _binding = FragmentDocumentsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
-        val textView: TextView = binding.textDashboard
-        viewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        binding.documentsRecycler.adapter =
+            DocumentsListAdapter(DocumentsListAdapter.DocumentListener {
+
+            })
+
+        return binding.root
     }
 
     override fun onDestroyView() {

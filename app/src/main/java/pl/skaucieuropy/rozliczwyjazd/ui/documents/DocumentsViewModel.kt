@@ -3,11 +3,16 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import pl.skaucieuropy.rozliczwyjazd.model.document.Document
+import java.util.*
 
 class DocumentsViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is documents Fragment"
+    private val _documents = MutableLiveData<List<Document>>().apply {
+        value = listOf(
+            Document(1, "1981/11/2019", "Faktura", Date(), "", 24.54, "", false),
+            Document(2, "1783F01107/12/19", "Faktura", Date(), "", 382.99, "", false)
+        )
     }
-    val text: LiveData<String> = _text
+    val documents: LiveData<List<Document>> = _documents
 }
