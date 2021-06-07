@@ -1,13 +1,52 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter
 
-import android.widget.ListAdapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import pl.skaucieuropy.rozliczwyjazd.databinding.DocumentListItemBinding
 import pl.skaucieuropy.rozliczwyjazd.model.document.Document
 
 class DocumentsListAdapter(private val clickListener: DocumentListener) :
     ListAdapter<Document, DocumentsListAdapter.DocumentViewHolder>(DocumentDiffCallback) {
 
-    class DocumentViewHolder(private var binding: ) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
+        return DocumentViewHolder.from(parent)
+    }
 
+    override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {
+        val document = getItem(position)
+        holder.bind(document, clickListener)
+    }
+
+    companion object DocumentDiffCallback : DiffUtil.ItemCallback<Document>() {
+        override fun areItemsTheSame(oldItem: Document, newItem: Document): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Document, newItem: Document): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    class DocumentViewHolder(private var binding: DocumentListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(document: Document, clickListener: DocumentListener) {
+            binding.document = document
+            binding.onClickListener = clickListener
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): DocumentViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = DocumentListItemBinding.inflate(layoutInflater, parent, false)
+                return DocumentViewHolder(binding)
+            }
+        }
     }
 
     class DocumentListener(val clickListener: (document: Document) -> Unit) {
