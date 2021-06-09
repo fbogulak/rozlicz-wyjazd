@@ -4,4 +4,14 @@
     <string name="title_documents">Dokumenty</string>
     <string name="title_camps">Obozy</string>
     <string name="document_type_format">%s nr</string>
+    <string name="document_number">Nr dokumentu</string>
+    <string name="document_date">Data zakupu</string>
+    <string name="amount">Kwota</string>
+    <string name="comment">Uwagi</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="payed_from_troop_account">Płacone z konta hufca:</string>
+    <string name="document_type">Typ dokumentu</string>
+    <string name="category">Kategoria</string>
+    <string name="save_changes">Zapisz zmiany</string>
 </resources>
