@@ -7,179 +7,191 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.documentedit.DocumentEditFragment">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/category_text_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/category"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amount_text_field">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/category_auto_complete"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences" />
-        </com.google.android.material.textfield.TextInputLayout>
+                tools:context=".ui.documentedit.DocumentEditFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/type_text_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/document_type"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/category_text_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/category"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/amount_text_field">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/type_auto_complete"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textCapSentences" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/category_auto_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/number_text_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/document_number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/type_text_field">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/type_text_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/document_type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/number_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapCharacters" />
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/type_auto_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textCapSentences" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/number_text_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/document_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/type_text_field">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/date_text_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/document_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/number_text_field">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/number_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/date_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/date_text_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/document_date"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/number_text_field">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/amount_text_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/amount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_text_field">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/amount_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/amount_text_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/amount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date_text_field">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/comment_text_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/comment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/troop_account_radio_group">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/amount_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/comment_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/comment_text_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingBottom="80dp"
+                    android:hint="@string/comment"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/troop_account_radio_group">
 
-        <RadioGroup
-            android:id="@+id/troop_account_radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:checkedButton="@+id/no_radio_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/troop_account_label">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/comment_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine" />
 
-            <RadioButton
-                android:id="@+id/yes_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/yes"
-                android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <RadioButton
-                android:id="@+id/no_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/no"
-                android:textSize="16sp" />
-        </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/troop_account_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:checkedButton="@+id/no_radio_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/troop_account_label">
 
-        <TextView
-            android:id="@+id/troop_account_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/payed_from_troop_account"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_text_field" />
+                    <RadioButton
+                        android:id="@+id/yes_radio_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/yes"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/no_radio_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/no"
+                        android:textSize="16sp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/troop_account_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/payed_from_troop_account"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/category_text_field" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/save_document_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
@@ -187,5 +199,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_save" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
