@@ -15,11 +15,19 @@
         android:id="@+id/documentsFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsFragment"
         android:label="@string/title_documents"
-        tools:layout="@layout/fragment_documents" />
+        tools:layout="@layout/fragment_documents" >
+        <action
+            android:id="@+id/action_documentsFragment_to_documentEditFragment"
+            app:destination="@id/documentEditFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/campsFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.camps.CampsFragment"
         android:label="@string/title_camps"
         tools:layout="@layout/fragment_camps" />
+    <fragment
+        android:id="@+id/documentEditFragment"
+        android:name="pl.skaucieuropy.rozliczwyjazd.ui.documentedit.DocumentEditFragment"
+        android:label="DocumentEditFragment" />
 </navigation>

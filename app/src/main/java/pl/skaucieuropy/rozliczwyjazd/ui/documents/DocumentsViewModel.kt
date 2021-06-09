@@ -15,4 +15,16 @@ class DocumentsViewModel : ViewModel() {
         )
     }
     val documents: LiveData<List<Document>> = _documents
+
+    private val _navigateToDocumentEdit = MutableLiveData<Boolean?>()
+    val navigateToDocumentEdit: LiveData<Boolean?>
+        get() = _navigateToDocumentEdit
+
+    fun navigateToDocumentEdit() {
+        _navigateToDocumentEdit.value = true
+    }
+
+    fun navigateToDocumentEditCompleted() {
+        _navigateToDocumentEdit.value = null
+    }
 }

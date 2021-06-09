@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
 
@@ -34,6 +35,15 @@ class DocumentsFragment : Fragment() {
             DocumentsListAdapter(DocumentsListAdapter.DocumentListener {
 
             })
+
+        viewModel.navigateToDocumentEdit.observe(viewLifecycleOwner) { navigate ->
+            navigate?.let {
+                if (navigate) {
+                    findNavController().navigate(DocumentsFragmentDirections.actionDocumentsFragmentToDocumentEditFragment())
+                    viewModel.navigateToDocumentEditCompleted()
+                }
+            }
+        }
 
         return binding.root
     }
