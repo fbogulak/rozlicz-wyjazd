@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="document_types">
+        <item>Faktura</item>
+        <item>Rachunek</item>
+        <item>Umowa</item>
+        <item>Oświadczenie</item>
+    </string-array>
+
+    <string-array name="document_categories">
+        <item>Art. do apteczki</item>
+        <item>Art. na obóz</item>
+        <item>Art. przemysłowe</item>
+        <item>Art. spożywcze</item>
+        <item>Badania lekarskie</item>
+        <item>Bilety</item>
+        <item>Bilety wstępu</item>
+        <item>Doładowanie telefonu</item>
+        <item>Drewno/żerdki na obóz</item>
+        <item>Ekwipunek/sprzęt</item>
+        <item>Konserwacja sprzętu (gaśnice, namioty)</item>
+        <item>Koszulki obozowe</item>
+        <item>Noclegi</item>
+        <item>Noclegi+wyżywienie</item>
+        <item>Rozliczenie delegacji</item>
+        <item>Transport</item>
+        <item>Ubezpieczenie</item>
+        <item>Usługa cateringowa/gastronomiczna</item>
+        <item>Usługa przewodnika</item>
+        <item>Wynajem kabin</item>
+        <item>Wynajem terenu</item>
+        <item>Wywóz śmieci/ dzierżawa kontenera</item>
+    </string-array>
+</resources>

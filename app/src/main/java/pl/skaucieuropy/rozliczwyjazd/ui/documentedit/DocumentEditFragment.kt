@@ -6,27 +6,41 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
 
 class DocumentEditFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DocumentEditFragment()
-    }
-
     private lateinit var viewModel: DocumentEditViewModel
+    private lateinit var binding: FragmentDocumentEditBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_document_edit, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    ): View {
         viewModel = ViewModelProvider(this).get(DocumentEditViewModel::class.java)
-        // TODO: Use the ViewModel
+        binding = FragmentDocumentEditBinding.inflate(inflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        setupExposedDropdownMenus()
+
+        return binding.root
     }
 
+    private fun setupExposedDropdownMenus() {
+        val typeAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.document_types,
+            R.layout.simple_list_item
+        )
+        binding.typeAutoComplete.setAdapter(typeAdapter)
+
+        val categoryAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.document_categories,
+            R.layout.simple_list_item
+        )
+        binding.categoryAutoComplete.setAdapter(categoryAdapter)
+    }
 }

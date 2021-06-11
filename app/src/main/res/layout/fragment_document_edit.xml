@@ -33,11 +33,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/amount_text_field">
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    <AutoCompleteTextView
                         android:id="@+id/category_auto_complete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapSentences" />
+                        android:inputType="none"
+                        android:text="@string/groceries" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -53,11 +54,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    <AutoCompleteTextView
                         android:id="@+id/type_auto_complete"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="textCapSentences" />
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="@string/vat_invoice" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -131,8 +133,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:paddingBottom="80dp"
                     android:hint="@string/comment"
+                    android:paddingBottom="80dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/troop_account_radio_group">
@@ -184,6 +186,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/category_text_field" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

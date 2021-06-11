@@ -14,4 +14,6 @@
     <string name="document_type">Typ dokumentu</string>
     <string name="category">Kategoria</string>
     <string name="save_changes">Zapisz zmiany</string>
+    <string name="vat_invoice">Faktura</string>
+    <string name="groceries">Art. spożywcze</string>
 </resources>
