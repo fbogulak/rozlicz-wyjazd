@@ -16,4 +16,5 @@
     <string name="save_changes">Zapisz zmiany</string>
     <string name="vat_invoice">Faktura</string>
     <string name="groceries">Art. spożywcze</string>
+    <string name="buy_date">Data zakupu</string>
 </resources>

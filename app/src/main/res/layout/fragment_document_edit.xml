@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="pl.skaucieuropy.rozliczwyjazd.ui.documentedit.DocumentEditViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -99,7 +102,8 @@
                         android:id="@+id/date_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="date" />
+                        android:inputType="none"
+                        app:date="@{viewModel.selectedDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

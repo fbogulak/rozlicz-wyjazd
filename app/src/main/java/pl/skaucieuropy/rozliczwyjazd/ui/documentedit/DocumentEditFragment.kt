@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.google.android.material.datepicker.MaterialDatePicker
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DocumentEditFragment : Fragment() {
 
@@ -21,9 +24,12 @@ class DocumentEditFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this).get(DocumentEditViewModel::class.java)
         binding = FragmentDocumentEditBinding.inflate(inflater)
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.dateEdit.keyListener = null
         setupExposedDropdownMenus()
+        setupDatePicker()
 
         return binding.root
     }
@@ -42,5 +48,27 @@ class DocumentEditFragment : Fragment() {
             R.layout.simple_list_item
         )
         binding.categoryAutoComplete.setAdapter(categoryAdapter)
+    }
+
+    private fun setupDatePicker() {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText(getString(R.string.buy_date))
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+        datePicker.addOnPositiveButtonClickListener {
+            viewModel.updateSelectedDate(Date(it))
+        }
+
+        binding.dateEdit.apply {
+            setOnClickListener {
+                datePicker.show(parentFragmentManager, "tag")
+            }
+            setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus)
+                    datePicker.show(parentFragmentManager, "tag")
+            }
+        }
     }
 }
