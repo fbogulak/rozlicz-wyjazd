@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
+import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
+import java.util.*
 
 class DocumentsFragment : Fragment() {
 
@@ -24,8 +28,13 @@ class DocumentsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val database = ReckoningDatabase.getInstance(requireContext())
+        val repository = ReckoningRepository(database)
         viewModel =
-            ViewModelProvider(this).get(DocumentsViewModel::class.java)
+            ViewModelProvider(
+                this,
+                DocumentsViewModelFactory(repository)
+            ).get(DocumentsViewModel::class.java)
 
         _binding = FragmentDocumentsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner

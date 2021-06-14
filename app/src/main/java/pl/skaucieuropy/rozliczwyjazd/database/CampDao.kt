@@ -14,7 +14,7 @@ interface CampDao {
     fun getCamp(id: Long): Camp
 
     @Query("SELECT * FROM camp_table WHERE isActive = 1")
-    fun getActiveCamp(): Camp
+    fun getActiveCamp(): LiveData<Camp>
 
     @Query("SELECT * FROM camp_table ORDER BY startDate DESC")
     fun getAllCamps(): LiveData<List<Camp>>
