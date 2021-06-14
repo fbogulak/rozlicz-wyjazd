@@ -9,7 +9,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
 import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
+import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
+import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,11 +30,24 @@ class DocumentEditFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.dateEdit.keyListener = null
+        setupEdtTexts()
         setupExposedDropdownMenus()
         setupDatePicker()
 
         return binding.root
+    }
+
+    private fun setupEdtTexts() {
+        binding.dateEdit.keyListener = null
+
+        binding.amountEdit.apply {
+            filters = arrayOf(CurrencyInputFilter())
+            setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    setText(AMOUNT_FORMAT.format(text.toString().toDoubleOrZero()))
+                }
+            }
+        }
     }
 
     private fun setupExposedDropdownMenus() {

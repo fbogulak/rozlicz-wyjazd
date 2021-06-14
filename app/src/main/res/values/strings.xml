@@ -17,4 +17,5 @@
     <string name="vat_invoice">Faktura</string>
     <string name="groceries">Art. spożywcze</string>
     <string name="buy_date">Data zakupu</string>
+    <string name="pln">zł</string>
 </resources>
