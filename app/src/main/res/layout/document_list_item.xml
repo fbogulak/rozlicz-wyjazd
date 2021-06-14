@@ -7,7 +7,7 @@
 
         <variable
             name="document"
-            type="pl.skaucieuropy.rozliczwyjazd.model.document.Document" />
+            type="pl.skaucieuropy.rozliczwyjazd.models.Document" />
 
         <variable
             name="onClickListener"

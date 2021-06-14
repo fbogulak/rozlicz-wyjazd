@@ -3,8 +3,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import pl.skaucieuropy.rozliczwyjazd.model.document.Document
-import java.text.DateFormat
+import pl.skaucieuropy.rozliczwyjazd.models.Document
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
