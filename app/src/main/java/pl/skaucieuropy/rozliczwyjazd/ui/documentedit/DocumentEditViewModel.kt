@@ -10,12 +10,11 @@ import java.util.*
 
 class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
-    val document = MutableLiveData<Document>()
+    val document = MutableLiveData(Document.empty())
 
     fun getDocumentFromDb(documentId: Long) {
         viewModelScope.launch {
             document.value = repository.getDocumentById(documentId)
-
         }
     }
 }

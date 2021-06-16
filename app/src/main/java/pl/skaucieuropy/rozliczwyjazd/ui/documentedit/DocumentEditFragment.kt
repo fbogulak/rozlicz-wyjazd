@@ -28,14 +28,16 @@ class DocumentEditFragment : Fragment() {
     ): View {
         val database = ReckoningDatabase.getInstance(requireContext())
         val repository = ReckoningRepository(database)
-        viewModel = ViewModelProvider(this, DocumentEditViewModelFactory(repository)).get(DocumentEditViewModel::class.java)
+        viewModel = ViewModelProvider(this, DocumentEditViewModelFactory(repository)).get(
+            DocumentEditViewModel::class.java
+        )
         binding = FragmentDocumentEditBinding.inflate(inflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
         if (documentId == -1L) {
-            setDefaultValues()
+            setDefaultStringValues()
         } else {
             viewModel.getDocumentFromDb(documentId)
         }
@@ -47,12 +49,9 @@ class DocumentEditFragment : Fragment() {
         return binding.root
     }
 
-    private fun setDefaultValues() {
-        viewModel.document.value?.id?.value = 0L
+    private fun setDefaultStringValues() {
         viewModel.document.value?.type?.value = getString(R.string.vat_invoice)
-        viewModel.document.value?.date?.value = Calendar.getInstance().time
         viewModel.document.value?.category?.value = getString(R.string.groceries)
-        viewModel.document.value?.isFromTroopAccount?.value = false
     }
 
     private fun setupEdtTexts() {

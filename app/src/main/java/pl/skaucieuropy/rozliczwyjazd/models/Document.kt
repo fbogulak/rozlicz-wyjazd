@@ -17,4 +17,20 @@ data class Document(
     var comment: MutableLiveData<String>,
     var isFromTroopAccount: MutableLiveData<Boolean>,
     var campId: MutableLiveData<Long>
-)
+) {
+    companion object {
+        fun empty(): Document {
+            return Document(
+                MutableLiveData(0),
+                MutableLiveData(""),
+                MutableLiveData(""),
+                MutableLiveData(Calendar.getInstance().time),
+                MutableLiveData(""),
+                MutableLiveData(0.0),
+                MutableLiveData(""),
+                MutableLiveData(false),
+                MutableLiveData(0)
+            )
+        }
+    }
+}
