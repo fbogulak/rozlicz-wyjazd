@@ -26,27 +26,39 @@ class DocumentEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val database = ReckoningDatabase.getInstance(requireContext())
-        val repository = ReckoningRepository(database)
-        viewModel = ViewModelProvider(this, DocumentEditViewModelFactory(repository)).get(
-            DocumentEditViewModel::class.java
-        )
-        binding = FragmentDocumentEditBinding.inflate(inflater)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        setupViewModel()
+        setupBinding(inflater)
 
-        val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
-        if (documentId == -1L) {
-            setDefaultStringValues()
-        } else {
-            viewModel.getDocumentFromDb(documentId)
-        }
+        setupDocument()
 
         setupEdtTexts()
         setupExposedDropdownMenus()
         setupDatePicker()
 
         return binding.root
+    }
+
+    private fun setupViewModel() {
+        val database = ReckoningDatabase.getInstance(requireContext())
+        val repository = ReckoningRepository(database)
+        viewModel = ViewModelProvider(this, DocumentEditViewModelFactory(repository)).get(
+            DocumentEditViewModel::class.java
+        )
+    }
+
+    private fun setupBinding(inflater: LayoutInflater) {
+        binding = FragmentDocumentEditBinding.inflate(inflater)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+    }
+
+    private fun setupDocument() {
+        val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
+        if (documentId == -1L) {
+            setDefaultStringValues()
+        } else {
+            viewModel.getDocumentFromDb(documentId)
+        }
     }
 
     private fun setDefaultStringValues() {
