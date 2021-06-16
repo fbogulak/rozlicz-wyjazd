@@ -14,7 +14,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
     val activeCampId = database.campDao.getActiveCampId()
     val allCamps by lazy { database.campDao.getAllCamps() }
     val activeDocuments = Transformations.map(activeCampId) {
-        database.documentDao.getDocumentsByCamp(it)
+        database.documentDao.getDocumentsByCamp(it ?: -1)
     }
 
     suspend fun getDocumentById(id: Long): Document = withContext(Dispatchers.IO) {
