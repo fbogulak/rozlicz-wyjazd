@@ -15,7 +15,7 @@
         android:id="@+id/documentsFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsFragment"
         android:label="@string/title_documents"
-        tools:layout="@layout/fragment_documents" >
+        tools:layout="@layout/fragment_documents">
         <action
             android:id="@+id/action_documentsFragment_to_documentEditFragment"
             app:destination="@id/documentEditFragment" />
@@ -29,5 +29,9 @@
     <fragment
         android:id="@+id/documentEditFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.documentedit.DocumentEditFragment"
-        android:label="DocumentEditFragment" />
+        android:label="DocumentEditFragment">
+        <argument
+            android:name="arg_document_id"
+            app:argType="long" />
+    </fragment>
 </navigation>

@@ -1,19 +1,20 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
+import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
+import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DocumentEditFragment : Fragment() {
@@ -25,16 +26,33 @@ class DocumentEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(DocumentEditViewModel::class.java)
+        val database = ReckoningDatabase.getInstance(requireContext())
+        val repository = ReckoningRepository(database)
+        viewModel = ViewModelProvider(this, DocumentEditViewModelFactory(repository)).get(DocumentEditViewModel::class.java)
         binding = FragmentDocumentEditBinding.inflate(inflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
+        if (documentId == -1L) {
+            setDefaultValues()
+        } else {
+            viewModel.getDocumentFromDb(documentId)
+        }
 
         setupEdtTexts()
         setupExposedDropdownMenus()
         setupDatePicker()
 
         return binding.root
+    }
+
+    private fun setDefaultValues() {
+        viewModel.document.value?.id?.value = 0L
+        viewModel.document.value?.type?.value = getString(R.string.vat_invoice)
+        viewModel.document.value?.date?.value = Calendar.getInstance().time
+        viewModel.document.value?.category?.value = getString(R.string.groceries)
+        viewModel.document.value?.isFromTroopAccount?.value = false
     }
 
     private fun setupEdtTexts() {
@@ -74,7 +92,7 @@ class DocumentEditFragment : Fragment() {
                 .build()
 
         datePicker.addOnPositiveButtonClickListener {
-            viewModel.updateSelectedDate(Date(it))
+            viewModel.document.value?.date?.value = Date(it)
         }
 
         binding.dateEdit.apply {

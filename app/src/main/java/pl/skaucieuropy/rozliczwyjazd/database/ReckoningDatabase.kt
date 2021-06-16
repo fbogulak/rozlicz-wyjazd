@@ -1,6 +1,7 @@
 package pl.skaucieuropy.rozliczwyjazd.database
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
@@ -36,8 +37,7 @@ abstract class ReckoningDatabase : RoomDatabase() {
                                 Executors.newSingleThreadExecutor().execute {
                                     instance?.let{
                                         it.campDao.insertCamp(Camp(1, "Marydół 2021", 2000.0, Date(), Date(), true))
-                                        it.documentDao.insertDocument(Document(1, "1981/11/2019", "Faktura", Date(), "Art. spożywcze", 24.54, "", false, 1))
-                                        it.documentDao.insertDocument(Document(2, "1783F01107/12/19", "Faktura", Date(), "Art. przemysłowe", 382.99, "", false, 1))
+                                        it.documentDao.insertDocument(Document(MutableLiveData(1), MutableLiveData("1981/11/2019"), MutableLiveData("Rachunek"), MutableLiveData(Date()), MutableLiveData("Art. przemysłowe"), MutableLiveData(24.54), MutableLiveData("Inne"), MutableLiveData(true), MutableLiveData(1)))
                                     }
                                 }
                             }

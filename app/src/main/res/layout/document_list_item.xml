@@ -20,7 +20,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp">
+        android:layout_marginBottom="4dp"
+        android:onClick="@{() -> onClickListener.onClick(document)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

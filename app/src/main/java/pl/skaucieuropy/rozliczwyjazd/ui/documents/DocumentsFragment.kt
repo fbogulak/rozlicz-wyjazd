@@ -41,14 +41,14 @@ class DocumentsFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.documentsRecycler.adapter =
-            DocumentsListAdapter(DocumentsListAdapter.DocumentListener {
-
+            DocumentsListAdapter(DocumentsListAdapter.DocumentListener {document ->
+                document.id.value?.let { navToDocumentEdit(it) }
             })
 
         viewModel.navigateToDocumentEdit.observe(viewLifecycleOwner) { navigate ->
             navigate?.let {
                 if (navigate) {
-                    findNavController().navigate(DocumentsFragmentDirections.actionDocumentsFragmentToDocumentEditFragment())
+                    navToDocumentEdit(-1)
                     viewModel.navigateToDocumentEditCompleted()
                 }
             }
@@ -60,5 +60,13 @@ class DocumentsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun navToDocumentEdit(documentId: Long) {
+        findNavController().navigate(
+            DocumentsFragmentDirections.actionDocumentsFragmentToDocumentEditFragment(
+                documentId
+            )
+        )
     }
 }

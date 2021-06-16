@@ -1,19 +1,21 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import java.util.*
 
-class DocumentEditViewModel : ViewModel() {
+class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
-    private val _selectedDate = MutableLiveData(Calendar.getInstance().time)
-    val selectedDate: LiveData<Date>
-        get() = _selectedDate
+    val document = MutableLiveData<Document>()
 
-    val amountString = MutableLiveData<String>()
+    fun getDocumentFromDb(documentId: Long) {
+        viewModelScope.launch {
+            document.value = repository.getDocumentById(documentId)
 
-    fun updateSelectedDate(newDate: Date) {
-        _selectedDate.value = newDate
+        }
     }
 }
