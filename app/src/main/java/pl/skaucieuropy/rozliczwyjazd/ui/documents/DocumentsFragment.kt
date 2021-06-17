@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
-import pl.skaucieuropy.rozliczwyjazd.models.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
-import java.util.*
 
 class DocumentsFragment : Fragment() {
 
@@ -41,14 +40,19 @@ class DocumentsFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.documentsRecycler.adapter =
-            DocumentsListAdapter(DocumentsListAdapter.DocumentListener {document ->
-                document.id.value?.let { navToDocumentEdit(it) }
+            DocumentsListAdapter(DocumentsListAdapter.DocumentListener { document ->
+                document.id.value?.let {
+                    navToDocumentEdit(
+                        it,
+                        getString(R.string.edit_document_title)
+                    )
+                }
             })
 
         viewModel.navigateToDocumentEdit.observe(viewLifecycleOwner) { navigate ->
             navigate?.let {
                 if (navigate) {
-                    navToDocumentEdit(-1)
+                    navToDocumentEdit(-1, getString(R.string.add_document_title))
                     viewModel.navigateToDocumentEditCompleted()
                 }
             }
@@ -62,10 +66,10 @@ class DocumentsFragment : Fragment() {
         _binding = null
     }
 
-    private fun navToDocumentEdit(documentId: Long) {
+    private fun navToDocumentEdit(documentId: Long, destinationLabel: String) {
         findNavController().navigate(
             DocumentsFragmentDirections.actionDocumentsFragmentToDocumentEditFragment(
-                documentId
+                documentId, destinationLabel
             )
         )
     }

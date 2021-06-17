@@ -29,9 +29,12 @@
     <fragment
         android:id="@+id/documentEditFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.documentedit.DocumentEditFragment"
-        android:label="DocumentEditFragment">
+        android:label="@string/destination_label">
         <argument
             android:name="arg_document_id"
             app:argType="long" />
+        <argument
+            android:name="arg_label"
+            app:argType="string" />
     </fragment>
 </navigation>

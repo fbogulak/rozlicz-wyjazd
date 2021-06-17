@@ -18,4 +18,7 @@
     <string name="groceries">Art. spożywcze</string>
     <string name="buy_date">Data zakupu</string>
     <string name="pln">zł</string>
+    <string name="destination_label">{arg_label}</string>
+    <string name="edit_document_title">Edytuj Dokument</string>
+    <string name="add_document_title">Dodaj Dokument</string>
 </resources>
