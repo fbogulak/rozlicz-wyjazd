@@ -52,7 +52,7 @@ class DocumentsFragment : Fragment() {
         viewModel.navigateToDocumentEdit.observe(viewLifecycleOwner) { navigate ->
             navigate?.let {
                 if (navigate) {
-                    navToDocumentEdit(-1, getString(R.string.add_document_title))
+                    navToDocumentEdit(0, getString(R.string.add_document_title))
                     viewModel.navigateToDocumentEditCompleted()
                 }
             }

@@ -54,7 +54,7 @@ class DocumentEditFragment : Fragment() {
 
     private fun setupDocument() {
         val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
-        if (documentId == -1L) {
+        if (documentId == 0L) {
             setDefaultStringValues()
         } else {
             viewModel.getDocumentFromDb(documentId)
