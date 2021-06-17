@@ -216,6 +216,7 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/save_changes"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{() -> viewModel.saveDocument()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_save" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

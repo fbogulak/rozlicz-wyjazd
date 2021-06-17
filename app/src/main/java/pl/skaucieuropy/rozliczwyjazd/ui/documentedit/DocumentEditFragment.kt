@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
@@ -34,6 +35,8 @@ class DocumentEditFragment : Fragment() {
         setupEdtTexts()
         setupExposedDropdownMenus()
         setupDatePicker()
+
+        setupObservers()
 
         return binding.root
     }
@@ -115,5 +118,20 @@ class DocumentEditFragment : Fragment() {
                     datePicker.show(parentFragmentManager, "tag")
             }
         }
+    }
+
+    private fun setupObservers() {
+        viewModel.navigateToDocuments.observe(viewLifecycleOwner) { navigate ->
+            navigate?.let {
+                if (navigate) {
+                    navToDocuments()
+                    viewModel.navigateToDocumentsCompleted()
+                }
+            }
+        }
+    }
+
+    private fun navToDocuments() {
+        findNavController().navigate(DocumentEditFragmentDirections.actionDocumentEditFragmentToDocumentsFragment())
     }
 }

@@ -1,23 +1,29 @@
 package pl.skaucieuropy.rozliczwyjazd.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 
 class ReckoningRepository(private val database: ReckoningDatabase) {
 
-    val activeCampId = database.campDao.getActiveCampId()
     val allCamps by lazy { database.campDao.getAllCamps() }
-    val activeDocuments = Transformations.map(activeCampId) {
-        database.documentDao.getDocumentsByCamp(it ?: 0)
-    }
+    val activeDocuments by lazy { database.documentDao.getActiveDocuments() }
 
     suspend fun getDocumentById(id: Long): Document = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getDocument(id)
+    }
+
+    suspend fun insertDocument(document: Document) = withContext(Dispatchers.IO) {
+        database.documentDao.insert(document)
+    }
+
+    suspend fun updateDocument(document: Document) = withContext(Dispatchers.IO) {
+        database.documentDao.update(document)
+    }
+
+    suspend fun getActiveCampId(): Long = withContext(Dispatchers.IO) {
+        return@withContext database.campDao.getActiveCampId()
     }
 }

@@ -23,7 +23,7 @@ class DocumentsListAdapter(private val clickListener: DocumentListener) :
 
     companion object DocumentDiffCallback : DiffUtil.ItemCallback<Document>() {
         override fun areItemsTheSame(oldItem: Document, newItem: Document): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.id.value == newItem.id.value
         }
 
         override fun areContentsTheSame(oldItem: Document, newItem: Document): Boolean {

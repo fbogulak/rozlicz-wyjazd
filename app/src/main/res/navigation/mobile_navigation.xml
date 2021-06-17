@@ -36,5 +36,8 @@
         <argument
             android:name="arg_label"
             app:argType="string" />
+        <action
+            android:id="@+id/action_documentEditFragment_to_documentsFragment"
+            app:destination="@id/documentsFragment" />
     </fragment>
 </navigation>
