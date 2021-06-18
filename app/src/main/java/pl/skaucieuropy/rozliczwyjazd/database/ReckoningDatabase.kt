@@ -37,7 +37,7 @@ abstract class ReckoningDatabase : RoomDatabase() {
                                 Executors.newSingleThreadExecutor().execute {
                                     instance?.let{
                                         it.campDao.insertCamp(Camp(1, "Marydół 2021", 2000.0, Date(), Date(), true))
-                                        it.documentDao.insert(Document(MutableLiveData(1), MutableLiveData("1981/11/2019"), MutableLiveData("Rachunek"), MutableLiveData(Date()), MutableLiveData("Art. przemysłowe"), MutableLiveData(24.54), MutableLiveData("Inne"), MutableLiveData(true), MutableLiveData(1)))
+                                        it.documentDao.insert(Document(MutableLiveData(1), MutableLiveData("1981/11/2019"), MutableLiveData("Rachunek"), MutableLiveData(Date()), MutableLiveData("Art. przemysłowe"), MutableLiveData(24.54), MutableLiveData("Inne"), MutableLiveData(false), MutableLiveData(true), MutableLiveData(1)))
                                     }
                                 }
                             }

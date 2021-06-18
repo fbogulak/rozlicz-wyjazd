@@ -16,6 +16,7 @@ data class Document(
     var amount: MutableLiveData<Double>,
     var comment: MutableLiveData<String>,
     var isFromTroopAccount: MutableLiveData<Boolean>,
+    var isFromTravelVoucher: MutableLiveData<Boolean>,
     var campId: MutableLiveData<Long>
 ) {
     companion object {
@@ -28,6 +29,7 @@ data class Document(
                 MutableLiveData(""),
                 MutableLiveData(0.0),
                 MutableLiveData(""),
+                MutableLiveData(false),
                 MutableLiveData(false),
                 MutableLiveData(0)
             )
