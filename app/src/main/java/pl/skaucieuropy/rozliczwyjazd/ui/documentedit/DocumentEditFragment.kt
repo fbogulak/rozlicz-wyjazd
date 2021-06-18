@@ -21,7 +21,6 @@ class DocumentEditFragment : Fragment() {
 
     private lateinit var viewModel: DocumentEditViewModel
     private lateinit var binding: FragmentDocumentEditBinding
-    private var documentId = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,11 +56,12 @@ class DocumentEditFragment : Fragment() {
     }
 
     private fun setupDocument() {
-        documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
+        val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
+        viewModel.document.value?.id?.value = documentId
         if (documentId == 0L) {
             setDefaultStringValues()
         } else {
-            viewModel.getDocumentFromDb(documentId)
+            viewModel.getDocumentFromDb()
         }
     }
 
@@ -143,7 +143,7 @@ class DocumentEditFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if (documentId == 0L) {
+        if (viewModel.document.value?.id?.value == 0L) {
             menu.findItem(R.id.delete_document).isVisible = false
         }
     }

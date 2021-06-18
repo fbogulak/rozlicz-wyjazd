@@ -24,9 +24,11 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
         _navigateToDocuments.value = null
     }
 
-    fun getDocumentFromDb(documentId: Long) {
-        viewModelScope.launch {
-            document.value = repository.getDocumentById(documentId)
+    fun getDocumentFromDb() {
+        document.value?.id?.value?.let {
+            viewModelScope.launch {
+                document.value = repository.getDocumentById(it)
+            }
         }
     }
 
