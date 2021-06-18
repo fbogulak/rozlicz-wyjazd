@@ -1,9 +1,8 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +21,7 @@ class DocumentEditFragment : Fragment() {
 
     private lateinit var viewModel: DocumentEditViewModel
     private lateinit var binding: FragmentDocumentEditBinding
+    private var documentId = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +37,7 @@ class DocumentEditFragment : Fragment() {
         setupDatePicker()
 
         setupObservers()
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -56,7 +57,7 @@ class DocumentEditFragment : Fragment() {
     }
 
     private fun setupDocument() {
-        val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
+        documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
         if (documentId == 0L) {
             setDefaultStringValues()
         } else {
@@ -133,5 +134,40 @@ class DocumentEditFragment : Fragment() {
 
     private fun navToDocuments() {
         findNavController().navigate(DocumentEditFragmentDirections.actionDocumentEditFragmentToDocumentsFragment())
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.document_edit_overflow_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (documentId == 0L) {
+            menu.findItem(R.id.delete_document).isVisible = false
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.delete_document -> {
+                showDeleteConfirmationDialog()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setMessage(getString(R.string.delete_document_dialog_msg))
+            setPositiveButton(getString(R.string.delete)) { _, _ ->
+                viewModel.deleteDocument()
+            }
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog?.dismiss()
+            }
+            show()
+        }
     }
 }

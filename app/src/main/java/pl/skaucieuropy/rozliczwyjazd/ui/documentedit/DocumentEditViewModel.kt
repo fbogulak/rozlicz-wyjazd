@@ -1,10 +1,12 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
-import java.util.*
 
 class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
@@ -36,6 +38,17 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                     repository.insertDocument(it)
                 } else {
                     repository.updateDocument(it)
+                }
+            }
+            navigateToDocuments()
+        }
+    }
+
+    fun deleteDocument() {
+        document.value?.let {
+            viewModelScope.launch {
+                if (it.id.value != 0L) {
+                    repository.deleteDocument(it)
                 }
             }
             navigateToDocuments()

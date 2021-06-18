@@ -1,6 +1,5 @@
 package pl.skaucieuropy.rozliczwyjazd.repository
 
-import androidx.lifecycle.Transformations
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
@@ -25,5 +24,9 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
 
     suspend fun getActiveCampId(): Long = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getActiveCampId()
+    }
+
+    suspend fun deleteDocument(document: Document) = withContext(Dispatchers.IO) {
+        database.documentDao.delete(document)
     }
 }

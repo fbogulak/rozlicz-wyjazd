@@ -21,4 +21,8 @@
     <string name="destination_label">{arg_label}</string>
     <string name="edit_document_title">Edytuj Dokument</string>
     <string name="add_document_title">Dodaj Dokument</string>
+    <string name="delete_document">Usuń dokument</string>
+    <string name="delete_document_dialog_msg">Usunąć ten dokument?</string>
+    <string name="delete">Usuń</string>
+    <string name="cancel">Anuluj</string>
 </resources>
