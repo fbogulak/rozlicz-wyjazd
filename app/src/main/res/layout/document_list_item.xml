@@ -14,69 +14,67 @@
             type="pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter.DocumentListener" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
         android:onClick="@{() -> onClickListener.onClick(document)}">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{@string/document_type_format(document.type)}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Faktura nr" />
 
-            <TextView
-                android:id="@+id/type_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@{@string/document_type_format(document.type)}"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Faktura nr" />
+        <TextView
+            android:id="@+id/number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{document.number}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/type_text"
+            app:layout_constraintStart_toEndOf="@+id/type_text"
+            tools:text="1783F01107/12/19 " />
 
-            <TextView
-                android:id="@+id/number_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@{document.number}"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/type_text"
-                app:layout_constraintStart_toEndOf="@+id/type_text"
-                tools:text="1783F01107/12/19 " />
+        <TextView
+            android:id="@+id/amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:documentAmount="@{document.amount}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/type_text"
+            app:layout_constraintTop_toBottomOf="@+id/type_text"
+            tools:text="382,99 zł" />
 
-            <TextView
-                android:id="@+id/amount_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:documentAmount="@{document.amount}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/type_text"
-                tools:text="382,99 zł" />
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+            app:documentDate="@{document.date}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/amount_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="27.06.2021" />
 
-            <TextView
-                android:id="@+id/date_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                app:documentDate="@{document.date}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/amount_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="27.06.2021" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
