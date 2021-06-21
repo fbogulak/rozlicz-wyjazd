@@ -152,13 +152,16 @@ class DocumentEditFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> {
+                viewModel.saveDocument()
+                return true
+            }
             R.id.delete_document -> {
                 showDeleteConfirmationDialog()
                 return true
             }
-            android.R.id.home -> {
-                viewModel.saveDocument()
-                return true
+            R.id.cancel_document_changes -> {
+                navToDocuments()
             }
         }
         return super.onOptionsItemSelected(item)
