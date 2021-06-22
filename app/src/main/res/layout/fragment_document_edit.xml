@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:maxLines="1"
-                        app:selectedItem="@={viewModel.document.category}" />
+                        android:text="@={viewModel.document.category}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:maxLines="1"
-                        app:selectedItem="@={viewModel.document.type}" />
+                        android:text="@={viewModel.document.type}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

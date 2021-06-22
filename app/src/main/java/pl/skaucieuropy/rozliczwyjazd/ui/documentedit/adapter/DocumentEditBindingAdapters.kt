@@ -21,38 +21,6 @@ fun bindTextViewToDate(textView: TextView, date: Date?) {
     }
 }
 
-@BindingAdapter("selectedItem")
-fun setSelectedItem(view: AutoCompleteTextView, newValue: String?) {
-    newValue?.let {
-        if (view.text.toString() != newValue) {
-            view.setText(newValue, false)
-        }
-    }
-}
-
-@InverseBindingAdapter(attribute = "selectedItem")
-fun getSelectedItem(view: AutoCompleteTextView): String {
-    return view.text.toString()
-}
-
-@BindingAdapter("selectedItemAttrChanged")
-fun setSelectedItemListeners(
-    view: AutoCompleteTextView,
-    attrChange: InverseBindingListener
-) {
-    view.addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            attrChange.onChange()
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-        }
-    })
-}
-
 @BindingAdapter("amount")
 fun setAmount(view: EditText, newValue: Double?) {
     newValue?.let {
