@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.activity.addCallback
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -41,6 +41,7 @@ class DocumentEditFragment : Fragment() {
 
         setupObservers()
         setHasOptionsMenu(true)
+        binding.container.requestFocus()
 
         return binding.root
     }
@@ -63,8 +64,10 @@ class DocumentEditFragment : Fragment() {
         val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
         viewModel.document.value?.id?.value = documentId
         if (documentId == 0L) {
-            setDefaultStringValues()
-        } else {
+            if (!viewModel.documentHasChanged) {
+                setDefaultStringValues()
+            }
+        } else if (!viewModel.documentHasLoadedFromDb) {
             viewModel.getDocumentFromDb()
         }
     }
@@ -134,6 +137,13 @@ class DocumentEditFragment : Fragment() {
                 }
             }
         }
+        viewModel.document.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it != viewModel.originalDocument) {
+                    viewModel.documentHasChanged = true
+                }
+            }
+        }
     }
 
     private fun navToDocuments() {
@@ -186,10 +196,12 @@ class DocumentEditFragment : Fragment() {
         super.onAttach(context)
         Log.v("DocumentEditFragment", "onAttach called")
 
-        requireActivity().onBackPressedDispatcher.addCallback {
-            isEnabled = true
-            viewModel.saveDocument()
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.saveDocument()
+            }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

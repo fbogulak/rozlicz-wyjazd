@@ -1,9 +1,6 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
@@ -11,6 +8,9 @@ import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
     val document = MutableLiveData(Document.empty())
+    var originalDocument = Document.empty()
+    var documentHasChanged = false
+    var documentHasLoadedFromDb = false
 
     private val _navigateToDocuments = MutableLiveData<Boolean?>()
     val navigateToDocuments: LiveData<Boolean?>
@@ -27,7 +27,9 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
     fun getDocumentFromDb() {
         document.value?.id?.value?.let {
             viewModelScope.launch {
-                document.value = repository.getDocumentById(it)
+                originalDocument = repository.getDocumentById(it)
+                document.value = originalDocument
+                documentHasLoadedFromDb = true
             }
         }
     }
