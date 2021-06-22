@@ -3,6 +3,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.activity.addCallback
@@ -28,6 +29,7 @@ class DocumentEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.v("DocumentEditFragment", "onCreateView called")
         setupViewModel()
         setupBinding(inflater)
 
@@ -182,10 +184,61 @@ class DocumentEditFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Log.v("DocumentEditFragment", "onAttach called")
 
         requireActivity().onBackPressedDispatcher.addCallback {
             isEnabled = true
             viewModel.saveDocument()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.v("DocumentEditFragment", "onCreate called")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.v("DocumentEditFragment", "onViewCreated called")
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.v("DocumentEditFragment", "onViewStateRestored called")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.v("DocumentEditFragment", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.v("DocumentEditFragment", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.v("DocumentEditFragment", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.v("DocumentEditFragment", "onStop called")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.v("DocumentEditFragment", "onSaveInstanceState called")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.v("DocumentEditFragment", "onDestroyView called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.v("DocumentEditFragment", "onDestroy called")
     }
 }
