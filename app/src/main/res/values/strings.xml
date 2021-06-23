@@ -27,4 +27,5 @@
     <string name="delete">Usuń</string>
     <string name="cancel">Anuluj</string>
     <string name="cancel_changes">Anuluj zmiany</string>
+    <string name="date_separator">\u0020-\u0020</string>
 </resources>

@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
+import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
 
 class CampsFragment : Fragment() {
 
@@ -23,18 +24,44 @@ class CampsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        setupViewModel()
+        setupBinding(inflater, container)
+
+        setupRecycler()
+        setupObservers()
+
+        return binding.root
+    }
+
+    private fun setupViewModel() {
+        val database = ReckoningDatabase.getInstance(requireContext())
+        val repository = ReckoningRepository(database)
         viewModel =
-            ViewModelProvider(this).get(CampsViewModel::class.java)
+            ViewModelProvider(
+                this,
+                CampsViewModelFactory(repository)
+            ).get(CampsViewModel::class.java)
+    }
 
+    private fun setupBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) {
         _binding = FragmentCampsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+    }
 
-        val textView: TextView = binding.textNotifications
-        viewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+    private fun setupRecycler() {
+        binding.campsRecycler.adapter =
+            CampsListAdapter(CampsListAdapter.CampListener { camp ->
+                camp.id.value?.let {
+                }
+            })
+    }
+
+    private fun setupObservers() {
     }
 
     override fun onDestroyView() {

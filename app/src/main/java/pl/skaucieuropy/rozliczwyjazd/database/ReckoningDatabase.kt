@@ -35,9 +35,31 @@ abstract class ReckoningDatabase : RoomDatabase() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
                                 Executors.newSingleThreadExecutor().execute {
-                                    instance?.let{
-                                        it.campDao.insertCamp(Camp(1, "Marydół 2021", 2000.0, Date(), Date(), true))
-                                        it.documentDao.insert(Document(MutableLiveData(1), MutableLiveData("1981/11/2019"), MutableLiveData("Rachunek"), MutableLiveData(Date()), MutableLiveData("Art. przemysłowe"), MutableLiveData(24.54), MutableLiveData("Inne"), MutableLiveData(false), MutableLiveData(true), MutableLiveData(1)))
+                                    instance?.let {
+                                        it.campDao.insertCamp(
+                                            Camp(
+                                                MutableLiveData(1),
+                                                MutableLiveData("Adalbertus 2021"),
+                                                MutableLiveData(5000.0),
+                                                MutableLiveData(Calendar.getInstance().time),
+                                                MutableLiveData(Calendar.getInstance().time),
+                                                MutableLiveData(true)
+                                            )
+                                        )
+                                        it.documentDao.insert(
+                                            Document(
+                                                MutableLiveData(1),
+                                                MutableLiveData("1981/11/2019"),
+                                                MutableLiveData("Rachunek"),
+                                                MutableLiveData(Date()),
+                                                MutableLiveData("Art. przemysłowe"),
+                                                MutableLiveData(24.54),
+                                                MutableLiveData("Inne"),
+                                                MutableLiveData(false),
+                                                MutableLiveData(true),
+                                                MutableLiveData(1)
+                                            )
+                                        )
                                     }
                                 }
                             }
