@@ -27,6 +27,16 @@ class DocumentsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setupViewModel()
+        setupBinding(inflater, container)
+
+        setupRecycler()
+        setupObservers()
+
+        return binding.root
+    }
+
+    private fun setupViewModel() {
         val database = ReckoningDatabase.getInstance(requireContext())
         val repository = ReckoningRepository(database)
         viewModel =
@@ -34,11 +44,18 @@ class DocumentsFragment : Fragment() {
                 this,
                 DocumentsViewModelFactory(repository)
             ).get(DocumentsViewModel::class.java)
+    }
 
+    private fun setupBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) {
         _binding = FragmentDocumentsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+    }
 
+    private fun setupRecycler() {
         binding.documentsRecycler.adapter =
             DocumentsListAdapter(DocumentsListAdapter.DocumentListener { document ->
                 document.id.value?.let {
@@ -48,7 +65,9 @@ class DocumentsFragment : Fragment() {
                     )
                 }
             })
+    }
 
+    private fun setupObservers() {
         viewModel.navigateToDocumentEdit.observe(viewLifecycleOwner) { navigate ->
             navigate?.let {
                 if (navigate) {
@@ -57,8 +76,6 @@ class DocumentsFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
 
     override fun onDestroyView() {
