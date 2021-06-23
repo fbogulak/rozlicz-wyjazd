@@ -43,8 +43,8 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                 } else {
                     repository.updateDocument(it)
                 }
+                navigateToDocuments()
             }
-            navigateToDocuments()
         }
     }
 
@@ -54,8 +54,8 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                 if (it.id.value != 0L) {
                     repository.deleteDocument(it)
                 }
+                navigateToDocuments()
             }
-            navigateToDocuments()
         }
     }
 }
