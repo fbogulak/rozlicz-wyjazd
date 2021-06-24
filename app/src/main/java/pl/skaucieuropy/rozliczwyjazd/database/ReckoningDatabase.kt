@@ -36,7 +36,7 @@ abstract class ReckoningDatabase : RoomDatabase() {
                                 super.onCreate(db)
                                 Executors.newSingleThreadExecutor().execute {
                                     instance?.let {
-                                        it.campDao.insertCamp(
+                                        it.campDao.insert(
                                             Camp(
                                                 MutableLiveData(1),
                                                 MutableLiveData("Adalbertus 2021"),

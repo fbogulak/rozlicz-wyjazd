@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
+import pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsFragmentDirections
 
 class CampsFragment : Fragment() {
 
@@ -57,15 +60,35 @@ class CampsFragment : Fragment() {
         binding.campsRecycler.adapter =
             CampsListAdapter(CampsListAdapter.CampListener { camp ->
                 camp.id.value?.let {
+                    navToCampEdit(
+                        it,
+                        getString(R.string.edit_camp_title)
+                    )
                 }
             })
     }
 
     private fun setupObservers() {
+        viewModel.navigateToCampEdit.observe(viewLifecycleOwner) { navigate ->
+            navigate?.let {
+                if (navigate) {
+                    navToCampEdit(0, getString(R.string.add_camp_title))
+                    viewModel.navigateToCampEditCompleted()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun navToCampEdit(campId: Long, destinationLabel: String) {
+        findNavController().navigate(
+            CampsFragmentDirections.actionCampsFragmentToCampEditFragment(
+                campId, destinationLabel
+            )
+        )
     }
 }

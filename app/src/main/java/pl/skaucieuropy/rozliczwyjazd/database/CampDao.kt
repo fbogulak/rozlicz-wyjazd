@@ -3,12 +3,16 @@ package pl.skaucieuropy.rozliczwyjazd.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.Document
 
 @Dao
 interface CampDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertCamp(camp: Camp)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(camp: Camp)
+
+    @Update
+    fun update(camp: Camp)
 
     @Query("SELECT * FROM camp_table WHERE id = :id")
     fun getCamp(id: Long): Camp
@@ -21,4 +25,6 @@ interface CampDao {
 
     @Delete
     fun delete(camp: Camp)
+
+
 }

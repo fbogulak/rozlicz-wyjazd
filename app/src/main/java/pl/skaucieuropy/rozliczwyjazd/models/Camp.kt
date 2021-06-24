@@ -8,7 +8,7 @@ import java.util.*
 @Entity(tableName = "camp_table")
 data class Camp(
     @PrimaryKey(autoGenerate = true)
-    val id: MutableLiveData<Long>,
+    var id: MutableLiveData<Long>,
     var name: MutableLiveData<String>,
     var budget: MutableLiveData<Double>,
     var startDate: MutableLiveData<Date>,
