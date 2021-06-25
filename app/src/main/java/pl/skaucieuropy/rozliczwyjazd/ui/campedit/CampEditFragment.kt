@@ -34,7 +34,6 @@ class CampEditFragment : Fragment() {
         setupCamp()
 
         setupEdtTexts()
-        setupDatePicker()
 
         setupObservers()
         setHasOptionsMenu(true)
@@ -60,7 +59,9 @@ class CampEditFragment : Fragment() {
     private fun setupCamp() {
         val campId = CampEditFragmentArgs.fromBundle(requireArguments()).argCampId
         viewModel.camp.value?.id?.value = campId
-        if (campId != 0L && !viewModel.campHasLoadedFromDb) {
+        if (campId == 0L) {
+            viewModel.setupDatePicker()
+        } else if (!viewModel.campHasLoadedFromDb) {
             viewModel.getCampFromDb()
         }
     }
@@ -84,8 +85,8 @@ class CampEditFragment : Fragment() {
                 .setTitleText(getString(R.string.camp_date))
                 .setSelection(
                     Pair(
-                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                        MaterialDatePicker.todayInUtcMilliseconds()
+                        viewModel.camp.value?.startDate?.value?.time,
+                        viewModel.camp.value?.endDate?.value?.time
                     )
                 ).build()
 
@@ -113,6 +114,14 @@ class CampEditFragment : Fragment() {
                 if (navigate) {
                     navToCamps()
                     viewModel.navigateToCampsCompleted()
+                }
+            }
+        }
+        viewModel.setupDatePicker.observe(viewLifecycleOwner) { setup ->
+            setup?.let {
+                if (setup) {
+                    setupDatePicker()
+                    viewModel.setupDatePickerCompleted()
                 }
             }
         }

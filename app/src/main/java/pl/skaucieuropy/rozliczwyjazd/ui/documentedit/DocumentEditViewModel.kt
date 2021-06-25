@@ -12,9 +12,21 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
     var documentHasChanged = false
     var documentHasLoadedFromDb = false
 
+    private val _setupDatePicker = MutableLiveData<Boolean?>()
+    val setupDatePicker: LiveData<Boolean?>
+        get() = _setupDatePicker
+
     private val _navigateToDocuments = MutableLiveData<Boolean?>()
     val navigateToDocuments: LiveData<Boolean?>
         get() = _navigateToDocuments
+
+    fun setupDatePicker() {
+        _setupDatePicker.value = true
+    }
+
+    fun setupDatePickerCompleted() {
+        _setupDatePicker.value = null
+    }
 
     fun navigateToDocuments() {
         _navigateToDocuments.value = true
@@ -30,6 +42,7 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                 originalDocument = repository.getDocumentById(it)
                 document.value = originalDocument
                 documentHasLoadedFromDb = true
+                setupDatePicker()
             }
         }
     }

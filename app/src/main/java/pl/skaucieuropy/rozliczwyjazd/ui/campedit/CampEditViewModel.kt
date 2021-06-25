@@ -14,9 +14,21 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
     var originalCamp = Camp.empty()
     var campHasLoadedFromDb = false
 
+    private val _setupDatePicker = MutableLiveData<Boolean?>()
+    val setupDatePicker: LiveData<Boolean?>
+        get() = _setupDatePicker
+
     private val _navigateToCamps = MutableLiveData<Boolean?>()
     val navigateToCamps: LiveData<Boolean?>
         get() = _navigateToCamps
+
+    fun setupDatePicker() {
+        _setupDatePicker.value = true
+    }
+
+    fun setupDatePickerCompleted() {
+        _setupDatePicker.value = null
+    }
 
     fun navigateToCamps() {
         _navigateToCamps.value = true
@@ -32,6 +44,7 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
                 originalCamp = repository.getCampById(it)
                 camp.value = originalCamp
                 campHasLoadedFromDb = true
+                setupDatePicker()
             }
         }
     }

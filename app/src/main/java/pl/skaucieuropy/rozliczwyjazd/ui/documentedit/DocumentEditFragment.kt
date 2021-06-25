@@ -37,7 +37,6 @@ class DocumentEditFragment : Fragment() {
 
         setupEdtTexts()
         setupExposedDropdownMenus()
-        setupDatePicker()
 
         setupObservers()
         setHasOptionsMenu(true)
@@ -64,6 +63,7 @@ class DocumentEditFragment : Fragment() {
         val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
         viewModel.document.value?.id?.value = documentId
         if (documentId == 0L) {
+            viewModel.setupDatePicker()
             if (!viewModel.documentHasChanged) {
                 setDefaultStringValues()
             }
@@ -110,7 +110,7 @@ class DocumentEditFragment : Fragment() {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.buy_date))
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setSelection(viewModel.document.value?.date?.value?.time)
                 .build()
 
         datePicker.addOnPositiveButtonClickListener {
@@ -141,6 +141,14 @@ class DocumentEditFragment : Fragment() {
             it?.let {
                 if (it != viewModel.originalDocument) {
                     viewModel.documentHasChanged = true
+                }
+            }
+        }
+        viewModel.setupDatePicker.observe(viewLifecycleOwner) { setup ->
+            setup?.let {
+                if (setup) {
+                    setupDatePicker()
+                    viewModel.setupDatePickerCompleted()
                 }
             }
         }
