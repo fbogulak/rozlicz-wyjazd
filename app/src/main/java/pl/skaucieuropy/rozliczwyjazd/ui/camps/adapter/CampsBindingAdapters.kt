@@ -5,9 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,10 +16,16 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Camp>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("campDate")
-fun bindTextViewToDate(textView: TextView, date: Date) {
-    val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-    textView.text = dateFormat.format(date)
+@BindingAdapter("startDate", "endDate")
+fun bindTextViewToCampDate(textView: TextView, startDate: Date?, endDate: Date?) {
+    if (startDate != null && endDate != null) {
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        textView.text = textView.context.getString(
+            R.string.camp_date_format,
+            dateFormat.format(startDate),
+            dateFormat.format(endDate)
+        )
+    }
 }
 
 @BindingAdapter("campIsActive")

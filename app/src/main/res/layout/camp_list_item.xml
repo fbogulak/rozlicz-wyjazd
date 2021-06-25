@@ -33,36 +33,18 @@
             tools:text="Adalbertus 2021" />
 
         <TextView
-            android:id="@+id/start_date_text"
+            android:id="@+id/date_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:textSize="16sp"
-            app:campDate="@{camp.startDate}"
+            app:endDate="@{camp.endDate}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/name_text"
             app:layout_constraintTop_toBottomOf="@+id/name_text"
-            tools:text="27.06.2021" />
-
-        <TextView
-            android:id="@+id/date_separator_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date_separator"
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/start_date_text"
-            app:layout_constraintStart_toEndOf="@+id/start_date_text" />
-
-        <TextView
-            android:id="@+id/end_date_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            app:campDate="@{camp.endDate}"
-            app:layout_constraintBaseline_toBaselineOf="@+id/date_separator_text"
-            app:layout_constraintStart_toEndOf="@+id/date_separator_text"
-            tools:text="04.07.2021" />
+            app:startDate="@{camp.startDate}"
+            tools:text="27.06.2021 - 04.07.2021" />
 
         <View
             android:id="@+id/divider"
