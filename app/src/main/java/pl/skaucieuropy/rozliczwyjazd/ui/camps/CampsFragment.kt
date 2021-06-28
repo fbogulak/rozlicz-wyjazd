@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
+import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsFragmentDirections
@@ -69,16 +70,22 @@ class CampsFragment : Fragment() {
                     )
                 }
             }, CampsListAdapter.MenuListener { v, camp ->
-                showMenu(v, R.menu.camp_popup_menu)
+                showMenu(v, R.menu.camp_popup_menu, camp)
             })
     }
 
-    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+    private fun showMenu(v: View, @MenuRes menuRes: Int, camp: Camp) {
         val popup = PopupMenu(requireContext(), v)
         popup.menuInflater.inflate(menuRes, popup.menu)
 
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-            true
+            when (menuItem.itemId) {
+                R.id.choose_as_active -> {
+                    viewModel.changeActiveCamp(camp.id.value)
+                    true
+                }
+                else -> false
+            }
         }
 
         popup.show()

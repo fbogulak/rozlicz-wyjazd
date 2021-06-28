@@ -26,5 +26,9 @@ interface CampDao {
     @Delete
     fun delete(camp: Camp)
 
+    @Query("UPDATE camp_table SET isActive = 0 WHERE isActive = 1")
+    fun resetIsActive()
 
+    @Query("UPDATE camp_table SET isActive = 1 WHERE id = :campId")
+    fun setCampAsActive(campId: Long)
 }
