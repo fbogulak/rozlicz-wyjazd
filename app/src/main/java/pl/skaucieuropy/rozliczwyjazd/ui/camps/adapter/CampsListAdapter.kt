@@ -2,6 +2,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.databinding.CampListItemBinding
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 
-class CampsListAdapter(private val clickListener: CampListener) :
+class CampsListAdapter(private val clickListener: CampListener, private val menuListener: MenuListener) :
     ListAdapter<Camp, CampsListAdapter.CampViewHolder>(CampDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampViewHolder {
@@ -18,7 +19,7 @@ class CampsListAdapter(private val clickListener: CampListener) :
 
     override fun onBindViewHolder(holder: CampViewHolder, position: Int) {
         val camp = getItem(position)
-        holder.bind(camp, clickListener)
+        holder.bind(camp, clickListener, menuListener)
     }
 
     companion object CampDiffCallback : DiffUtil.ItemCallback<Camp>() {
@@ -34,9 +35,10 @@ class CampsListAdapter(private val clickListener: CampListener) :
     class CampViewHolder(private var binding: CampListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(camp: Camp, clickListener: CampListener) {
+        fun bind(camp: Camp, clickListener: CampListener, menuListener: MenuListener) {
             binding.camp = camp
             binding.onClickListener = clickListener
+            binding.menuListener = menuListener
             binding.executePendingBindings()
         }
 
@@ -51,5 +53,9 @@ class CampsListAdapter(private val clickListener: CampListener) :
 
     class CampListener(val clickListener: (camp: Camp) -> Unit) {
         fun onClick(camp: Camp) = clickListener(camp)
+    }
+
+    class MenuListener(val menuListener: (view: View, camp: Camp) -> Unit) {
+        fun onClick(view: View, camp: Camp) = menuListener(view, camp)
     }
 }

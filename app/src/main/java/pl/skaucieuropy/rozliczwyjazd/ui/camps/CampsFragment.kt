@@ -2,8 +2,11 @@ package pl.skaucieuropy.rozliczwyjazd.ui.camps
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -65,7 +68,20 @@ class CampsFragment : Fragment() {
                         getString(R.string.edit_camp_title)
                     )
                 }
+            }, CampsListAdapter.MenuListener { v, camp ->
+                showMenu(v, R.menu.camp_popup_menu)
             })
+    }
+
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(requireContext(), v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+            true
+        }
+
+        popup.show()
     }
 
     private fun setupObservers() {

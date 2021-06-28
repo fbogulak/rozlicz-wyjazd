@@ -37,4 +37,9 @@
     <string name="camp_date">Termin obozu</string>
     <string name="camp_date_format">%s - %s</string>
     <string name="delete_camp">Usuń obóz</string>
+    <string name="more_options_icon">Ikonka więcej opcji</string>
+    <string name="choose_as_active">Wybierz jako aktywny</string>
+    <string name="export_to_file">Eksportuj do pliku</string>
+    <string name="close_reckoning">Zamknij rozliczenie</string>
+    <string name="reopen_reckoning">Otwórz ponownie rozliczenie</string>
 </resources>
