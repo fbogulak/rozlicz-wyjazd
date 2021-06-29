@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import java.util.*
@@ -35,32 +36,7 @@ abstract class ReckoningDatabase : RoomDatabase() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
                                 Executors.newSingleThreadExecutor().execute {
-                                    instance?.let {
-                                        it.campDao.insert(
-                                            Camp(
-                                                MutableLiveData(1),
-                                                MutableLiveData("Adalbertus 2021"),
-                                                MutableLiveData(5000.0),
-                                                MutableLiveData(Calendar.getInstance().time),
-                                                MutableLiveData(Calendar.getInstance().time),
-                                                MutableLiveData(true)
-                                            )
-                                        )
-                                        it.documentDao.insert(
-                                            Document(
-                                                MutableLiveData(1),
-                                                MutableLiveData("1981/11/2019"),
-                                                MutableLiveData("Rachunek"),
-                                                MutableLiveData(Date()),
-                                                MutableLiveData("Art. przemysłowe"),
-                                                MutableLiveData(24.54),
-                                                MutableLiveData("Inne"),
-                                                MutableLiveData(false),
-                                                MutableLiveData(true),
-                                                MutableLiveData(1)
-                                            )
-                                        )
-                                    }
+                                    instance?.campDao?.insert(Camp.default())
                                 }
                             }
                         })

@@ -31,4 +31,7 @@ interface CampDao {
 
     @Query("UPDATE camp_table SET isActive = 1 WHERE id = :campId")
     fun setCampAsActive(campId: Long)
+
+    @Query("SELECT COUNT(id) FROM camp_table")
+    fun getCampsCount(): Long
 }

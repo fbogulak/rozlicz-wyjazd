@@ -45,9 +45,13 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
 
     suspend fun deleteCamp(camp: Camp) = withContext(Dispatchers.IO) {
         database.campDao.delete(camp)
+        val numberOfCamps = database.campDao.getCampsCount()
+        if (numberOfCamps == 0L) {
+            database.campDao.insert(Camp.default())
+        }
     }
 
-    suspend fun changeActiveCamp(campId: Long) = withContext(Dispatchers.IO){
+    suspend fun changeActiveCamp(campId: Long) = withContext(Dispatchers.IO) {
         database.campDao.resetIsActive()
         database.campDao.setCampAsActive(campId)
     }

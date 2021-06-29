@@ -26,5 +26,16 @@ data class Camp(
                 MutableLiveData(false)
             )
         }
+
+        fun default(): Camp {
+            return Camp(
+                MutableLiveData(0),
+                MutableLiveData("Obóz 1"),
+                MutableLiveData(0.0),
+                MutableLiveData(Calendar.getInstance().time),
+                MutableLiveData(Calendar.getInstance().time),
+                MutableLiveData(true)
+            )
+        }
     }
 }
