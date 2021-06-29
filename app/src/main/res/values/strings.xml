@@ -26,7 +26,7 @@
     <string name="add_camp_title">Dodaj Obóz</string>
     <string name="delete_document">Usuń dokument</string>
     <string name="delete_document_dialog_msg">Usunąć ten dokument?</string>
-    <string name="delete_camp_dialog_msg">Usunąć ten obóz?</string>
+    <string name="delete_camp_dialog_msg">Usunąć ten obóz i wszystkie powiązane z nim dokumenty?</string>
     <string name="delete">Usuń</string>
     <string name="cancel">Anuluj</string>
     <string name="cancel_changes">Anuluj zmiany</string>

@@ -44,6 +44,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
     }
 
     suspend fun deleteCamp(camp: Camp) = withContext(Dispatchers.IO) {
+        camp.id.value?.let { database.documentDao.deleteDocumentsByCampId(it) }
         database.campDao.delete(camp)
         val numberOfCamps = database.campDao.getCampsCount()
         if (numberOfCamps == 0L) {
