@@ -36,7 +36,9 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
     }
 
     suspend fun insertCamp(camp: Camp) = withContext(Dispatchers.IO) {
-        database.campDao.insert(camp)
+        val newId = database.campDao.insert(camp)
+        database.campDao.resetIsActive()
+        database.campDao.setCampAsActive(newId)
     }
 
     suspend fun updateCamp(camp: Camp) = withContext(Dispatchers.IO) {

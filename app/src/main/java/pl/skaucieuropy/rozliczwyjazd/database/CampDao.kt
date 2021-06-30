@@ -9,7 +9,7 @@ import pl.skaucieuropy.rozliczwyjazd.models.Document
 interface CampDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(camp: Camp)
+    fun insert(camp: Camp): Long
 
     @Update
     fun update(camp: Camp)
