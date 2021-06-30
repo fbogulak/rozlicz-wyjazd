@@ -50,6 +50,9 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         if (numberOfCamps == 0L) {
             database.campDao.insert(Camp.default())
         }
+        if (camp.isActive.value == true) {
+            database.campDao.setFirstCampActive()
+        }
     }
 
     suspend fun changeActiveCamp(campId: Long) = withContext(Dispatchers.IO) {

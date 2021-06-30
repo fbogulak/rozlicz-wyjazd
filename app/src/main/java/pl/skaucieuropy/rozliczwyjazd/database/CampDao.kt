@@ -34,4 +34,7 @@ interface CampDao {
 
     @Query("SELECT COUNT(id) FROM camp_table")
     fun getCampsCount(): Long
+
+    @Query("UPDATE camp_table SET isActive = 1 WHERE id = (SELECT id FROM camp_table ORDER BY startDate DESC LIMIT 1)")
+    fun setFirstCampActive()
 }
