@@ -8,10 +8,10 @@ import pl.skaucieuropy.rozliczwyjazd.models.Document
 interface DocumentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(document: Document)
+    fun insert(document: Document): Long
 
     @Update
-    fun update(document: Document)
+    fun update(document: Document): Int
 
     @Query("SELECT * FROM document_table WHERE id = :id")
     fun getDocument(id: Long): Document
@@ -20,7 +20,7 @@ interface DocumentDao {
     fun getActiveDocuments(): LiveData<List<Document>>
 
     @Delete
-    fun delete(document: Document)
+    fun delete(document: Document): Int
 
     @Query("DELETE FROM document_table WHERE campId = :campId")
     fun deleteDocumentsByCampId(campId: Long)

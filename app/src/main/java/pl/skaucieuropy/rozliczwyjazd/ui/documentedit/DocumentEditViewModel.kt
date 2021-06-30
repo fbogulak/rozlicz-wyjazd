@@ -2,6 +2,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
@@ -20,6 +21,10 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
     val navigateToDocuments: LiveData<Boolean?>
         get() = _navigateToDocuments
 
+    private val _showToast = MutableLiveData<Int?>()
+    val showToast: LiveData<Int?>
+        get() = _showToast
+
     fun setupDatePicker() {
         _setupDatePicker.value = true
     }
@@ -36,6 +41,14 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
         _navigateToDocuments.value = null
     }
 
+    private fun showToast(messageResId: Int) {
+        _showToast.value = messageResId
+    }
+
+    fun showToastCompleted() {
+        _showToast.value = null
+    }
+
     fun getDocumentFromDb() {
         document.value?.id?.value?.let {
             viewModelScope.launch {
@@ -48,27 +61,45 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
     }
 
     fun saveDocument() {
-        document.value?.let {
+        val currentDocument = document.value
+        if (currentDocument != null) {
             viewModelScope.launch {
-                if (it.id.value == 0L) {
-                    it.campId.value = repository.getActiveCampId()
-                    repository.insertDocument(it)
+                val result = if (currentDocument.id.value == 0L) {
+                    currentDocument.campId.value = repository.getActiveCampId()
+                    repository.insertDocument(currentDocument)
                 } else {
-                    repository.updateDocument(it)
+                    repository.updateDocument(currentDocument)
                 }
-                navigateToDocuments()
+                if (result.isSuccess) {
+                    showToast(R.string.document_saved)
+                    navigateToDocuments()
+                } else {
+                    showToast(R.string.error_saving_document)
+                }
             }
+        } else {
+            showToast(R.string.error_saving_document)
         }
     }
 
     fun deleteDocument() {
-        document.value?.let {
+        val currentDocument = document.value
+        if (currentDocument != null) {
             viewModelScope.launch {
-                if (it.id.value != 0L) {
-                    repository.deleteDocument(it)
+                val result = if (currentDocument.id.value != 0L) {
+                    repository.deleteDocument(currentDocument)
+                } else {
+                    Result.failure(Throwable())
                 }
-                navigateToDocuments()
+                if (result.isSuccess) {
+                    showToast(R.string.document_deleted)
+                    navigateToDocuments()
+                } else {
+                    showToast(R.string.error_deleting_document)
+                }
             }
+        } else {
+            showToast(R.string.error_deleting_document)
         }
     }
 }

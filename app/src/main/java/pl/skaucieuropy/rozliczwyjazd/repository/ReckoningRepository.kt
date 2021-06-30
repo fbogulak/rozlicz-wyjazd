@@ -15,20 +15,44 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         return@withContext database.documentDao.getDocument(id)
     }
 
-    suspend fun insertDocument(document: Document) = withContext(Dispatchers.IO) {
-        database.documentDao.insert(document)
+    suspend fun insertDocument(document: Document): Result<Boolean> = withContext(Dispatchers.IO) {
+        try {
+            val newId = database.documentDao.insert(document)
+            if (newId > 0) {
+                return@withContext Result.success(true)
+            } else
+                return@withContext Result.failure(Throwable())
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
+        }
     }
 
-    suspend fun updateDocument(document: Document) = withContext(Dispatchers.IO) {
-        database.documentDao.update(document)
+    suspend fun updateDocument(document: Document): Result<Boolean> = withContext(Dispatchers.IO) {
+        try {
+            val rowsUpdated = database.documentDao.update(document)
+            if (rowsUpdated > 0) {
+                return@withContext Result.success(true)
+            } else
+                return@withContext Result.failure(Throwable())
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
+        }
     }
 
     suspend fun getActiveCampId(): Long = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getActiveCampId()
     }
 
-    suspend fun deleteDocument(document: Document) = withContext(Dispatchers.IO) {
-        database.documentDao.delete(document)
+    suspend fun deleteDocument(document: Document): Result<Boolean> = withContext(Dispatchers.IO) {
+        try {
+            val rowsDeleted = database.documentDao.delete(document)
+            if (rowsDeleted > 0) {
+                return@withContext Result.success(true)
+            } else
+                return@withContext Result.failure(Throwable())
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
+        }
     }
 
     suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {

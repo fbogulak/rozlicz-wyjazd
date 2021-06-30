@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -150,6 +151,12 @@ class DocumentEditFragment : Fragment() {
                     setupDatePicker()
                     viewModel.setupDatePickerCompleted()
                 }
+            }
+        }
+        viewModel.showToast.observe(viewLifecycleOwner) {
+            it?.let {
+                Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show()
+                viewModel.showToastCompleted()
             }
         }
     }

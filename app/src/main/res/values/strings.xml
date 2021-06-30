@@ -42,4 +42,8 @@
     <string name="export_to_file">Eksportuj do pliku</string>
     <string name="close_reckoning">Zamknij rozliczenie</string>
     <string name="reopen_reckoning">Otwórz ponownie rozliczenie</string>
+    <string name="error_saving_document">Wystąpił błąd. Dokument nie zapisany.</string>
+    <string name="error_deleting_document">Wystąpił błąd. Dokument nie usunięty.</string>
+    <string name="document_saved">Dokument zapisany</string>
+    <string name="document_deleted">Dokument usunięty</string>
 </resources>
