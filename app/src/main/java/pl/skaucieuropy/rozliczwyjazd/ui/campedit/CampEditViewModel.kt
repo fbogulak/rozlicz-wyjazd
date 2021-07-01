@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
 
 class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
@@ -21,6 +23,10 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
     private val _navigateToCamps = MutableLiveData<Boolean?>()
     val navigateToCamps: LiveData<Boolean?>
         get() = _navigateToCamps
+
+    private val _showToast = MutableLiveData<ToastMessage<*>?>()
+    val showToast: LiveData<ToastMessage<*>?>
+        get() = _showToast
 
     fun setupDatePicker() {
         _setupDatePicker.value = true
@@ -38,6 +44,18 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
         _navigateToCamps.value = null
     }
 
+    private fun showToast(message: String) {
+        _showToast.value = ToastMessage.from(message)
+    }
+
+    private fun showToast(messageResId: Int) {
+        _showToast.value = ToastMessage.from(messageResId)
+    }
+
+    fun showToastCompleted() {
+        _showToast.value = null
+    }
+
     fun getCampFromDb() {
         camp.value?.id?.value?.let {
             viewModelScope.launch {
@@ -50,26 +68,56 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
     }
 
     fun saveCamp() {
-        camp.value?.let {
+        val currentCamp = camp.value
+        if (currentCamp != null) {
             viewModelScope.launch {
-                if (it.id.value == 0L) {
-                    repository.insertCamp(it)
+                val result = if (currentCamp.id.value == 0L) {
+                    repository.insertCamp(currentCamp)
                 } else {
-                    repository.updateCamp(it)
+                    repository.updateCamp(currentCamp)
+                }
+                result.onSuccess {
+                    showToast(it)
+                }
+                result.onFailure {
+                    val message = it.message
+                    if (message != null) {
+                        showToast(message)
+                    } else {
+                        showToast(R.string.error_saving_camp)
+                    }
                 }
                 navigateToCamps()
             }
+        } else {
+            showToast(R.string.error_saving_camp)
         }
     }
 
     fun deleteCamp() {
-        camp.value?.let {
+        val currentCamp = camp.value
+        if (currentCamp != null) {
             viewModelScope.launch {
-                if (it.id.value != 0L) {
-                    repository.deleteCamp(it)
+                val result = if (currentCamp.id.value != 0L) {
+                    repository.deleteCamp(currentCamp)
+                } else {
+                    Result.failure(Throwable("Błąd - obóz nie usunięty"))
+                }
+                result.onSuccess {
+                    showToast(it)
+                }
+                result.onFailure {
+                    val message = it.message
+                    if (message != null) {
+                        showToast(message)
+                    } else {
+                        showToast(R.string.error_deleting_camp)
+                    }
                 }
                 navigateToCamps()
             }
+        } else {
+            showToast(R.string.error_deleting_camp)
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
@@ -123,6 +124,17 @@ class CampEditFragment : Fragment() {
                     setupDatePicker()
                     viewModel.setupDatePickerCompleted()
                 }
+            }
+        }
+        viewModel.showToast.observe(viewLifecycleOwner) {
+            it?.content?.let { content ->
+                val message = when (content) {
+                    is String -> content
+                    is Int -> getString(content)
+                    else -> return@let
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                viewModel.showToastCompleted()
             }
         }
     }

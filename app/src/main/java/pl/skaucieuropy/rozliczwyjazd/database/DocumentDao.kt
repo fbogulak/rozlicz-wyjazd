@@ -23,5 +23,5 @@ interface DocumentDao {
     fun delete(document: Document): Int
 
     @Query("DELETE FROM document_table WHERE campId = :campId")
-    fun deleteDocumentsByCampId(campId: Long)
+    fun deleteDocumentsByCampId(campId: Long): Int
 }

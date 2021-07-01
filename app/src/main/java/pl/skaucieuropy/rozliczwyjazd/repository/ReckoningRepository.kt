@@ -2,6 +2,7 @@ package pl.skaucieuropy.rozliczwyjazd.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.Document
@@ -59,25 +60,60 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         return@withContext database.campDao.getCamp(id)
     }
 
-    suspend fun insertCamp(camp: Camp) = withContext(Dispatchers.IO) {
-        val newId = database.campDao.insert(camp)
-        database.campDao.resetIsActive()
-        database.campDao.setCampAsActive(newId)
-    }
-
-    suspend fun updateCamp(camp: Camp) = withContext(Dispatchers.IO) {
-        database.campDao.update(camp)
-    }
-
-    suspend fun deleteCamp(camp: Camp) = withContext(Dispatchers.IO) {
-        camp.id.value?.let { database.documentDao.deleteDocumentsByCampId(it) }
-        database.campDao.delete(camp)
-        val numberOfCamps = database.campDao.getCampsCount()
-        if (numberOfCamps == 0L) {
-            database.campDao.insert(Camp.default())
+    suspend fun insertCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
+        try {
+            val newId = database.campDao.insert(camp)
+            if (newId <= 0) {
+                return@withContext Result.failure(Throwable("Błąd - obóz nie zapisany"))
+            }
+            var rowsUpdated = database.campDao.resetIsActive()
+            if (rowsUpdated <= 0) {
+                return@withContext Result.failure(Throwable("Błąd - obóz nie wybrany jako aktywny"))
+            }
+            rowsUpdated = database.campDao.setCampAsActive(newId)
+            if (rowsUpdated <= 0) {
+                return@withContext Result.failure(Throwable("Błąd - żaden obóz nie wybrany jako aktywny"))
+            }
+            return@withContext Result.success(R.string.camp_saved)
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
         }
-        if (camp.isActive.value == true) {
-            database.campDao.setFirstCampActive()
+    }
+
+    suspend fun updateCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
+        try {
+            val rowsUpdated = database.campDao.update(camp)
+            if (rowsUpdated > 0) {
+                return@withContext Result.success(R.string.camp_saved)
+            } else
+                return@withContext Result.failure(Throwable("Błąd - obóz nie zapisany"))
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
+        }
+    }
+
+    suspend fun deleteCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
+        try {
+            val campId = camp.id.value
+            if (campId == null || campId <= 0) {
+                return@withContext Result.failure(Throwable("Błąd - obóz nie usunięty"))
+            }
+            database.documentDao.deleteDocumentsByCampId(campId)
+            if (database.campDao.delete(camp) <= 0) {
+                return@withContext Result.failure(Throwable("Błąd - obóz nie usunięty"))
+            }
+            val numberOfCamps = database.campDao.getCampsCount()
+            if (numberOfCamps == 0L) {
+                database.campDao.insert(Camp.default())
+            }
+            if (camp.isActive.value == true) {
+                if (database.campDao.setFirstCampActive() <= 0) {
+                    return@withContext Result.failure(Throwable("Błąd - żaden obóz nie wybrany jako aktywny"))
+                }
+            }
+            return@withContext Result.success(R.string.camp_deleted)
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
         }
     }
 

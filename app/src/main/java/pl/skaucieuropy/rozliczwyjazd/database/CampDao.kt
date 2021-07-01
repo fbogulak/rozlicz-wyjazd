@@ -12,7 +12,7 @@ interface CampDao {
     fun insert(camp: Camp): Long
 
     @Update
-    fun update(camp: Camp)
+    fun update(camp: Camp): Int
 
     @Query("SELECT * FROM camp_table WHERE id = :id")
     fun getCamp(id: Long): Camp
@@ -24,17 +24,17 @@ interface CampDao {
     fun getAllCamps(): LiveData<List<Camp>>
 
     @Delete
-    fun delete(camp: Camp)
+    fun delete(camp: Camp): Int
 
     @Query("UPDATE camp_table SET isActive = 0 WHERE isActive = 1")
-    fun resetIsActive()
+    fun resetIsActive(): Int
 
     @Query("UPDATE camp_table SET isActive = 1 WHERE id = :campId")
-    fun setCampAsActive(campId: Long)
+    fun setCampAsActive(campId: Long): Int
 
     @Query("SELECT COUNT(id) FROM camp_table")
     fun getCampsCount(): Long
 
     @Query("UPDATE camp_table SET isActive = 1 WHERE id = (SELECT id FROM camp_table ORDER BY startDate DESC LIMIT 1)")
-    fun setFirstCampActive()
+    fun setFirstCampActive(): Int
 }

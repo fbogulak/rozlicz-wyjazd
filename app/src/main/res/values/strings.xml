@@ -46,4 +46,8 @@
     <string name="error_deleting_document">Wystąpił błąd. Dokument nie usunięty.</string>
     <string name="document_saved">Dokument zapisany</string>
     <string name="document_deleted">Dokument usunięty</string>
+    <string name="error_saving_camp">Wystąpił błąd. Obóz nie zapisany.</string>
+    <string name="error_deleting_camp">Wystąpił błąd. Obóz nie usunięty.</string>
+    <string name="camp_saved">Obóz zapisany</string>
+    <string name="camp_deleted">Obóz usunięty</string>
 </resources>
