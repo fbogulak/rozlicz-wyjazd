@@ -22,7 +22,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
             if (newId > 0) {
                 return@withContext Result.success(R.string.document_saved)
             } else
-                return@withContext Result.failure(Throwable("Błąd - dokument nie zapisany"))
+                return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
@@ -34,7 +34,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
             if (rowsUpdated > 0) {
                 return@withContext Result.success(R.string.document_saved)
             } else
-                return@withContext Result.failure(Throwable("Błąd - dokument nie zapisany"))
+                return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
@@ -50,7 +50,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
             if (rowsDeleted > 0) {
                 return@withContext Result.success(R.string.document_deleted)
             } else
-                return@withContext Result.failure(Throwable("Błąd - dokument nie usunięty"))
+                return@withContext Result.failure(Throwable(ERROR_DELETING_DOCUMENT))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
@@ -64,15 +64,15 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         try {
             val newId = database.campDao.insert(camp)
             if (newId <= 0) {
-                return@withContext Result.failure(Throwable("Błąd - obóz nie zapisany"))
+                return@withContext Result.failure(Throwable(ERROR_SAVING_CAMP))
             }
             var rowsUpdated = database.campDao.resetIsActive()
             if (rowsUpdated <= 0) {
-                return@withContext Result.failure(Throwable("Błąd - obóz nie wybrany jako aktywny"))
+                return@withContext Result.failure(Throwable(ERROR_CAMP_NOT_SET_AS_ACTIVE))
             }
             rowsUpdated = database.campDao.setCampAsActive(newId)
             if (rowsUpdated <= 0) {
-                return@withContext Result.failure(Throwable("Błąd - żaden obóz nie wybrany jako aktywny"))
+                return@withContext Result.failure(Throwable(ERROR_NO_CAMP_SET_AS_ACTIVE))
             }
             return@withContext Result.success(R.string.camp_saved)
         } catch (e: Exception) {
@@ -86,7 +86,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
             if (rowsUpdated > 0) {
                 return@withContext Result.success(R.string.camp_saved)
             } else
-                return@withContext Result.failure(Throwable("Błąd - obóz nie zapisany"))
+                return@withContext Result.failure(Throwable(ERROR_SAVING_CAMP))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
@@ -96,11 +96,11 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         try {
             val campId = camp.id.value
             if (campId == null || campId <= 0) {
-                return@withContext Result.failure(Throwable("Błąd - obóz nie usunięty"))
+                return@withContext Result.failure(Throwable(ERROR_DELETING_CAMP))
             }
             database.documentDao.deleteDocumentsByCampId(campId)
             if (database.campDao.delete(camp) <= 0) {
-                return@withContext Result.failure(Throwable("Błąd - obóz nie usunięty"))
+                return@withContext Result.failure(Throwable(ERROR_DELETING_CAMP))
             }
             val numberOfCamps = database.campDao.getCampsCount()
             if (numberOfCamps == 0L) {
@@ -108,7 +108,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
             }
             if (camp.isActive.value == true) {
                 if (database.campDao.setFirstCampActive() <= 0) {
-                    return@withContext Result.failure(Throwable("Błąd - żaden obóz nie wybrany jako aktywny"))
+                    return@withContext Result.failure(Throwable(ERROR_NO_CAMP_SET_AS_ACTIVE))
                 }
             }
             return@withContext Result.success(R.string.camp_deleted)
@@ -120,5 +120,14 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
     suspend fun changeActiveCamp(campId: Long) = withContext(Dispatchers.IO) {
         database.campDao.resetIsActive()
         database.campDao.setCampAsActive(campId)
+    }
+    
+    companion object{
+        const val ERROR_SAVING_CAMP = "Wystąpił błąd. Obóz nie zapisany."
+        const val ERROR_DELETING_CAMP = "Wystąpił błąd. Obóz nie usunięty."
+        const val ERROR_SAVING_DOCUMENT = "Wystąpił błąd. Dokument nie zapisany."
+        const val ERROR_DELETING_DOCUMENT = "Wystąpił błąd. Dokument nie usunięty."
+        const val ERROR_CAMP_NOT_SET_AS_ACTIVE = "Wystąpił błąd. Obóz nie wybrany jako aktywny."
+        const val ERROR_NO_CAMP_SET_AS_ACTIVE = "Wystąpił błąd. Żaden obóz nie wybrany jako aktywny."
     }
 }

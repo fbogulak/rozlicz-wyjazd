@@ -100,7 +100,7 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                 val result = if (currentDocument.id.value != 0L) {
                     repository.deleteDocument(currentDocument)
                 } else {
-                    Result.failure(Throwable("Błąd - dokument nie usunięty"))
+                    Result.failure(Throwable(ReckoningRepository.ERROR_DELETING_DOCUMENT))
                 }
                 result.onSuccess {
                     showToast(it)

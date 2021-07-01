@@ -101,7 +101,7 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
                 val result = if (currentCamp.id.value != 0L) {
                     repository.deleteCamp(currentCamp)
                 } else {
-                    Result.failure(Throwable("Błąd - obóz nie usunięty"))
+                    Result.failure(Throwable(ReckoningRepository.ERROR_DELETING_CAMP))
                 }
                 result.onSuccess {
                     showToast(it)
