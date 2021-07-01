@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
 
 class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
@@ -21,8 +22,8 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
     val navigateToDocuments: LiveData<Boolean?>
         get() = _navigateToDocuments
 
-    private val _showToast = MutableLiveData<Int?>()
-    val showToast: LiveData<Int?>
+    private val _showToast = MutableLiveData<ToastMessage<*>?>()
+    val showToast: LiveData<ToastMessage<*>?>
         get() = _showToast
 
     fun setupDatePicker() {
@@ -41,8 +42,12 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
         _navigateToDocuments.value = null
     }
 
+    private fun showToast(message: String) {
+        _showToast.value = ToastMessage.from(message)
+    }
+
     private fun showToast(messageResId: Int) {
-        _showToast.value = messageResId
+        _showToast.value = ToastMessage.from(messageResId)
     }
 
     fun showToastCompleted() {
@@ -70,12 +75,18 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                 } else {
                     repository.updateDocument(currentDocument)
                 }
-                if (result.isSuccess) {
-                    showToast(R.string.document_saved)
-                    navigateToDocuments()
-                } else {
-                    showToast(R.string.error_saving_document)
+                result.onSuccess {
+                    showToast(it)
                 }
+                result.onFailure {
+                    val message = it.message
+                    if (message != null) {
+                        showToast(message)
+                    } else {
+                        showToast(R.string.error_saving_document)
+                    }
+                }
+                navigateToDocuments()
             }
         } else {
             showToast(R.string.error_saving_document)
@@ -89,14 +100,20 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
                 val result = if (currentDocument.id.value != 0L) {
                     repository.deleteDocument(currentDocument)
                 } else {
-                    Result.failure(Throwable())
+                    Result.failure(Throwable("Błąd - dokument nie usunięty"))
                 }
-                if (result.isSuccess) {
-                    showToast(R.string.document_deleted)
-                    navigateToDocuments()
-                } else {
-                    showToast(R.string.error_deleting_document)
+                result.onSuccess {
+                    showToast(it)
                 }
+                result.onFailure {
+                    val message = it.message
+                    if (message != null) {
+                        showToast(message)
+                    } else {
+                        showToast(R.string.error_deleting_document)
+                    }
+                }
+                navigateToDocuments()
             }
         } else {
             showToast(R.string.error_deleting_document)

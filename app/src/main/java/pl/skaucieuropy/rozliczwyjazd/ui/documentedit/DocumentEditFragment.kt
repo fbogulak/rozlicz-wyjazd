@@ -154,8 +154,13 @@ class DocumentEditFragment : Fragment() {
             }
         }
         viewModel.showToast.observe(viewLifecycleOwner) {
-            it?.let {
-                Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show()
+            it?.content?.let { content ->
+                val message = when (content) {
+                    is String -> content
+                    is Int -> getString(content)
+                    else -> return@let
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 viewModel.showToastCompleted()
             }
         }

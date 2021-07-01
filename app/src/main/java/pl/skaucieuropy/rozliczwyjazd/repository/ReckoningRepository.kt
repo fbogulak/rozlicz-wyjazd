@@ -16,25 +16,25 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         return@withContext database.documentDao.getDocument(id)
     }
 
-    suspend fun insertDocument(document: Document): Result<Boolean> = withContext(Dispatchers.IO) {
+    suspend fun insertDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val newId = database.documentDao.insert(document)
             if (newId > 0) {
-                return@withContext Result.success(true)
+                return@withContext Result.success(R.string.document_saved)
             } else
-                return@withContext Result.failure(Throwable())
+                return@withContext Result.failure(Throwable("Błąd - dokument nie zapisany"))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
     }
 
-    suspend fun updateDocument(document: Document): Result<Boolean> = withContext(Dispatchers.IO) {
+    suspend fun updateDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val rowsUpdated = database.documentDao.update(document)
             if (rowsUpdated > 0) {
-                return@withContext Result.success(true)
+                return@withContext Result.success(R.string.document_saved)
             } else
-                return@withContext Result.failure(Throwable())
+                return@withContext Result.failure(Throwable("Błąd - dokument nie zapisany"))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
@@ -44,13 +44,13 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         return@withContext database.campDao.getActiveCampId()
     }
 
-    suspend fun deleteDocument(document: Document): Result<Boolean> = withContext(Dispatchers.IO) {
+    suspend fun deleteDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val rowsDeleted = database.documentDao.delete(document)
             if (rowsDeleted > 0) {
-                return@withContext Result.success(true)
+                return@withContext Result.success(R.string.document_deleted)
             } else
-                return@withContext Result.failure(Throwable())
+                return@withContext Result.failure(Throwable("Błąd - dokument nie usunięty"))
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
