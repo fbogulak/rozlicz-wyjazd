@@ -117,17 +117,29 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun changeActiveCamp(campId: Long) = withContext(Dispatchers.IO) {
-        database.campDao.resetIsActive()
-        database.campDao.setCampAsActive(campId)
+    suspend fun changeActiveCamp(campId: Long): Result<Int> = withContext(Dispatchers.IO) {
+        try {
+            var rowsUpdated = database.campDao.resetIsActive()
+            if (rowsUpdated <= 0) {
+                return@withContext Result.failure(Throwable(ERROR_CAMP_NOT_SET_AS_ACTIVE))
+            }
+            rowsUpdated = database.campDao.setCampAsActive(campId)
+            if (rowsUpdated <= 0) {
+                return@withContext Result.failure(Throwable(ERROR_NO_CAMP_SET_AS_ACTIVE))
+            }
+            return@withContext Result.success(R.string.camp_set_as_active)
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
+        }
     }
-    
-    companion object{
+
+    companion object {
         const val ERROR_SAVING_CAMP = "Wystąpił błąd. Obóz nie zapisany."
         const val ERROR_DELETING_CAMP = "Wystąpił błąd. Obóz nie usunięty."
         const val ERROR_SAVING_DOCUMENT = "Wystąpił błąd. Dokument nie zapisany."
         const val ERROR_DELETING_DOCUMENT = "Wystąpił błąd. Dokument nie usunięty."
         const val ERROR_CAMP_NOT_SET_AS_ACTIVE = "Wystąpił błąd. Obóz nie wybrany jako aktywny."
-        const val ERROR_NO_CAMP_SET_AS_ACTIVE = "Wystąpił błąd. Żaden obóz nie wybrany jako aktywny."
+        const val ERROR_NO_CAMP_SET_AS_ACTIVE =
+            "Wystąpił błąd. Żaden obóz nie wybrany jako aktywny."
     }
 }

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -98,6 +99,17 @@ class CampsFragment : Fragment() {
                     navToCampEdit(0, getString(R.string.add_camp_title))
                     viewModel.navigateToCampEditCompleted()
                 }
+            }
+        }
+        viewModel.showToast.observe(viewLifecycleOwner) {
+            it?.content?.let { content ->
+                val message = when (content) {
+                    is String -> content
+                    is Int -> getString(content)
+                    else -> return@let
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                viewModel.showToastCompleted()
             }
         }
     }

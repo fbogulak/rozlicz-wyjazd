@@ -50,4 +50,7 @@
     <string name="error_deleting_camp">Wystąpił błąd. Obóz nie usunięty.</string>
     <string name="camp_saved">Obóz zapisany</string>
     <string name="camp_deleted">Obóz usunięty</string>
+    <string name="camp_already_active">Obóz jest już aktywny</string>
+    <string name="error_setting_as_active">Wystąpił błąd. Obóz nie wybrany jako aktywny.</string>
+    <string name="camp_set_as_active">Obóz wybrany jako aktywny</string>
 </resources>
