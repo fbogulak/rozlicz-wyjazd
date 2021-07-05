@@ -9,8 +9,11 @@ import pl.skaucieuropy.rozliczwyjazd.models.Document
 
 class ReckoningRepository(private val database: ReckoningDatabase) {
 
+
     val allCamps by lazy { database.campDao.getAllCamps() }
     val activeDocuments by lazy { database.documentDao.getActiveDocuments() }
+    val activeCamp by lazy { database.campDao.getActiveCamp() }
+    val activeCampExpenses by lazy { database.campDao.getActiveCampExpenses() }
 
     suspend fun getDocumentById(id: Long): Document = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getDocument(id)

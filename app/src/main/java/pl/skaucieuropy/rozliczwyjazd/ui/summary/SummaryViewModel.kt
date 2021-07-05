@@ -1,13 +1,13 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.summary
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
-class SummaryViewModel : ViewModel() {
+class SummaryViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is summary Fragment"
+    val camp = repository.activeCamp
+    val campExpenses = Transformations.map(repository.activeCampExpenses) {
+        it ?: 0.0
     }
-    val text: LiveData<String> = _text
 }

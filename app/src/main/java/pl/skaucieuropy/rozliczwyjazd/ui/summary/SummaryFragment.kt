@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentSummaryBinding
+import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
 class SummaryFragment : Fragment() {
 
@@ -23,18 +23,30 @@ class SummaryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        setupViewModel()
+        setupBinding(inflater, container)
+
+        return binding.root
+    }
+
+    private fun setupViewModel() {
+        val database = ReckoningDatabase.getInstance(requireContext())
+        val repository = ReckoningRepository(database)
         viewModel =
-            ViewModelProvider(this).get(SummaryViewModel::class.java)
+            ViewModelProvider(
+                this,
+                SummaryViewModelFactory(repository)
+            ).get(SummaryViewModel::class.java)
+    }
 
+    private fun setupBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) {
         _binding = FragmentSummaryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        viewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
     }
 
     override fun onDestroyView() {
