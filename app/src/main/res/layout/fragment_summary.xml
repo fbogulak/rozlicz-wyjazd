@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/money_per_day_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
@@ -71,7 +71,7 @@
 
                 <TextView
                     android:id="@+id/remaining_days_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
@@ -85,35 +85,41 @@
 
                 <TextView
                     android:id="@+id/remaining_money_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/remaining_money_label"
                     android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/camp_name_text"
                     app:layout_constraintTop_toBottomOf="@+id/camp_name_text" />
 
                 <TextView
                     android:id="@+id/camp_name_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@{viewModel.camp.name}"
                     android:textColor="@color/black"
                     android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Marydół 2021" />
 
                 <TextView
                     android:id="@+id/remaining_money_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:amount="@{viewModel.remainingMoney}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/remaining_money_label"
                     app:layout_constraintTop_toBottomOf="@+id/remaining_money_label"
                     tools:text="2 867,93 zł" />
