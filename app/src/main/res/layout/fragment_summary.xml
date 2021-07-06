@@ -31,6 +31,59 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/money_per_day_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    app:amount="@{viewModel.moneyPerDay}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/money_per_day_label"
+                    app:layout_constraintStart_toStartOf="@+id/money_per_day_label"
+                    app:layout_constraintTop_toBottomOf="@+id/money_per_day_label"
+                    tools:text="23,87 zł" />
+
+                <TextView
+                    android:id="@+id/money_per_day_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/money_per_day_label"
+                    android:textSize="16sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/remaining_days_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/remaining_days_label" />
+
+                <TextView
+                    android:id="@+id/remaining_days_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.remainingDaysString}"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="@+id/remaining_days_label"
+                    app:layout_constraintStart_toStartOf="@+id/remaining_days_label"
+                    app:layout_constraintTop_toBottomOf="@+id/remaining_days_label"
+                    tools:text="8" />
+
+                <TextView
+                    android:id="@+id/remaining_days_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/remaining_days_label"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/money_per_day_label"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/remaining_money_text" />
+
+                <TextView
                     android:id="@+id/remaining_money_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,13 +110,10 @@
                     android:id="@+id/remaining_money_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:campBudget="@{viewModel.camp.budget}"
-                    app:campExpenses="@{viewModel.campExpenses}"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:amount="@{viewModel.remainingMoney}"
                     app:layout_constraintStart_toStartOf="@+id/remaining_money_label"
                     app:layout_constraintTop_toBottomOf="@+id/remaining_money_label"
                     tools:text="2 867,93 zł" />

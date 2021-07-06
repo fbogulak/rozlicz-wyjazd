@@ -54,4 +54,6 @@
     <string name="error_setting_as_active">Wystąpił błąd. Obóz nie wybrany jako aktywny.</string>
     <string name="camp_set_as_active">Obóz wybrany jako aktywny</string>
     <string name="remaining_money_label">Pozostało w sumie:</string>
+    <string name="money_per_day_label">Środków na 1 dzień:</string>
+    <string name="remaining_days_label">Pozostało dni obozu:</string>
 </resources>
