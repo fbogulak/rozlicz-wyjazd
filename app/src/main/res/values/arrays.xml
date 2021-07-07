@@ -2,8 +2,11 @@
 <resources>
     <string-array name="document_types">
         <item>Faktura</item>
+        <item>Faktura uproszczona</item>
         <item>Rachunek</item>
-        <item>Umowa</item>
+        <item>Polecenie wyjazdu służbowego</item>
+        <item>Polisa ubezpieczeniowa</item>
+        <item>Bilet kolejowy</item>
         <item>Oświadczenie</item>
     </string-array>
 
