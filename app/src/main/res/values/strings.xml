@@ -44,17 +44,19 @@
     <string name="reopen_reckoning">Otwórz ponownie rozliczenie</string>
     <string name="error_saving_document">Wystąpił błąd. Dokument nie zapisany.</string>
     <string name="error_deleting_document">Wystąpił błąd. Dokument nie usunięty.</string>
-    <string name="document_saved">Dokument zapisany</string>
-    <string name="document_deleted">Dokument usunięty</string>
+    <string name="changes_saved">Zapisano zmiany</string>
+    <string name="document_deleted">Usunięto dokument</string>
     <string name="error_saving_camp">Wystąpił błąd. Obóz nie zapisany.</string>
     <string name="error_deleting_camp">Wystąpił błąd. Obóz nie usunięty.</string>
     <string name="camp_saved">Obóz zapisany</string>
-    <string name="camp_deleted">Obóz usunięty</string>
+    <string name="camp_deleted">Usunięto obóz</string>
     <string name="camp_already_active">Obóz jest już aktywny</string>
     <string name="error_setting_as_active">Wystąpił błąd. Obóz nie wybrany jako aktywny.</string>
-    <string name="camp_set_as_active">Obóz wybrany jako aktywny</string>
+    <string name="camp_set_as_active">Wybrano obóz jako aktywny</string>
     <string name="remaining_money_label">Pozostało w sumie:</string>
     <string name="money_per_day_label">Środków na 1 dzień:</string>
     <string name="remaining_days_label">Pozostało dni obozu:</string>
     <string name="changes_discarded">Odrzucono zmiany</string>
+    <string name="document_added">Dodano dokument</string>
+    <string name="camp_added">Dodano obóz</string>
 </resources>

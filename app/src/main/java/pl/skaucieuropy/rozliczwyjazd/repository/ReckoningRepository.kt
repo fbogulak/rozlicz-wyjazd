@@ -23,7 +23,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         try {
             val newId = database.documentDao.insert(document)
             if (newId > 0) {
-                return@withContext Result.success(R.string.document_saved)
+                return@withContext Result.success(R.string.document_added)
             } else
                 return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
         } catch (e: Exception) {
@@ -35,7 +35,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         try {
             val rowsUpdated = database.documentDao.update(document)
             if (rowsUpdated > 0) {
-                return@withContext Result.success(R.string.document_saved)
+                return@withContext Result.success(R.string.changes_saved)
             } else
                 return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
         } catch (e: Exception) {
@@ -77,7 +77,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
             if (rowsUpdated <= 0) {
                 return@withContext Result.failure(Throwable(ERROR_NO_CAMP_SET_AS_ACTIVE))
             }
-            return@withContext Result.success(R.string.camp_saved)
+            return@withContext Result.success(R.string.camp_added)
         } catch (e: Exception) {
             return@withContext Result.failure(e)
         }
@@ -87,7 +87,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         try {
             val rowsUpdated = database.campDao.update(camp)
             if (rowsUpdated > 0) {
-                return@withContext Result.success(R.string.camp_saved)
+                return@withContext Result.success(R.string.changes_saved)
             } else
                 return@withContext Result.failure(Throwable(ERROR_SAVING_CAMP))
         } catch (e: Exception) {
@@ -137,12 +137,12 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
     }
 
     companion object {
-        const val ERROR_SAVING_CAMP = "Wystąpił błąd. Obóz nie zapisany."
-        const val ERROR_DELETING_CAMP = "Wystąpił błąd. Obóz nie usunięty."
-        const val ERROR_SAVING_DOCUMENT = "Wystąpił błąd. Dokument nie zapisany."
-        const val ERROR_DELETING_DOCUMENT = "Wystąpił błąd. Dokument nie usunięty."
-        const val ERROR_CAMP_NOT_SET_AS_ACTIVE = "Wystąpił błąd. Obóz nie wybrany jako aktywny."
+        const val ERROR_SAVING_CAMP = "Wystąpił błąd. Nie zapisano obozu."
+        const val ERROR_DELETING_CAMP = "Wystąpił błąd. Nie usunięto obozu."
+        const val ERROR_SAVING_DOCUMENT = "Wystąpił błąd. Nie zapisano dokumentu."
+        const val ERROR_DELETING_DOCUMENT = "Wystąpił błąd. Nie usunięto dokumentu."
+        const val ERROR_CAMP_NOT_SET_AS_ACTIVE = "Wystąpił błąd. Nie wybrano obozu jako aktywny."
         const val ERROR_NO_CAMP_SET_AS_ACTIVE =
-            "Wystąpił błąd. Żaden obóz nie wybrany jako aktywny."
+            "Wystąpił błąd. Nie wybrano żadnego obozu jako aktywny."
     }
 }
