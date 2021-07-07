@@ -193,6 +193,11 @@ class DocumentEditFragment : Fragment() {
                 return true
             }
             R.id.cancel_document_changes -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.changes_discarded),
+                    Toast.LENGTH_SHORT
+                ).show()
                 navToDocuments()
             }
         }

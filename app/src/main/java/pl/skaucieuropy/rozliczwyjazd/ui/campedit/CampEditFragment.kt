@@ -166,6 +166,11 @@ class CampEditFragment : Fragment() {
                 return true
             }
             R.id.cancel_camp_changes -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.changes_discarded),
+                    Toast.LENGTH_SHORT
+                ).show()
                 navToCamps()
             }
         }
