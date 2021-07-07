@@ -43,10 +43,10 @@ class SummaryViewModel(private val repository: ReckoningRepository) : ViewModel(
     }
 
     val moneyPerDay = remainingMoney.combineWith(remainingDays) { money, days ->
-        if (days == null || days == 0L) {
+        if (money == null || money <= 0.0 || days == null || days == 0L) {
             0.0
         } else {
-            (money ?: 0.0) / days
+            money / days
         }
     }
 }
