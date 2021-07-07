@@ -59,4 +59,6 @@
     <string name="changes_discarded">Odrzucono zmiany</string>
     <string name="document_added">Dodano dokument</string>
     <string name="camp_added">Dodano obóz</string>
+    <string name="add_camp">Dodaj obóz</string>
+    <string name="add_document">Dodaj dokument</string>
 </resources>
