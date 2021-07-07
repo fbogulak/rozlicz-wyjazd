@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
+
 
 class DocumentsFragment : Fragment() {
 
@@ -65,6 +67,18 @@ class DocumentsFragment : Fragment() {
                     )
                 }
             })
+        binding.documentsRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                binding.addDocumentFab.apply {
+                    if (dy > 0 && visibility == View.VISIBLE) {
+                        hide()
+                    } else if (dy < 0 && visibility != View.VISIBLE) {
+                        show()
+                    }
+                }
+            }
+        })
     }
 
     private fun setupObservers() {

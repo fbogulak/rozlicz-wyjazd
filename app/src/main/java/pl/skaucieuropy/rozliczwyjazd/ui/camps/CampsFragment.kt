@@ -11,6 +11,7 @@ import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
@@ -73,6 +74,18 @@ class CampsFragment : Fragment() {
             }, CampsListAdapter.MenuListener { v, camp ->
                 showMenu(v, R.menu.camp_popup_menu, camp)
             })
+        binding.campsRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                binding.addCampFab.apply {
+                    if (dy > 0 && visibility == View.VISIBLE) {
+                        hide()
+                    } else if (dy < 0 && visibility != View.VISIBLE) {
+                        show()
+                    }
+                }
+            }
+        })
     }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int, camp: Camp) {
