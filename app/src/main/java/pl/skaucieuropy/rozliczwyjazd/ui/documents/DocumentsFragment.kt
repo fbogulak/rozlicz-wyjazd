@@ -90,6 +90,17 @@ class DocumentsFragment : Fragment() {
                 }
             }
         }
+        viewModel.documents.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it.isEmpty()) {
+                    binding.documentsRecycler.visibility = View.GONE
+                    binding.documentsEmptyView.visibility = View.VISIBLE
+                } else {
+                    binding.documentsRecycler.visibility = View.VISIBLE
+                    binding.documentsEmptyView.visibility = View.GONE
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

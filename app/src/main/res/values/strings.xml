@@ -61,4 +61,5 @@
     <string name="camp_added">Dodano obóz</string>
     <string name="add_camp">Dodaj obóz</string>
     <string name="add_document">Dodaj dokument</string>
+    <string name="documents_empty_view_hint">Aby dodać dokument kliknij w przycisk +</string>
 </resources>
