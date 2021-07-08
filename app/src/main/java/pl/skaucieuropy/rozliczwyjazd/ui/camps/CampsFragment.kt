@@ -98,6 +98,14 @@ class CampsFragment : Fragment() {
                     viewModel.changeActiveCamp(camp.id.value)
                     true
                 }
+                R.id.export -> {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.function_available_soon),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    true
+                }
                 else -> false
             }
         }
