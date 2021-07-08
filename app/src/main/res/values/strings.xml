@@ -30,7 +30,6 @@
     <string name="delete">Usuń</string>
     <string name="cancel">Anuluj</string>
     <string name="cancel_changes">Anuluj zmiany</string>
-    <string name="date_separator">\u0020-\u0020</string>
     <string name="checkmark_icon">Ikonka fajeczki</string>
     <string name="camp_name">Nazwa obozu</string>
     <string name="budget">Budżet</string>
@@ -40,15 +39,12 @@
     <string name="more_options_icon">Ikonka więcej opcji</string>
     <string name="choose_as_active">Wybierz jako aktywny</string>
     <string name="export_to_file">Eksportuj do pliku</string>
-    <string name="close_reckoning">Zamknij rozliczenie</string>
-    <string name="reopen_reckoning">Otwórz ponownie rozliczenie</string>
     <string name="error_saving_document">Wystąpił błąd. Dokument nie zapisany.</string>
     <string name="error_deleting_document">Wystąpił błąd. Dokument nie usunięty.</string>
     <string name="changes_saved">Zapisano zmiany</string>
     <string name="document_deleted">Usunięto dokument</string>
     <string name="error_saving_camp">Wystąpił błąd. Obóz nie zapisany.</string>
     <string name="error_deleting_camp">Wystąpił błąd. Obóz nie usunięty.</string>
-    <string name="camp_saved">Obóz zapisany</string>
     <string name="camp_deleted">Usunięto obóz</string>
     <string name="camp_already_active">Obóz jest już aktywny</string>
     <string name="error_setting_as_active">Wystąpił błąd. Obóz nie wybrany jako aktywny.</string>
