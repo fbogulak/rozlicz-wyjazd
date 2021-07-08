@@ -20,8 +20,8 @@ class SummaryViewModel(private val repository: ReckoningRepository) : ViewModel(
     }
 
     private val remainingDays = Transformations.map(camp) {
-        val startDateMillis = it.startDate.value?.time
-        val endDateMillis = it.endDate.value?.time
+        val startDateMillis = it?.startDate?.value?.time
+        val endDateMillis = it?.endDate?.value?.time
 
         if (startDateMillis != null && endDateMillis != null) {
             val startDate =
