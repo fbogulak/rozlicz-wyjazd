@@ -20,15 +20,30 @@
         android:onClick="@{() -> onClickListener.onClick(document)}">
 
         <TextView
-            android:id="@+id/type_text"
-            android:layout_width="wrap_content"
+            android:id="@+id/category_text"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@{@string/document_type_format(document.type)}"
-            android:textSize="16sp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnBackground"
+            android:text="@{document.category}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="Art. spożywcze" />
+
+        <TextView
+            android:id="@+id/type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/document_type_format(document.type)}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/category_text"
+            app:layout_constraintTop_toBottomOf="@+id/category_text"
             tools:text="Faktura nr" />
 
         <TextView
