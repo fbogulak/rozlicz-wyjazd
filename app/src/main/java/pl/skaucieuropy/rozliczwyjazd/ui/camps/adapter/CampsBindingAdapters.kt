@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,5 +33,14 @@ fun bindTextViewToCampDate(textView: TextView, startDate: Date?, endDate: Date?)
 fun bindImageViewToIsActive(imageView: ImageView, isActive: Boolean?) {
     isActive?.let {
         imageView.visibility = if (it) View.VISIBLE else View.INVISIBLE
+    }
+}
+
+@BindingAdapter("displayBudget")
+fun bindTextViewToBudget(textView: TextView, budget: Double?) {
+    budget?.let {
+        val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+        format.currency = Currency.getInstance("PLN")
+        textView.text = format.format(budget)
     }
 }
