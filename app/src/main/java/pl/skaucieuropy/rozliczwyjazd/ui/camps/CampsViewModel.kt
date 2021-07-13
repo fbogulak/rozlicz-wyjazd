@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.FileData
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
@@ -95,12 +96,21 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
                 val decimalFormat = DecimalFormat("0.00")
 
                 val documentData = mutableListOf<String>()
+                var type: String
+                var date: String
 
                 for (document in documents) {
-                    documentData.add(document.date.value?.let { dateFormat.format(it) } ?: "")
+                    date = document.date.value?.let { dateFormat.format(it) } ?: ""
+                    documentData.add(date)
+
+                    type = document.type.value ?: ""
                     documentData.add(
-                        (document.type.value + " nr " + document.number.value).inDoubleQuotesOrEmpty()
+                        if (type == STATEMENT)
+                            "$type z dnia $date"
+                        else
+                            (document.type.value + " nr " + document.number.value).inDoubleQuotesOrEmpty()
                     )
+
                     documentData.add(document.category.value.inDoubleQuotesOrEmpty())
                     documentData.add(document.isFromTroopAccount.value?.let { if (it) "TAK" else "NIE" }
                         ?: "")

@@ -3,6 +3,8 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -26,4 +28,14 @@ fun bindTextViewToAmount(textView: TextView, amount: Double?) {
 fun bindTextViewToDate(textView: TextView, date: Date) {
     val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     textView.text = dateFormat.format(date)
+}
+
+@BindingAdapter("documentType")
+fun bindTextViewToType(textView: TextView, type: String?) {
+    type?.let {
+        textView.text = if (type == STATEMENT) type else textView.resources.getString(
+            R.string.document_type_format,
+            type
+        )
+    }
 }

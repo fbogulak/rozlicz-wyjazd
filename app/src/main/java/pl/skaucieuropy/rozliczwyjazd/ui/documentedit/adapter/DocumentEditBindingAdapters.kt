@@ -2,13 +2,14 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documentedit.adapter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.AutoCompleteTextView
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
+import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,4 +52,15 @@ fun setAmountListeners(
         override fun afterTextChanged(s: Editable?) {
         }
     })
+}
+
+@BindingAdapter("visibilityByType")
+fun bindViewVisibilityToType(view: View, type: String?) {
+    type?.let {
+        if (it == STATEMENT) {
+            view.visibility = View.GONE
+        } else {
+            view.visibility = View.VISIBLE
+        }
+    }
 }

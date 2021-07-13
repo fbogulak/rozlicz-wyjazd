@@ -3,6 +3,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
@@ -69,6 +70,8 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
         val currentDocument = document.value
         if (currentDocument != null) {
             viewModelScope.launch {
+                if (currentDocument.type.value == STATEMENT)
+                    currentDocument.number.value = ""
                 val result = if (currentDocument.id.value == 0L) {
                     currentDocument.campId.value = repository.getActiveCampId()
                     repository.insertDocument(currentDocument)
