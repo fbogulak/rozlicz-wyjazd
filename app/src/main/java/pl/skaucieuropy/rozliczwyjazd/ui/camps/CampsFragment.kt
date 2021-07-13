@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
@@ -185,6 +186,13 @@ class CampsFragment : Fragment() {
                         .close()
                 }
             }
+            Snackbar.make(
+                binding.root,
+                getString(R.string.csv_file_saved),
+                Snackbar.LENGTH_INDEFINITE
+            )
+                .setAction(getString(R.string.send)) { sendFile(uri) }
+                .show()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
@@ -193,5 +201,16 @@ class CampsFragment : Fragment() {
             viewModel.createExportFileCompleted()
             binding.progressBar.hide()
         }
+    }
+
+    private fun sendFile(uri: Uri) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/csv"
+            putExtra(Intent.EXTRA_STREAM, uri)
+        }
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        }
+
     }
 }
