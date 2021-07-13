@@ -39,6 +39,8 @@ class CampsFragment : Fragment() {
                 it?.data?.data?.also { uri ->
                     alterDocument(uri)
                 }
+            } else {
+                binding.progressBar.hide()
             }
         }
 
@@ -113,6 +115,7 @@ class CampsFragment : Fragment() {
                 }
                 R.id.export -> {
                     viewModel.exportToCsv(camp)
+                    binding.progressBar.show()
                     true
                 }
                 else -> false
@@ -188,6 +191,7 @@ class CampsFragment : Fragment() {
             e.printStackTrace()
         } finally {
             viewModel.createExportFileCompleted()
+            binding.progressBar.hide()
         }
     }
 }

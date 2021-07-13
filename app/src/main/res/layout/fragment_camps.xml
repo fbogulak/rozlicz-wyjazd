@@ -31,5 +31,13 @@
             android:contentDescription="@string/add_camp"
             android:onClick="@{() -> viewModel.navigateToCampEdit()}"
             app:srcCompat="@drawable/ic_add" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
