@@ -6,8 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
+import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotes
+import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotesOrEmpty
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
@@ -20,6 +26,10 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
     private val _showToast = MutableLiveData<ToastMessage<*>?>()
     val showToast: LiveData<ToastMessage<*>?>
         get() = _showToast
+
+    private val _createExportFile = MutableLiveData<Pair<String, String>?>()
+    val createExportFile: LiveData<Pair<String, String>?>
+        get() = _createExportFile
 
     fun navigateToCampEdit() {
         _navigateToCampEdit.value = true
@@ -39,6 +49,14 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
 
     fun showToastCompleted() {
         _showToast.value = null
+    }
+
+    private fun createExportFile(value: Pair<String, String>?) {
+        _createExportFile.value = value
+    }
+
+    fun createExportFileCompleted() {
+        _createExportFile.value = null
     }
 
     fun changeActiveCamp(campId: Long?) {
@@ -64,6 +82,46 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
             }
         } else {
             showToast(R.string.error_setting_as_active)
+        }
+    }
+
+    fun exportToCsv(camp: Camp?) {
+        camp?.id?.value?.let {
+            viewModelScope.launch {
+                val documents = repository.getDocumentsByCampId(it)
+                val stringBuilder = StringBuilder().append("SEP=,\n")
+                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                val decimalFormat = DecimalFormat("0.00")
+
+                val documentData = mutableListOf<String>()
+
+                for (document in documents) {
+                    documentData.add(document.date.value?.let { dateFormat.format(it) } ?: "")
+                    documentData.add(
+                        (document.type.value + " nr " + document.number.value).inDoubleQuotesOrEmpty()
+                    )
+                    documentData.add(document.category.value.inDoubleQuotesOrEmpty())
+                    documentData.add(document.isFromTroopAccount.value?.let { if (it) "TAK" else "NIE" }
+                        ?: "")
+                    documentData.add(document.amount.value?.let {
+                        decimalFormat.format(it).inDoubleQuotes()
+                    } ?: "")
+                    documentData.add(document.isFromTravelVoucher.value?.let { if (it) "TAK" else "NIE" }
+                        ?: "")
+                    documentData.add(document.comment.value.inDoubleQuotesOrEmpty())
+
+                    for (value in documentData) {
+                        stringBuilder.append(value).append(",")
+                    }
+                    stringBuilder.append("\n")
+
+                    documentData.clear()
+                }
+                val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH_mm_ss", Locale.getDefault())
+                val fileName =
+                    (camp.name.value ?: "") + " " + dateTimeFormat.format(Date()) + ".csv"
+                createExportFile(Pair(fileName, stringBuilder.toString()))
+            }
         }
     }
 }

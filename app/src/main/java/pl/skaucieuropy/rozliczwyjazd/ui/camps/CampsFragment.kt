@@ -1,5 +1,8 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.camps
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -7,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +22,7 @@ import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
-import pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsFragmentDirections
+import java.io.*
 
 class CampsFragment : Fragment() {
 
@@ -28,6 +32,15 @@ class CampsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it?.data?.data?.also { uri ->
+                    alterDocument(uri)
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,11 +112,7 @@ class CampsFragment : Fragment() {
                     true
                 }
                 R.id.export -> {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.function_available_soon),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    viewModel.exportToCsv(camp)
                     true
                 }
                 else -> false
@@ -133,6 +142,11 @@ class CampsFragment : Fragment() {
                 viewModel.showToastCompleted()
             }
         }
+        viewModel.createExportFile.observe(viewLifecycleOwner) {
+            it?.let {
+                createFile(it.first)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -146,5 +160,34 @@ class CampsFragment : Fragment() {
                 campId, destinationLabel
             )
         )
+    }
+
+    private fun createFile(fileName: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/csv"
+            putExtra(Intent.EXTRA_TITLE, fileName)
+        }
+        activityResultLauncher.launch(intent)
+    }
+
+    private fun alterDocument(uri: Uri) {
+        val contentResolver = requireContext().contentResolver
+        val fileContent = viewModel.createExportFile.value?.second ?: ""
+        try {
+            contentResolver.openFileDescriptor(uri, "w")?.use {
+                FileOutputStream(it.fileDescriptor).use {
+                    BufferedWriter(OutputStreamWriter(it, "windows-1250"))
+                        .append(fileContent)
+                        .close()
+                }
+            }
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            viewModel.createExportFileCompleted()
+        }
     }
 }

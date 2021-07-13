@@ -26,3 +26,11 @@ fun <T, K, R> LiveData<T>.combineWith(
     }
     return result
 }
+
+fun String.inDoubleQuotes(): String {
+    return  "\"" + this + "\""
+}
+
+fun String?.inDoubleQuotesOrEmpty(): String {
+    return this?.let { "\"" + it + "\"" } ?: ""
+}

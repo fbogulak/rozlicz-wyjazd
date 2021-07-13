@@ -59,6 +59,10 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
+    suspend fun getDocumentsByCampId(campId: Long): List<Document> = withContext(Dispatchers.IO) {
+        return@withContext database.documentDao.getDocumentsByCampId(campId)
+    }
+
     suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getCamp(id)
     }

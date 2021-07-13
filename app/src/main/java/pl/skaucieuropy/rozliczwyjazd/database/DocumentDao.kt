@@ -19,6 +19,9 @@ interface DocumentDao {
     @Query("SELECT * FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1) ORDER BY date DESC")
     fun getActiveDocuments(): LiveData<List<Document>>
 
+    @Query("SELECT * FROM document_table WHERE campId = :campId ORDER BY date ASC")
+    fun getDocumentsByCampId(campId: Long): List<Document>
+
     @Delete
     fun delete(document: Document): Int
 
