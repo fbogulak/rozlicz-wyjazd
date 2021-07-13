@@ -144,7 +144,7 @@ class CampsFragment : Fragment() {
         }
         viewModel.createExportFile.observe(viewLifecycleOwner) {
             it?.let {
-                createFile(it.first)
+                createFile(it.name)
             }
         }
     }
@@ -173,12 +173,12 @@ class CampsFragment : Fragment() {
 
     private fun alterDocument(uri: Uri) {
         val contentResolver = requireContext().contentResolver
-        val fileContent = viewModel.createExportFile.value?.second ?: ""
+        val fileBody = viewModel.createExportFile.value?.body ?: ""
         try {
             contentResolver.openFileDescriptor(uri, "w")?.use {
                 FileOutputStream(it.fileDescriptor).use {
                     BufferedWriter(OutputStreamWriter(it, "windows-1250"))
-                        .append(fileContent)
+                        .append(fileBody)
                         .close()
                 }
             }

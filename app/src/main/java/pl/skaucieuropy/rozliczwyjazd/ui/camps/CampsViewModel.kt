@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.FileData
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
 import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotes
@@ -27,8 +28,8 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
     val showToast: LiveData<ToastMessage<*>?>
         get() = _showToast
 
-    private val _createExportFile = MutableLiveData<Pair<String, String>?>()
-    val createExportFile: LiveData<Pair<String, String>?>
+    private val _createExportFile = MutableLiveData<FileData?>()
+    val createExportFile: LiveData<FileData?>
         get() = _createExportFile
 
     fun navigateToCampEdit() {
@@ -51,8 +52,8 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
         _showToast.value = null
     }
 
-    private fun createExportFile(value: Pair<String, String>?) {
-        _createExportFile.value = value
+    private fun createExportFile(fileData: FileData?) {
+        _createExportFile.value = fileData
     }
 
     fun createExportFileCompleted() {
@@ -120,7 +121,7 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
                 val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH_mm_ss", Locale.getDefault())
                 val fileName =
                     (camp.name.value ?: "") + " " + dateTimeFormat.format(Date()) + ".csv"
-                createExportFile(Pair(fileName, stringBuilder.toString()))
+                createExportFile(FileData(fileName, stringBuilder.toString()))
             }
         }
     }
