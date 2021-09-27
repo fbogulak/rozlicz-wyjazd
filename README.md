@@ -10,12 +10,12 @@ On completion of the event, the users can export entered data to a CSV file they
 ## Screenshots
 
 <p align="center">
-  <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/summary_screen.jpeg" width="350">
-    <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/documents_screen.jpeg" width="350">
+  <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/summary_screen.jpg" width="350">
+    <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/documents_screen.jpg" width="350">
 </p>
 <p align="center">
-  <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/document_edit_screen.jpeg" width="350">
-    <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/camps_screen.jpeg" width="350">
+  <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/document_edit_screen.jpg" width="350">
+    <img src="https://github.com/fbogulak/rozlicz-wyjazd/blob/master/screenshots/camps_screen.jpg" width="350">
 </p>
 
 ## Installation 
