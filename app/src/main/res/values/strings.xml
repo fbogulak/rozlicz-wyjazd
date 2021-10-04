@@ -62,4 +62,5 @@
     <string name="budget_label">Budżet:</string>
     <string name="csv_file_saved">Zapisano plik CSV</string>
     <string name="send">Wyślij</string>
+    <string name="search_documents">Szukaj dokumentów</string>
 </resources>

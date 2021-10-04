@@ -1,9 +1,10 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documents
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import android.widget.Toolbar
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,7 +16,7 @@ import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
 
 
-class DocumentsFragment : Fragment() {
+class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: DocumentsViewModel
     private var _binding: FragmentDocumentsBinding? = null
@@ -34,6 +35,7 @@ class DocumentsFragment : Fragment() {
 
         setupRecycler()
         setupObservers()
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -114,5 +116,22 @@ class DocumentsFragment : Fragment() {
                 documentId, destinationLabel
             )
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.documents_overflow_menu, menu)
+        val searchItem = menu.findItem(R.id.search_documents)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        Toast.makeText(requireContext(), "Searching for $query", Toast.LENGTH_SHORT).show()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return false
     }
 }
