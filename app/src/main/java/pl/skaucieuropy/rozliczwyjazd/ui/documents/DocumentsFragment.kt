@@ -2,8 +2,6 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +14,8 @@ import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
 
 
-class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener {
+class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
+    MenuItem.OnActionExpandListener {
 
     private lateinit var viewModel: DocumentsViewModel
     private var _binding: FragmentDocumentsBinding? = null
@@ -124,14 +123,24 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener {
         val searchItem = menu.findItem(R.id.search_documents)
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
+        searchItem.setOnActionExpandListener(this)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        Toast.makeText(requireContext(), "Searching for $query", Toast.LENGTH_SHORT).show()
+        viewModel.searchQuery.value = query
         return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
         return false
+    }
+
+    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        viewModel.searchQuery.value = ""
+        return true
     }
 }

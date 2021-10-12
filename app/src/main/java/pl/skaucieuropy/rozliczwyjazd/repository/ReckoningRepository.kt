@@ -1,5 +1,6 @@
 package pl.skaucieuropy.rozliczwyjazd.repository
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import pl.skaucieuropy.rozliczwyjazd.R
@@ -9,9 +10,7 @@ import pl.skaucieuropy.rozliczwyjazd.models.Document
 
 class ReckoningRepository(private val database: ReckoningDatabase) {
 
-
     val allCamps by lazy { database.campDao.getAllCamps() }
-    val activeDocuments by lazy { database.documentDao.getActiveDocuments() }
     val activeCamp by lazy { database.campDao.getActiveCamp() }
     val activeCampExpenses by lazy { database.campDao.getActiveCampExpenses() }
 
@@ -61,6 +60,14 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
 
     suspend fun getDocumentsByCampId(campId: Long): List<Document> = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getDocumentsByCampId(campId)
+    }
+
+    fun getActiveDocuments(query: String?): LiveData<List<Document>> {
+        return if (query.isNullOrEmpty()) {
+            database.documentDao.getActiveDocuments()
+        } else {
+            database.documentDao.getFilteredDocuments("%$query%")
+        }
     }
 
     suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {

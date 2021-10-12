@@ -1,13 +1,14 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documents
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
 class DocumentsViewModel(private val repository: ReckoningRepository) : ViewModel() {
 
-    val documents = repository.activeDocuments
+    val searchQuery = MutableLiveData("")
+    val documents = searchQuery.switchMap {
+       repository.getActiveDocuments(it)
+    }
 
     private val _navigateToDocumentEdit = MutableLiveData<Boolean?>()
     val navigateToDocumentEdit: LiveData<Boolean?>
