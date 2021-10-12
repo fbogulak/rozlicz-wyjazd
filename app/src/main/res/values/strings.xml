@@ -58,6 +58,7 @@
     <string name="add_camp">Dodaj obóz</string>
     <string name="add_document">Dodaj dokument</string>
     <string name="documents_empty_view_hint">Aby dodać dokument kliknij w przycisk +</string>
+    <string name="documents_empty_view_if_searching">Nie znaleziono pasujących dokumentów</string>
     <string name="function_available_soon">Funkcja dostpna wkrótce</string>
     <string name="budget_label">Budżet:</string>
     <string name="csv_file_saved">Zapisano plik CSV</string>

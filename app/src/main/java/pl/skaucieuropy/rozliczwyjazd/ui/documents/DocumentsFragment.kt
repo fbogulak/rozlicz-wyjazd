@@ -95,7 +95,15 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
             it?.let {
                 if (it.isEmpty()) {
                     binding.documentsRecycler.visibility = View.GONE
-                    binding.documentsEmptyView.visibility = View.VISIBLE
+                    binding.documentsEmptyView.apply {
+                        setText(
+                            if (viewModel.isSearching)
+                                R.string.documents_empty_view_if_searching
+                            else
+                                R.string.documents_empty_view_hint
+                        )
+                        visibility = View.VISIBLE
+                    }
                 } else {
                     binding.documentsRecycler.visibility = View.VISIBLE
                     binding.documentsEmptyView.visibility = View.GONE
@@ -128,6 +136,7 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         viewModel.searchQuery.value = query
+        viewModel.isSearching = true
         return true
     }
 
@@ -141,6 +150,7 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
 
     override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
         viewModel.searchQuery.value = ""
+        viewModel.isSearching = false
         return true
     }
 }

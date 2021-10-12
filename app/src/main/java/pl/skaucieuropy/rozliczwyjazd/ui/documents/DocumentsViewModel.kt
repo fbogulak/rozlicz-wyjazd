@@ -9,6 +9,7 @@ class DocumentsViewModel(private val repository: ReckoningRepository) : ViewMode
     val documents = searchQuery.switchMap {
        repository.getActiveDocuments(it)
     }
+    var isSearching = false
 
     private val _navigateToDocumentEdit = MutableLiveData<Boolean?>()
     val navigateToDocumentEdit: LiveData<Boolean?>
