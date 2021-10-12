@@ -18,17 +18,25 @@
         tools:layout="@layout/fragment_documents">
         <action
             android:id="@+id/action_documentsFragment_to_documentEditFragment"
-            app:destination="@id/documentEditFragment" />
+            app:destination="@id/documentEditFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/campsFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.camps.CampsFragment"
         android:label="@string/title_camps"
-        tools:layout="@layout/fragment_camps" >
+        tools:layout="@layout/fragment_camps">
         <action
             android:id="@+id/action_campsFragment_to_campEditFragment"
-            app:destination="@id/campEditFragment" />
+            app:destination="@id/campEditFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/documentEditFragment"
@@ -43,6 +51,10 @@
         <action
             android:id="@+id/action_documentEditFragment_to_documentsFragment"
             app:destination="@id/documentsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/documentsFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -59,6 +71,10 @@
         <action
             android:id="@+id/action_campEditFragment_to_campsFragment"
             app:destination="@id/campsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/campsFragment"
             app:popUpToInclusive="true" />
     </fragment>
