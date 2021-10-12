@@ -1,11 +1,12 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.summary
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentSummaryBinding
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
@@ -27,6 +28,8 @@ class SummaryFragment : Fragment() {
         setupViewModel()
         setupBinding(inflater, container)
 
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -47,6 +50,16 @@ class SummaryFragment : Fragment() {
         _binding = FragmentSummaryBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.summary_overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, requireView().findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

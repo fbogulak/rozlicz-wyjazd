@@ -62,4 +62,8 @@
             app:popUpTo="@id/campsFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="pl.skaucieuropy.rozliczwyjazd.ui.about.AboutFragment"
+        android:label="@string/about" />
 </navigation>

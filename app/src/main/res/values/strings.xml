@@ -64,4 +64,12 @@
     <string name="csv_file_saved">Zapisano plik CSV</string>
     <string name="send">Wyślij</string>
     <string name="search_documents">Szukaj dokumentów</string>
+    <string name="about_description">Aplikacja stworzona dla szefów służących w Skautach Europy. \nDzięki niej możesz łatwiej kontrolować obozowe wydatki oraz sprawniej rozliczyć wyjazd.</string>
+    <string name="about_linking">Ikonki z\u0020</string>
+    <string name="icons8_link" translatable="false"><a href="https://icons8.com">Icons8</a></string>
+    <string name="developer_label">Deweloper:\u0020</string>
+    <string name="app_developer" translatable="false">Franciszek Bogulak</string>
+    <string name="version_label">Wersja:\u0020</string>
+    <string name="about">O Aplikacji</string>
+
 </resources>
