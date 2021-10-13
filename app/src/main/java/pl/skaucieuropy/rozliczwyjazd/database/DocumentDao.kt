@@ -16,7 +16,7 @@ interface DocumentDao {
     @Query("SELECT * FROM document_table WHERE id = :id")
     fun getDocument(id: Long): Document
 
-    @Query("SELECT * FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1) ORDER BY date DESC")
+    @Query("SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 ORDER BY date DESC")
     fun getActiveDocuments(): LiveData<List<Document>>
 
     @Query("SELECT * FROM document_table WHERE campId = :campId ORDER BY date ASC")
