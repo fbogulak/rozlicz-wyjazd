@@ -28,6 +28,6 @@ interface DocumentDao {
     @Query("DELETE FROM document_table WHERE campId = :campId")
     fun deleteDocumentsByCampId(campId: Long): Int
 
-    @Query("SELECT * FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1) AND (number LIKE :expression OR type LIKE :expression OR category LIKE :expression OR amount LIKE :expression OR comment LIKE :expression) ORDER BY date DESC")
+    @Query("SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 AND category || ' ' || type || ' ' || number || ' ' || amount || ' ' || comment LIKE :expression ORDER BY date DESC")
     fun getFilteredDocuments(expression: String): LiveData<List<Document>>
 }

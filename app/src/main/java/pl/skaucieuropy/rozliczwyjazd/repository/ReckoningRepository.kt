@@ -66,7 +66,8 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         return if (query.isNullOrEmpty()) {
             database.documentDao.getActiveDocuments()
         } else {
-            database.documentDao.getFilteredDocuments("%$query%")
+            val expression = "%${query.replace(" ", "%")}%"
+            database.documentDao.getFilteredDocuments(expression)
         }
     }
 
