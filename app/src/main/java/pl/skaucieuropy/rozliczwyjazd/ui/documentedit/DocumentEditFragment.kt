@@ -1,6 +1,5 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -18,6 +17,7 @@ import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.documentedit.adapter.NoFilterArrayAdapter
 import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
+import pl.skaucieuropy.rozliczwyjazd.utils.hideKeyboard
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.util.*
 
@@ -184,6 +184,7 @@ class DocumentEditFragment : Fragment() {
     }
 
     private fun navToDocuments() {
+        hideKeyboard()
         findNavController().navigate(DocumentEditFragmentDirections.actionDocumentEditFragmentToDocumentsFragment())
     }
 

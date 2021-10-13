@@ -1,5 +1,8 @@
 package pl.skaucieuropy.rozliczwyjazd.utils
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import java.text.DecimalFormatSymbols
@@ -33,4 +36,11 @@ fun String.inDoubleQuotes(): String {
 
 fun String?.inDoubleQuotesOrEmpty(): String {
     return this?.let { "\"" + it + "\"" } ?: ""
+}
+
+fun Fragment.hideKeyboard() {
+    activity?.currentFocus?.let{
+        val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
+    }
 }

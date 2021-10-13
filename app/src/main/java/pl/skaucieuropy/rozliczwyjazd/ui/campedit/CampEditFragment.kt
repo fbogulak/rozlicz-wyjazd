@@ -18,6 +18,7 @@ import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampEditBinding
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
+import pl.skaucieuropy.rozliczwyjazd.utils.hideKeyboard
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.util.*
 
@@ -141,6 +142,7 @@ class CampEditFragment : Fragment() {
     }
 
     private fun navToCamps() {
+        hideKeyboard()
         findNavController().navigate(CampEditFragmentDirections.actionCampEditFragmentToCampsFragment())
     }
 
