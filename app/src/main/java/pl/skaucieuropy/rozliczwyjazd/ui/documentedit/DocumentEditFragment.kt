@@ -176,6 +176,7 @@ class DocumentEditFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.category)
             .setMessage(getString(R.string.document_category_info_message))
+            .setIcon(R.drawable.ic_info)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 dialog?.dismiss()
             }
