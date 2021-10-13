@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import com.google.android.material.textfield.TextInputLayout
+import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
 import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
@@ -63,4 +65,10 @@ fun bindViewVisibilityToType(view: View, type: String?) {
             view.visibility = View.VISIBLE
         }
     }
+}
+
+@BindingAdapter("category")
+fun bindHelperTextToCategory(view: TextInputLayout, category: String?) {
+    view.helperText =
+        if (category == "Art. na obóz") view.context.getString(R.string.document_category_helper_text) else null
 }

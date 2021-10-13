@@ -3,7 +3,6 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -39,6 +38,7 @@ class DocumentEditFragment : Fragment() {
         setupExposedDropdownMenus()
 
         setupObservers()
+        setupListeners()
         setHasOptionsMenu(true)
         binding.container.requestFocus()
 
@@ -162,6 +162,23 @@ class DocumentEditFragment : Fragment() {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 viewModel.showToastCompleted()
             }
+        }
+    }
+
+    private fun setupListeners() {
+        binding.infoButton.setOnClickListener {
+            showInfoDialog()
+        }
+    }
+
+    private fun showInfoDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.category)
+            setMessage(getString(R.string.document_category_info_message))
+            setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                dialog?.dismiss()
+            }
+            show()
         }
     }
 

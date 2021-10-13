@@ -71,9 +71,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:hint="@string/category"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:category="@{viewModel.document.category}"
+                    app:layout_constraintEnd_toStartOf="@+id/info_button"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/amount_text_field">
 
@@ -85,6 +86,20 @@
                         android:maxLines="1"
                         android:text="@={viewModel.document.category}" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/info_button"
+                    style="@style/Widget.AppCompat.ActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/more_info_icon"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/category_text_field"
+                    app:layout_constraintTop_toTopOf="@+id/category_text_field"
+                    app:tint="?attr/endIconTint" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/type_text_field"

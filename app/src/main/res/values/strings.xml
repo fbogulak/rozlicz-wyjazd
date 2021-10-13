@@ -71,5 +71,9 @@
     <string name="app_developer" translatable="false">Franciszek Bogulak</string>
     <string name="version_label">Wersja:\u0020</string>
     <string name="about">O Aplikacji</string>
+    <string name="document_category_helper_text">Wpisz w uwagach czego dotyczyły wydatki</string>
+    <string name="more_info_icon">Ikonka więcej informacji</string>
+    <string name="document_category_info_message">Jeśli dokument nie pasuje do żadnej z poniższych kategorii - wybierz kategorię \"Art. na obóz\" i wpisz w Uwagach czego dotyczyły wydatki.</string>
+    <string name="ok">Ok</string>
 
 </resources>
