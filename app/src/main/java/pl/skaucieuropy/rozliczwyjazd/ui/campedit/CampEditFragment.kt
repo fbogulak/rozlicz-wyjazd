@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
@@ -178,16 +179,15 @@ class CampEditFragment : Fragment() {
     }
 
     private fun showDeleteConfirmationDialog() {
-        AlertDialog.Builder(requireContext()).apply {
-            setMessage(getString(R.string.delete_camp_dialog_msg))
-            setPositiveButton(getString(R.string.delete)) { _, _ ->
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.delete_camp_dialog_msg))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
                 viewModel.deleteCamp()
             }
-            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog?.dismiss()
             }
-            show()
-        }
+            .show()
     }
 
     override fun onAttach(context: Context) {
