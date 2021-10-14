@@ -143,6 +143,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapCharacters"
                         android:maxLines="1"
+                        android:nextFocusDown="@id/amount_edit"
                         android:text="@={viewModel.document.number}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -192,6 +193,7 @@
                         android:digits="0123456789.,"
                         android:inputType="numberDecimal"
                         android:maxLines="1"
+                        android:nextFocusDown="@id/comment_edit"
                         app:amount="@={viewModel.document.amount}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -215,6 +217,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:nextFocusDown="@id/number_edit"
                         android:text="@={viewModel.document.comment}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
