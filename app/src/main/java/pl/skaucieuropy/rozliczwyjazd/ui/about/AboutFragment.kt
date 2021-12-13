@@ -25,8 +25,6 @@ class AboutFragment : Fragment() {
         setupViewModel()
         setupBinding(inflater)
 
-        setupLinks()
-
         return binding.root
     }
 
@@ -38,10 +36,6 @@ class AboutFragment : Fragment() {
         _binding = FragmentAboutBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-    }
-
-    private fun setupLinks() {
-        binding.icons8LinkText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onDestroyView() {

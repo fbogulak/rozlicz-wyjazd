@@ -36,9 +36,9 @@
             android:id="@+id/documents_empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:layout_gravity="center"
+            android:layout_margin="16dp"
             android:text="@string/documents_empty_view_hint"
-            android:textSize="16sp" />
+            android:textAppearance="?attr/textAppearanceBodyLarge" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

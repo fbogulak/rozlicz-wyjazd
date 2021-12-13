@@ -28,14 +28,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{viewModel.camp.name}"
-                android:textColor="?attr/colorOnBackground"
-                android:textSize="20sp"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Marydół 2021" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/remaining_money_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,8 +57,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:text="@string/remaining_money_label"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="16sp"
+                        android:textAppearance="?attr/textAppearanceTitleSmall"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -70,9 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:fontFamily="sans-serif"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="34sp"
+                        android:textAppearance="?attr/textAppearanceHeadlineLarge"
                         app:amount="@{viewModel.remainingMoney}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/remaining_money_label"
@@ -80,7 +76,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/remaining_money_label"
                         tools:text="2 867,93 zł" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:id="@+id/remaining_days_container"
@@ -91,7 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/remaining_money_card">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
@@ -111,8 +107,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             android:text="@string/remaining_days_label"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="16sp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -124,15 +119,14 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="16dp"
                             android:text="@{viewModel.remainingDaysString}"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="24sp"
+                            android:textAppearance="?attr/textAppearanceHeadlineSmall"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/remaining_days_label"
                             app:layout_constraintStart_toStartOf="@+id/remaining_days_label"
                             app:layout_constraintTop_toBottomOf="@+id/remaining_days_label"
                             tools:text="8" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -145,7 +139,7 @@
                 app:layout_constraintStart_toEndOf="@+id/remaining_days_container"
                 app:layout_constraintTop_toBottomOf="@+id/remaining_money_card">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="4dp"
@@ -165,8 +159,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             android:text="@string/money_per_day_label"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="16sp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -177,8 +170,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="16dp"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="24sp"
+                            android:textAppearance="?attr/textAppearanceHeadlineSmall"
                             app:amount="@{viewModel.moneyPerDay}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/money_per_day_label"
@@ -186,7 +178,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/money_per_day_label"
                             tools:text="23,87 zł" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

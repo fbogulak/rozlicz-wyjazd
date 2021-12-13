@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/summaryFragment"
-        android:icon="@drawable/ic_dashboard"
+        android:icon="@drawable/dashboard_selector"
         android:title="@string/title_summary" />
 
     <item
         android:id="@+id/documentsFragment"
-        android:icon="@drawable/ic_documents"
+        android:icon="@drawable/receipt_selector"
         android:title="@string/title_documents" />
 
     <item
         android:id="@+id/campsFragment"
-        android:icon="@drawable/ic_tent"
+        android:icon="@drawable/forest_selector"
         android:title="@string/title_camps" />
 
 </menu>

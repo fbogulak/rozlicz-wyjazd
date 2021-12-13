@@ -59,21 +59,17 @@
     <string name="add_document">Dodaj dokument</string>
     <string name="documents_empty_view_hint">Aby dodać dokument kliknij w przycisk +</string>
     <string name="documents_empty_view_if_searching">Nie znaleziono pasujących dokumentów</string>
-    <string name="function_available_soon">Funkcja dostpna wkrótce</string>
     <string name="budget_label">Budżet:</string>
     <string name="csv_file_saved">Zapisano plik CSV</string>
     <string name="send">Wyślij</string>
     <string name="search_documents">Szukaj dokumentów</string>
     <string name="about_description">Aplikacja stworzona dla szefów służących w Skautach Europy. \nDzięki niej możesz łatwiej kontrolować obozowe wydatki oraz sprawniej rozliczyć wyjazd.</string>
-    <string name="about_linking">Ikonki z\u0020</string>
-    <string name="icons8_link" translatable="false"><a href="https://icons8.com">Icons8</a></string>
-    <string name="developer_label">Deweloper:\u0020</string>
+    <string name="developer_label">Deweloper:</string>
     <string name="app_developer" translatable="false">Franciszek Bogulak</string>
-    <string name="version_label">Wersja:\u0020</string>
+    <string name="version_label">Wersja:</string>
     <string name="about">O Aplikacji</string>
     <string name="document_category_helper_text">Wpisz w uwagach czego dotyczyły wydatki</string>
     <string name="more_info_icon">Ikonka więcej informacji</string>
     <string name="document_category_info_message">Jeśli dokument nie pasuje do żadnej z poniższych kategorii - wybierz kategorię \"Art. na obóz\" i wpisz w Uwagach czego dotyczyły wydatki.</string>
-    <string name="ok">Ok</string>
-
+    <string name="ok">OK</string>
 </resources>
