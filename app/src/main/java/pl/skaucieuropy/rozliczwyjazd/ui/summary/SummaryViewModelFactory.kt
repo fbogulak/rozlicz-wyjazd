@@ -6,7 +6,7 @@ import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
 class SummaryViewModelFactory(private val repository: ReckoningRepository) :
     ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SummaryViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return SummaryViewModel(repository) as T

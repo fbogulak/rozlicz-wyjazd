@@ -7,7 +7,7 @@ import pl.skaucieuropy.rozliczwyjazd.ui.documents.DocumentsViewModel
 
 class DocumentEditViewModelFactory(private val repository: ReckoningRepository) :
     ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DocumentEditViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return DocumentEditViewModel(repository) as T

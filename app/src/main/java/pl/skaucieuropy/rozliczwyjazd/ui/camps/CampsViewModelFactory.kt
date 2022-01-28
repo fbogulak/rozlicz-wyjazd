@@ -6,7 +6,7 @@ import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
 class CampsViewModelFactory(private val repository: ReckoningRepository) :
     ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CampsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return CampsViewModel(repository) as T
