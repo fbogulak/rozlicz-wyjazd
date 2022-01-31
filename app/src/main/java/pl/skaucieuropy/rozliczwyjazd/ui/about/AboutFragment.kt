@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentAboutBinding
 
 class AboutFragment : Fragment() {
-    private lateinit var viewModel: AboutViewModel
+    private val viewModel: AboutViewModel by viewModel()
     private var _binding: FragmentAboutBinding? = null
 
     // This property is only valid between onCreateView and
@@ -22,14 +23,9 @@ class AboutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setupViewModel()
         setupBinding(inflater)
 
         return binding.root
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this).get(AboutViewModel::class.java)
     }
 
     private fun setupBinding(inflater: LayoutInflater) {

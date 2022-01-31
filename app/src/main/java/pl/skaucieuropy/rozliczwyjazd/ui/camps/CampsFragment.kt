@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
@@ -27,7 +28,7 @@ import java.io.*
 
 class CampsFragment : Fragment() {
 
-    private lateinit var viewModel: CampsViewModel
+    private val viewModel: CampsViewModel by viewModel()
     private var _binding: FragmentCampsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -50,23 +51,12 @@ class CampsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setupViewModel()
         setupBinding(inflater, container)
 
         setupRecycler()
         setupObservers()
 
         return binding.root
-    }
-
-    private fun setupViewModel() {
-        val database = ReckoningDatabase.getInstance(requireContext())
-        val repository = ReckoningRepository(database)
-        viewModel =
-            ViewModelProvider(
-                this,
-                CampsViewModelFactory(repository)
-            ).get(CampsViewModel::class.java)
     }
 
     private fun setupBinding(

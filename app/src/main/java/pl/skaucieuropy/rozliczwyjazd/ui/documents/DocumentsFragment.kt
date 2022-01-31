@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
@@ -17,7 +18,7 @@ import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
 class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
     MenuItem.OnActionExpandListener {
 
-    private lateinit var viewModel: DocumentsViewModel
+    private val viewModel: DocumentsViewModel by viewModel()
     private var _binding: FragmentDocumentsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -29,7 +30,6 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setupViewModel()
         setupBinding(inflater, container)
 
         setupRecycler()
@@ -37,16 +37,6 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
         setHasOptionsMenu(true)
 
         return binding.root
-    }
-
-    private fun setupViewModel() {
-        val database = ReckoningDatabase.getInstance(requireContext())
-        val repository = ReckoningRepository(database)
-        viewModel =
-            ViewModelProvider(
-                this,
-                DocumentsViewModelFactory(repository)
-            ).get(DocumentsViewModel::class.java)
     }
 
     private fun setupBinding(

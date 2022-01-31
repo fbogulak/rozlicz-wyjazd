@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
@@ -23,14 +24,13 @@ import java.util.*
 
 class DocumentEditFragment : Fragment() {
 
-    private lateinit var viewModel: DocumentEditViewModel
+    private val viewModel: DocumentEditViewModel by viewModel()
     private lateinit var binding: FragmentDocumentEditBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setupViewModel()
         setupBinding(inflater)
 
         setupDocument()
@@ -44,14 +44,6 @@ class DocumentEditFragment : Fragment() {
         binding.container.requestFocus()
 
         return binding.root
-    }
-
-    private fun setupViewModel() {
-        val database = ReckoningDatabase.getInstance(requireContext())
-        val repository = ReckoningRepository(database)
-        viewModel = ViewModelProvider(this, DocumentEditViewModelFactory(repository)).get(
-            DocumentEditViewModel::class.java
-        )
     }
 
     private fun setupBinding(inflater: LayoutInflater) {

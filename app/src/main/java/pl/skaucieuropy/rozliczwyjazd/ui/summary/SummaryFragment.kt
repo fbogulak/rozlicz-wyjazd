@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentSummaryBinding
@@ -13,7 +14,7 @@ import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 
 class SummaryFragment : Fragment() {
 
-    private lateinit var viewModel: SummaryViewModel
+    private val viewModel: SummaryViewModel by viewModel()
     private var _binding: FragmentSummaryBinding? = null
 
     // This property is only valid between onCreateView and
@@ -25,22 +26,11 @@ class SummaryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setupViewModel()
         setupBinding(inflater, container)
 
         setHasOptionsMenu(true)
 
         return binding.root
-    }
-
-    private fun setupViewModel() {
-        val database = ReckoningDatabase.getInstance(requireContext())
-        val repository = ReckoningRepository(database)
-        viewModel =
-            ViewModelProvider(
-                this,
-                SummaryViewModelFactory(repository)
-            ).get(SummaryViewModel::class.java)
     }
 
     private fun setupBinding(
