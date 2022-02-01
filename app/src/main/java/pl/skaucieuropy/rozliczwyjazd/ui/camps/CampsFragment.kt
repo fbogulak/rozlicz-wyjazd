@@ -9,26 +9,21 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
-import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
 import java.io.*
 
-class CampsFragment : Fragment() {
+class CampsFragment : BaseFragment() {
 
-    private val viewModel: CampsViewModel by viewModel()
+    override val viewModel: CampsViewModel by viewModel()
     private var _binding: FragmentCampsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -72,7 +67,7 @@ class CampsFragment : Fragment() {
         binding.campsRecycler.adapter =
             CampsListAdapter(CampsListAdapter.CampListener { camp ->
                 camp.id.value?.let {
-                    navToCampEdit(
+                    viewModel.navigateToCampEdit(
                         it,
                         getString(R.string.edit_camp_title)
                     )
@@ -117,25 +112,6 @@ class CampsFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.navigateToCampEdit.observe(viewLifecycleOwner) { navigate ->
-            navigate?.let {
-                if (navigate) {
-                    navToCampEdit(0, getString(R.string.add_camp_title))
-                    viewModel.navigateToCampEditCompleted()
-                }
-            }
-        }
-        viewModel.showToast.observe(viewLifecycleOwner) {
-            it?.content?.let { content ->
-                val message = when (content) {
-                    is String -> content
-                    is Int -> getString(content)
-                    else -> return@let
-                }
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                viewModel.showToastCompleted()
-            }
-        }
         viewModel.createExportFile.observe(viewLifecycleOwner) {
             it?.let {
                 createFile(it.name)
@@ -146,14 +122,6 @@ class CampsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun navToCampEdit(campId: Long, destinationLabel: String) {
-        findNavController().navigate(
-            CampsFragmentDirections.actionCampsFragmentToCampEditFragment(
-                campId, destinationLabel
-            )
-        )
     }
 
     private fun createFile(fileName: String) {

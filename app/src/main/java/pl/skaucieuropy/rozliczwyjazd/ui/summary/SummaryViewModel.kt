@@ -1,15 +1,15 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.summary
 
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import org.threeten.bp.temporal.ChronoUnit
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 import pl.skaucieuropy.rozliczwyjazd.utils.combineWith
 
-class SummaryViewModel(private val repository: ReckoningRepository) : ViewModel() {
+class SummaryViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
     val camp = repository.activeCamp
 

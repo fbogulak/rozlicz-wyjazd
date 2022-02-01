@@ -1,25 +1,25 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documents
 
-import androidx.lifecycle.*
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
+import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
+import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
 
-class DocumentsViewModel(private val repository: ReckoningRepository) : ViewModel() {
+class DocumentsViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
     val searchQuery = MutableLiveData("")
-    val documents = searchQuery.switchMap {
-       repository.getActiveDocuments(it)
+    val documents = searchQuery.switchMap<String, List<Document>> {
+        repository.getActiveDocuments(it)
     }
     var isSearching = false
 
-    private val _navigateToDocumentEdit = MutableLiveData<Boolean?>()
-    val navigateToDocumentEdit: LiveData<Boolean?>
-        get() = _navigateToDocumentEdit
-
-    fun navigateToDocumentEdit() {
-        _navigateToDocumentEdit.value = true
-    }
-
-    fun navigateToDocumentEditCompleted() {
-        _navigateToDocumentEdit.value = null
+    fun navigateToDocumentEdit(documentId: Long, destinationLabel: String) {
+        navigationCommand.value = NavigationCommand.To(
+            DocumentsFragmentDirections.actionDocumentsFragmentToDocumentEditFragment(
+                documentId, destinationLabel
+            )
+        )
     }
 }

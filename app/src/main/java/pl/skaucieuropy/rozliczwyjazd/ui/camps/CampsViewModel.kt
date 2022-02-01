@@ -2,56 +2,28 @@ package pl.skaucieuropy.rozliczwyjazd.ui.camps
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.FileData
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
-import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
+import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
+import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
 import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotes
 import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotesOrEmpty
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() {
+class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
     val camps = repository.allCamps
-
-    private val _navigateToCampEdit = MutableLiveData<Boolean?>()
-    val navigateToCampEdit: LiveData<Boolean?>
-        get() = _navigateToCampEdit
-
-    private val _showToast = MutableLiveData<ToastMessage<*>?>()
-    val showToast: LiveData<ToastMessage<*>?>
-        get() = _showToast
 
     private val _createExportFile = MutableLiveData<FileData?>()
     val createExportFile: LiveData<FileData?>
         get() = _createExportFile
-
-    fun navigateToCampEdit() {
-        _navigateToCampEdit.value = true
-    }
-
-    fun navigateToCampEditCompleted() {
-        _navigateToCampEdit.value = null
-    }
-
-    private fun showToast(message: String) {
-        _showToast.value = ToastMessage.from(message)
-    }
-
-    private fun showToast(messageResId: Int) {
-        _showToast.value = ToastMessage.from(messageResId)
-    }
-
-    fun showToastCompleted() {
-        _showToast.value = null
-    }
 
     private fun createExportFile(fileData: FileData?) {
         _createExportFile.value = fileData
@@ -134,5 +106,13 @@ class CampsViewModel(private val repository: ReckoningRepository) : ViewModel() 
                 createExportFile(FileData(fileName, stringBuilder.toString()))
             }
         }
+    }
+
+    fun navigateToCampEdit(campId: Long, destinationLabel: String) {
+        navigationCommand.value = NavigationCommand.To(
+            CampsFragmentDirections.actionCampsFragmentToCampEditFragment(
+                campId, destinationLabel
+            )
+        )
     }
 }

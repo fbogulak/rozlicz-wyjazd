@@ -29,15 +29,15 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_camp"
-            android:onClick="@{() -> viewModel.navigateToCampEdit()}"
+            android:onClick="@{() -> viewModel.navigateToCampEdit(0, @string/add_camp_title)}"
             app:srcCompat="@drawable/ic_add" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:indeterminate="true"
+            android:visibility="gone" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

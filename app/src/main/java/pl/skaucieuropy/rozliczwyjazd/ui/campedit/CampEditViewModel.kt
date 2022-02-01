@@ -2,15 +2,16 @@ package pl.skaucieuropy.rozliczwyjazd.ui.campedit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
-import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
+import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
 
-class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
+class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
     val camp = MutableLiveData(Camp.empty())
     var originalCamp = Camp.empty()
@@ -20,40 +21,12 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
     val setupDatePicker: LiveData<Boolean?>
         get() = _setupDatePicker
 
-    private val _navigateToCamps = MutableLiveData<Boolean?>()
-    val navigateToCamps: LiveData<Boolean?>
-        get() = _navigateToCamps
-
-    private val _showToast = MutableLiveData<ToastMessage<*>?>()
-    val showToast: LiveData<ToastMessage<*>?>
-        get() = _showToast
-
     fun setupDatePicker() {
         _setupDatePicker.value = true
     }
 
     fun setupDatePickerCompleted() {
         _setupDatePicker.value = null
-    }
-
-    fun navigateToCamps() {
-        _navigateToCamps.value = true
-    }
-
-    fun navigateToCampsCompleted() {
-        _navigateToCamps.value = null
-    }
-
-    private fun showToast(message: String) {
-        _showToast.value = ToastMessage.from(message)
-    }
-
-    private fun showToast(messageResId: Int) {
-        _showToast.value = ToastMessage.from(messageResId)
-    }
-
-    fun showToastCompleted() {
-        _showToast.value = null
     }
 
     fun getCampFromDb() {
@@ -119,5 +92,11 @@ class CampEditViewModel(private val repository: ReckoningRepository) : ViewModel
         } else {
             showToast(R.string.error_deleting_camp)
         }
+    }
+
+    fun navigateToCamps() {
+        hideKeyboard.call()
+        navigationCommand.value =
+            NavigationCommand.To(CampEditFragmentDirections.actionCampEditFragmentToCampsFragment())
     }
 }

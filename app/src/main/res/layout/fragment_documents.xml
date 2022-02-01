@@ -29,7 +29,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_document"
-            android:onClick="@{() -> viewModel.navigateToDocumentEdit()}"
+            android:onClick="@{() -> viewModel.navigateToDocumentEdit(0, @string/add_document_title)}"
             app:srcCompat="@drawable/ic_add" />
 
         <TextView

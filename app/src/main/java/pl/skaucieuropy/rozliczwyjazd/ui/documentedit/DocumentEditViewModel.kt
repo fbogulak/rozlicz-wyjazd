@@ -1,14 +1,18 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
 import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
-import pl.skaucieuropy.rozliczwyjazd.utils.ToastMessage
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
+import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
 
-class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewModel() {
+class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
     val document = MutableLiveData(Document.empty())
     var originalDocument = Document.empty()
@@ -19,40 +23,12 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
     val setupDatePicker: LiveData<Boolean?>
         get() = _setupDatePicker
 
-    private val _navigateToDocuments = MutableLiveData<Boolean?>()
-    val navigateToDocuments: LiveData<Boolean?>
-        get() = _navigateToDocuments
-
-    private val _showToast = MutableLiveData<ToastMessage<*>?>()
-    val showToast: LiveData<ToastMessage<*>?>
-        get() = _showToast
-
     fun setupDatePicker() {
         _setupDatePicker.value = true
     }
 
     fun setupDatePickerCompleted() {
         _setupDatePicker.value = null
-    }
-
-    fun navigateToDocuments() {
-        _navigateToDocuments.value = true
-    }
-
-    fun navigateToDocumentsCompleted() {
-        _navigateToDocuments.value = null
-    }
-
-    private fun showToast(message: String) {
-        _showToast.value = ToastMessage.from(message)
-    }
-
-    private fun showToast(messageResId: Int) {
-        _showToast.value = ToastMessage.from(messageResId)
-    }
-
-    fun showToastCompleted() {
-        _showToast.value = null
     }
 
     fun getDocumentFromDb() {
@@ -121,5 +97,11 @@ class DocumentEditViewModel(private val repository: ReckoningRepository) : ViewM
         } else {
             showToast(R.string.error_deleting_document)
         }
+    }
+
+    fun navigateToDocuments() {
+        hideKeyboard.call()
+        navigationCommand.value =
+            NavigationCommand.To(DocumentEditFragmentDirections.actionDocumentEditFragmentToDocumentsFragment())
     }
 }

@@ -1,31 +1,25 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.campedit
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.util.Pair
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
-import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampEditBinding
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
-import pl.skaucieuropy.rozliczwyjazd.utils.hideKeyboard
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.util.*
 
-class CampEditFragment : Fragment() {
+class CampEditFragment : BaseFragment() {
 
-    private val viewModel: CampEditViewModel by viewModel()
+    override val viewModel: CampEditViewModel by viewModel()
     private lateinit var binding: FragmentCampEditBinding
 
     override fun onCreateView(
@@ -104,14 +98,6 @@ class CampEditFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.navigateToCamps.observe(viewLifecycleOwner) { navigate ->
-            navigate?.let {
-                if (navigate) {
-                    navToCamps()
-                    viewModel.navigateToCampsCompleted()
-                }
-            }
-        }
         viewModel.setupDatePicker.observe(viewLifecycleOwner) { setup ->
             setup?.let {
                 if (setup) {
@@ -120,22 +106,6 @@ class CampEditFragment : Fragment() {
                 }
             }
         }
-        viewModel.showToast.observe(viewLifecycleOwner) {
-            it?.content?.let { content ->
-                val message = when (content) {
-                    is String -> content
-                    is Int -> getString(content)
-                    else -> return@let
-                }
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                viewModel.showToastCompleted()
-            }
-        }
-    }
-
-    private fun navToCamps() {
-        hideKeyboard()
-        findNavController().navigate(CampEditFragmentDirections.actionCampEditFragmentToCampsFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -166,7 +136,7 @@ class CampEditFragment : Fragment() {
                     getString(R.string.changes_discarded),
                     Toast.LENGTH_SHORT
                 ).show()
-                navToCamps()
+                viewModel.navigateToCamps()
             }
         }
         return super.onOptionsItemSelected(item)

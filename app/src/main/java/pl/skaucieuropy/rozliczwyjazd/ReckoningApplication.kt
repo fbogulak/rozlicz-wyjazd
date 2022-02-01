@@ -7,6 +7,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
+import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.about.AboutViewModel
 import pl.skaucieuropy.rozliczwyjazd.ui.campedit.CampEditViewModel
@@ -22,7 +23,7 @@ class ReckoningApplication : Application() {
 
         val appModule = module {
             single { ReckoningDatabase.getInstance(this@ReckoningApplication) }
-            single { ReckoningRepository(get()) }
+            single { ReckoningRepository(get()) as BaseRepository }
             viewModel { AboutViewModel() }
             viewModel { CampEditViewModel(get()) }
             viewModel { CampsViewModel(get()) }

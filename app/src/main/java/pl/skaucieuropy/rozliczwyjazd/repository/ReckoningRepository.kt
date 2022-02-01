@@ -8,17 +8,17 @@ import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.Document
 
-class ReckoningRepository(private val database: ReckoningDatabase) {
+class ReckoningRepository(private val database: ReckoningDatabase) : BaseRepository {
 
-    val allCamps by lazy { database.campDao.getAllCamps() }
-    val activeCamp by lazy { database.campDao.getActiveCamp() }
-    val activeCampExpenses by lazy { database.campDao.getActiveCampExpenses() }
+    override val allCamps by lazy { database.campDao.getAllCamps() }
+    override val activeCamp by lazy { database.campDao.getActiveCamp() }
+    override val activeCampExpenses by lazy { database.campDao.getActiveCampExpenses() }
 
-    suspend fun getDocumentById(id: Long): Document = withContext(Dispatchers.IO) {
+    override suspend fun getDocumentById(id: Long): Document = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getDocument(id)
     }
 
-    suspend fun insertDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun insertDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val newId = database.documentDao.insert(document)
             if (newId > 0) {
@@ -30,7 +30,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun updateDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun updateDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val rowsUpdated = database.documentDao.update(document)
             if (rowsUpdated > 0) {
@@ -42,11 +42,11 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun getActiveCampId(): Long = withContext(Dispatchers.IO) {
+    override suspend fun getActiveCampId(): Long = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getActiveCampId()
     }
 
-    suspend fun deleteDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun deleteDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val rowsDeleted = database.documentDao.delete(document)
             if (rowsDeleted > 0) {
@@ -58,11 +58,11 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun getDocumentsByCampId(campId: Long): List<Document> = withContext(Dispatchers.IO) {
+    override suspend fun getDocumentsByCampId(campId: Long): List<Document> = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getDocumentsByCampId(campId)
     }
 
-    fun getActiveDocuments(query: String?): LiveData<List<Document>> {
+    override fun getActiveDocuments(query: String?): LiveData<List<Document>> {
         return if (query.isNullOrEmpty()) {
             database.documentDao.getActiveDocuments()
         } else {
@@ -71,11 +71,11 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {
+    override suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getCamp(id)
     }
 
-    suspend fun insertCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun insertCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val newId = database.campDao.insert(camp)
             if (newId <= 0) {
@@ -95,7 +95,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun updateCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun updateCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val rowsUpdated = database.campDao.update(camp)
             if (rowsUpdated > 0) {
@@ -107,7 +107,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun deleteCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun deleteCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val campId = camp.id.value
             if (campId == null || campId <= 0) {
@@ -132,7 +132,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) {
         }
     }
 
-    suspend fun changeActiveCamp(campId: Long): Result<Int> = withContext(Dispatchers.IO) {
+    override suspend fun changeActiveCamp(campId: Long): Result<Int> = withContext(Dispatchers.IO) {
         try {
             var rowsUpdated = database.campDao.resetIsActive()
             if (rowsUpdated <= 0) {

@@ -1,8 +1,8 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.about
 
-import androidx.lifecycle.ViewModel
 import pl.skaucieuropy.rozliczwyjazd.BuildConfig
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 
-class AboutViewModel : ViewModel() {
+class AboutViewModel : BaseViewModel() {
     val versionName = BuildConfig.VERSION_NAME
 }

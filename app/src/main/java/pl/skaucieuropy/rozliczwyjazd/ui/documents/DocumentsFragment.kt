@@ -3,22 +3,18 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
-import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentsBinding
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter.DocumentsListAdapter
 
 
-class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
+class DocumentsFragment : BaseFragment(), SearchView.OnQueryTextListener,
     MenuItem.OnActionExpandListener {
 
-    private val viewModel: DocumentsViewModel by viewModel()
+    override val viewModel: DocumentsViewModel by viewModel()
     private var _binding: FragmentDocumentsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -52,7 +48,7 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
         binding.documentsRecycler.adapter =
             DocumentsListAdapter(DocumentsListAdapter.DocumentListener { document ->
                 document.id.value?.let {
-                    navToDocumentEdit(
+                    viewModel.navigateToDocumentEdit(
                         it,
                         getString(R.string.edit_document_title)
                     )
@@ -73,14 +69,6 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
     }
 
     private fun setupObservers() {
-        viewModel.navigateToDocumentEdit.observe(viewLifecycleOwner) { navigate ->
-            navigate?.let {
-                if (navigate) {
-                    navToDocumentEdit(0, getString(R.string.add_document_title))
-                    viewModel.navigateToDocumentEditCompleted()
-                }
-            }
-        }
         viewModel.documents.observe(viewLifecycleOwner) {
             it?.let {
                 if (it.isEmpty()) {
@@ -105,14 +93,6 @@ class DocumentsFragment : Fragment(), SearchView.OnQueryTextListener,
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun navToDocumentEdit(documentId: Long, destinationLabel: String) {
-        findNavController().navigate(
-            DocumentsFragmentDirections.actionDocumentsFragmentToDocumentEditFragment(
-                documentId, destinationLabel
-            )
-        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

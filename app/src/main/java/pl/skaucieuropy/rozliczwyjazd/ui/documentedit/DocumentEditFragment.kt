@@ -5,26 +5,21 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
-import pl.skaucieuropy.rozliczwyjazd.database.ReckoningDatabase
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
-import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
+import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.documentedit.adapter.NoFilterArrayAdapter
 import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
-import pl.skaucieuropy.rozliczwyjazd.utils.hideKeyboard
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.util.*
 
-class DocumentEditFragment : Fragment() {
+class DocumentEditFragment : BaseFragment() {
 
-    private val viewModel: DocumentEditViewModel by viewModel()
+    override val viewModel: DocumentEditViewModel by viewModel()
     private lateinit var binding: FragmentDocumentEditBinding
 
     override fun onCreateView(
@@ -122,14 +117,6 @@ class DocumentEditFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.navigateToDocuments.observe(viewLifecycleOwner) { navigate ->
-            navigate?.let {
-                if (navigate) {
-                    navToDocuments()
-                    viewModel.navigateToDocumentsCompleted()
-                }
-            }
-        }
         viewModel.document.observe(viewLifecycleOwner) {
             it?.let {
                 if (it != viewModel.originalDocument) {
@@ -143,17 +130,6 @@ class DocumentEditFragment : Fragment() {
                     setupDatePicker()
                     viewModel.setupDatePickerCompleted()
                 }
-            }
-        }
-        viewModel.showToast.observe(viewLifecycleOwner) {
-            it?.content?.let { content ->
-                val message = when (content) {
-                    is String -> content
-                    is Int -> getString(content)
-                    else -> return@let
-                }
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                viewModel.showToastCompleted()
             }
         }
     }
@@ -173,11 +149,6 @@ class DocumentEditFragment : Fragment() {
                 dialog?.dismiss()
             }
             .show()
-    }
-
-    private fun navToDocuments() {
-        hideKeyboard()
-        findNavController().navigate(DocumentEditFragmentDirections.actionDocumentEditFragmentToDocumentsFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -208,7 +179,7 @@ class DocumentEditFragment : Fragment() {
                     getString(R.string.changes_discarded),
                     Toast.LENGTH_SHORT
                 ).show()
-                navToDocuments()
+                viewModel.navigateToDocuments()
             }
         }
         return super.onOptionsItemSelected(item)
