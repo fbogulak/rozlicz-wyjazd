@@ -10,8 +10,8 @@
     <string name="comment">Uwagi</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
-    <string name="from_troop_account">Z konta hufca:</string>
-    <string name="from_travel_voucher">Z bonu turystycznego:</string>
+    <string name="from_troop_account">Płacone bezpośrednio z konta hufca:</string>
+    <string name="from_travel_voucher">Pokryte z bonu turystycznego:</string>
     <string name="document_type">Typ dokumentu</string>
     <string name="category">Kategoria</string>
     <string name="save_changes">Zapisz zmiany</string>
