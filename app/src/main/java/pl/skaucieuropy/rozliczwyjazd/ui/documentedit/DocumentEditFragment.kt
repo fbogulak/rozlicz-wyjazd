@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -95,10 +97,15 @@ class DocumentEditFragment : BaseFragment() {
     }
 
     private fun setupDatePicker() {
+        val constraintsBuilder =
+            CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointBackward.now())
+
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.buy_date))
                 .setSelection(viewModel.document.value?.date?.value?.time)
+                .setCalendarConstraints(constraintsBuilder.build())
                 .build()
 
         datePicker.addOnPositiveButtonClickListener {
