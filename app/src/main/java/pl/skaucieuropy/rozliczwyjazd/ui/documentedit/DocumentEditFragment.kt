@@ -103,7 +103,7 @@ class DocumentEditFragment : BaseFragment() {
 
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTitleText(getString(R.string.buy_date))
+                .setTitleText(getString(R.string.document_date))
                 .setSelection(viewModel.document.value?.date?.value?.time)
                 .setCalendarConstraints(constraintsBuilder.build())
                 .build()
