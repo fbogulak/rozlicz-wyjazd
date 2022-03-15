@@ -9,7 +9,6 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
 import java.text.SimpleDateFormat
 import java.util.*

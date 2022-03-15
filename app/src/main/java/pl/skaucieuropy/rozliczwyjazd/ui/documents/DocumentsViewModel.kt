@@ -2,7 +2,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand

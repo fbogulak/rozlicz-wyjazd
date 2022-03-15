@@ -1,52 +1,63 @@
 package pl.skaucieuropy.rozliczwyjazd.ui.summary
 
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import org.threeten.bp.temporal.ChronoUnit
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
-import pl.skaucieuropy.rozliczwyjazd.utils.combineWith
 
 class SummaryViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
-    val camp = repository.activeCamp
+    private var _camp: Camp? = null
+    val camp: Camp?
+        get() = _camp
 
-    val remainingMoney = camp.combineWith(repository.activeCampExpenses) { camp, campExpenses ->
-        val budget = camp?.budget?.value ?: 0.0
-        val expenses = campExpenses ?: 0.0
-        budget - expenses
-    }
+    private var _remainingMoney = 0.0
+    val remainingMoney: Double
+        get() = _remainingMoney
 
-    private val remainingDays = Transformations.map(camp) {
-        val startDateMillis = it?.startDate?.value?.time
-        val endDateMillis = it?.endDate?.value?.time
+    private var _remainingDaysString = ""
+    val remainingDaysString: String
+        get() = _remainingDaysString
 
-        if (startDateMillis != null && endDateMillis != null) {
+    private var _moneyPerDay = 0.0
+    val moneyPerDay: Double
+        get() = _moneyPerDay
+
+    init {
+        viewModelScope.launch {
+            val camp = repository.getActiveCamp()
+            _camp = camp
+
+            val campExpenses = repository.getActiveCampExpenses()
+            val remainingMoney = camp.budget - campExpenses
+            _remainingMoney = remainingMoney
+
+            val startDateMillis = camp.startDate.time
+            val endDateMillis = camp.endDate.time
             val startDate =
                 Instant.ofEpochMilli(startDateMillis).atZone(ZoneId.systemDefault()).toLocalDate()
             val endDate =
                 Instant.ofEpochMilli(endDateMillis).atZone(ZoneId.systemDefault()).toLocalDate()
             val today = LocalDate.now()
-            when {
-                today.isBefore(startDate) -> ChronoUnit.DAYS.between(startDate, endDate) + 1
-                today.isBefore(endDate) -> ChronoUnit.DAYS.between(today, endDate) + 1
-                today.isEqual(endDate) -> 1
-                else -> 0
+            val remainingDays =
+                when {
+                    today.isBefore(startDate) -> ChronoUnit.DAYS.between(startDate, endDate) + 1
+                    today.isBefore(endDate) -> ChronoUnit.DAYS.between(today, endDate) + 1
+                    today.isEqual(endDate) -> 1
+                    else -> 0
+                }
+            _remainingDaysString = remainingDays.toString()
+
+            _moneyPerDay = if (remainingMoney <= 0.0 || remainingDays == 0L) {
+                0.0
+            } else {
+                remainingMoney / remainingDays
             }
-        } else 0
-    }
-
-    val remainingDaysString = Transformations.map(remainingDays) {
-        it.toString()
-    }
-
-    val moneyPerDay = remainingMoney.combineWith(remainingDays) { money, days ->
-        if (money == null || money <= 0.0 || days == null || days == 0L) {
-            0.0
-        } else {
-            money / days
         }
     }
 }

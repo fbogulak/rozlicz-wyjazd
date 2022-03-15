@@ -1,17 +1,20 @@
 package pl.skaucieuropy.rozliczwyjazd.database
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import pl.skaucieuropy.rozliczwyjazd.R
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.models.Document
-import java.util.*
+import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
+import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.domain.asDatabaseModel
 import java.util.concurrent.Executors
 
-@Database(entities = [Document::class, Camp::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(
+    entities = [DatabaseDocument::class, DatabaseCamp::class],
+    version = 2
+)
 abstract class ReckoningDatabase : RoomDatabase() {
 
     abstract val documentDao: DocumentDao
@@ -35,10 +38,11 @@ abstract class ReckoningDatabase : RoomDatabase() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
                                 Executors.newSingleThreadExecutor().execute {
-                                    instance?.campDao?.insert(Camp.default())
+                                    instance?.campDao?.insert(Camp.default().asDatabaseModel())
                                 }
                             }
                         })
+                        .fallbackToDestructiveMigration()
                         .build()
 
                     INSTANCE = instance

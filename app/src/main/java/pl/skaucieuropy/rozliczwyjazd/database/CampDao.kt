@@ -2,32 +2,31 @@ package pl.skaucieuropy.rozliczwyjazd.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
 
 @Dao
 interface CampDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(camp: Camp): Long
+    fun insert(camp: DatabaseCamp): Long
 
     @Update
-    fun update(camp: Camp): Int
+    fun update(camp: DatabaseCamp): Int
 
     @Query("SELECT * FROM camp_table WHERE id = :id")
-    fun getCamp(id: Long): Camp
+    fun getCamp(id: Long): DatabaseCamp
 
     @Query("SELECT * FROM camp_table WHERE isActive = 1")
-    fun getActiveCamp(): LiveData<Camp>
+    fun getActiveCamp(): DatabaseCamp
 
     @Query("SELECT id FROM camp_table WHERE isActive = 1")
     fun getActiveCampId(): Long
 
-    @Query("SELECT * FROM camp_table ORDER BY startDate DESC")
-    fun getAllCamps(): LiveData<List<Camp>>
+    @Query("SELECT * FROM camp_table ORDER BY startDateMillis DESC")
+    fun getAllCamps(): LiveData<List<DatabaseCamp>>
 
     @Delete
-    fun delete(camp: Camp): Int
+    fun delete(camp: DatabaseCamp): Int
 
     @Query("UPDATE camp_table SET isActive = 0 WHERE isActive = 1")
     fun resetIsActive(): Int
@@ -38,9 +37,9 @@ interface CampDao {
     @Query("SELECT COUNT(id) FROM camp_table")
     fun getCampsCount(): Long
 
-    @Query("UPDATE camp_table SET isActive = 1 WHERE id = (SELECT id FROM camp_table ORDER BY startDate DESC LIMIT 1)")
+    @Query("UPDATE camp_table SET isActive = 1 WHERE id = (SELECT id FROM camp_table ORDER BY startDateMillis DESC LIMIT 1)")
     fun setFirstCampActive(): Int
 
     @Query("SELECT SUM(amount) FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1)")
-    fun getActiveCampExpenses(): LiveData<Double>
+    fun getActiveCampExpenses(): Double
 }

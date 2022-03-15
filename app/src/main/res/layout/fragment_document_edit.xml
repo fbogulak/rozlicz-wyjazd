@@ -40,7 +40,7 @@
                         android:id="@+id/travel_voucher_yes_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={viewModel.document.isFromTravelVoucher()}"
+                        android:checked="@={viewModel.isFromTravelVoucher}"
                         android:text="@string/yes"
                         android:textSize="16sp" />
 
@@ -48,7 +48,7 @@
                         android:id="@+id/travel_voucher_no_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={!viewModel.document.isFromTravelVoucher()}"
+                        android:checked="@={!viewModel.isFromTravelVoucher}"
                         android:text="@string/no"
                         android:textSize="16sp" />
                 </RadioGroup>
@@ -240,7 +240,7 @@
                         android:id="@+id/troop_account_yes_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={viewModel.document.isFromTroopAccount}"
+                        android:checked="@={viewModel.isFromTroopAccount}"
                         android:text="@string/yes"
                         android:textSize="16sp" />
 
@@ -248,7 +248,7 @@
                         android:id="@+id/troop_account_no_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={!viewModel.document.isFromTroopAccount}"
+                        android:checked="@={!viewModel.isFromTroopAccount}"
                         android:text="@string/no"
                         android:textSize="16sp" />
                 </RadioGroup>

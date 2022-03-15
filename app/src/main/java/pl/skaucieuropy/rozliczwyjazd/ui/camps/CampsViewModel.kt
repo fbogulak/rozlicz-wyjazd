@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.models.FileData
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.domain.FileData
 import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
@@ -19,7 +19,15 @@ import java.util.*
 
 class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
-    val camps = repository.allCamps
+    private var _camps: LiveData<List<Camp>>? = null
+    val camps: LiveData<List<Camp>>?
+        get() = _camps
+
+    init {
+        viewModelScope.launch {
+            _camps = repository.getAllCamps()
+        }
+    }
 
     private val _createExportFile = MutableLiveData<FileData?>()
     val createExportFile: LiveData<FileData?>
@@ -60,7 +68,7 @@ class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
     }
 
     fun exportToCsv(camp: Camp?) {
-        camp?.id?.value?.let {
+        camp?.id?.let {
             viewModelScope.launch {
                 val documents = repository.getDocumentsByCampId(it)
                 val stringBuilder = StringBuilder().append("SEP=,\n")
@@ -68,30 +76,24 @@ class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
                 val decimalFormat = DecimalFormat("0.00")
 
                 val documentData = mutableListOf<String>()
-                var type: String
                 var date: String
 
                 for (document in documents) {
-                    date = document.date.value?.let { dateFormat.format(it) } ?: ""
+                    date = dateFormat.format(document.date)
                     documentData.add(date)
 
-                    type = document.type.value ?: ""
                     documentData.add(
-                        if (type == STATEMENT)
-                            "$type z dnia $date"
+                        if (document.type == STATEMENT)
+                            "$document.type z dnia $date"
                         else
-                            (document.type.value + " nr " + document.number.value).inDoubleQuotesOrEmpty()
+                            (document.type + " nr " + document.number).inDoubleQuotesOrEmpty()
                     )
 
-                    documentData.add(document.category.value.inDoubleQuotesOrEmpty())
-                    documentData.add(document.isFromTroopAccount.value?.let { if (it) "TAK" else "NIE" }
-                        ?: "")
-                    documentData.add(document.amount.value?.let {
-                        decimalFormat.format(it).inDoubleQuotes()
-                    } ?: "")
-                    documentData.add(document.isFromTravelVoucher.value?.let { if (it) "TAK" else "NIE" }
-                        ?: "")
-                    documentData.add(document.comment.value.inDoubleQuotesOrEmpty())
+                    documentData.add(document.category.inDoubleQuotesOrEmpty())
+                    documentData.add(if (document.isFromTroopAccount) "TAK" else "NIE")
+                    documentData.add(decimalFormat.format(document.amount).inDoubleQuotes())
+                    documentData.add(if (document.isFromTravelVoucher) "TAK" else "NIE")
+                    documentData.add(document.comment.inDoubleQuotesOrEmpty())
 
                     for (value in documentData) {
                         stringBuilder.append(value).append(",")
@@ -102,7 +104,7 @@ class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
                 }
                 val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH_mm_ss", Locale.getDefault())
                 val fileName =
-                    (camp.name.value ?: "") + " " + dateTimeFormat.format(Date()) + ".csv"
+                    camp.name + " " + dateTimeFormat.format(Date()) + ".csv"
                 createExportFile(FileData(fileName, stringBuilder.toString()))
             }
         }
