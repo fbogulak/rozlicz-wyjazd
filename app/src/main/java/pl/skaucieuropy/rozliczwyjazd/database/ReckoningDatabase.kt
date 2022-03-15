@@ -1,16 +1,16 @@
 package pl.skaucieuropy.rozliczwyjazd.database
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.models.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.Document
-import java.util.*
 import java.util.concurrent.Executors
 
-@Database(entities = [Document::class, Camp::class], version = 1, exportSchema = false)
+@Database(entities = [Document::class, Camp::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class ReckoningDatabase : RoomDatabase() {
 
