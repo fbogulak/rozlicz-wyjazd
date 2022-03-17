@@ -40,7 +40,7 @@
                         android:id="@+id/travel_voucher_yes_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={viewModel.document.isFromTravelVoucher()}"
+                        android:checked="@={viewModel.documentIsFromTravelVoucher}"
                         android:text="@string/yes"
                         android:textSize="16sp" />
 
@@ -48,7 +48,7 @@
                         android:id="@+id/travel_voucher_no_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={!viewModel.document.isFromTravelVoucher()}"
+                        android:checked="@={!viewModel.documentIsFromTravelVoucher}"
                         android:text="@string/no"
                         android:textSize="16sp" />
                 </RadioGroup>
@@ -73,7 +73,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:hint="@string/category"
-                    app:category="@{viewModel.document.category}"
+                    app:category="@{viewModel.documentCategory}"
                     app:layout_constraintEnd_toStartOf="@+id/info_button"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/amount_text_field">
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:maxLines="1"
-                        android:text="@={viewModel.document.category}" />
+                        android:text="@={viewModel.documentCategory}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:maxLines="1"
-                        android:text="@={viewModel.document.type}" />
+                        android:text="@={viewModel.documentType}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +135,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/type_text_field"
-                    app:visibilityByType="@{viewModel.document.type}">
+                    app:visibilityByType="@{viewModel.documentType}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/number_edit"
@@ -144,7 +144,7 @@
                         android:inputType="textCapCharacters"
                         android:maxLines="1"
                         android:nextFocusDown="@id/amount_edit"
-                        android:text="@={viewModel.document.number}" />
+                        android:text="@={viewModel.documentNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:maxLines="1"
-                        app:date="@{viewModel.document.date}" />
+                        app:date="@{viewModel.documentDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -194,7 +194,7 @@
                         android:inputType="numberDecimal"
                         android:maxLines="1"
                         android:nextFocusDown="@id/comment_edit"
-                        app:amount="@={viewModel.document.amount}" />
+                        app:amount="@={viewModel.documentAmount}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -218,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
                         android:nextFocusDown="@id/number_edit"
-                        android:text="@={viewModel.document.comment}" />
+                        android:text="@={viewModel.documentComment}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -240,7 +240,7 @@
                         android:id="@+id/troop_account_yes_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={viewModel.document.isFromTroopAccount}"
+                        android:checked="@={viewModel.documentIsFromTroopAccount}"
                         android:text="@string/yes"
                         android:textSize="16sp" />
 
@@ -248,7 +248,7 @@
                         android:id="@+id/troop_account_no_radio_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="@={!viewModel.document.isFromTroopAccount}"
+                        android:checked="@={!viewModel.documentIsFromTroopAccount}"
                         android:text="@string/no"
                         android:textSize="16sp" />
                 </RadioGroup>

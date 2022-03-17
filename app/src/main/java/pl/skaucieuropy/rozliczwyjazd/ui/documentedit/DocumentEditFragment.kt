@@ -51,10 +51,10 @@ class DocumentEditFragment : BaseFragment() {
 
     private fun setupDocument() {
         val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
-        viewModel.document.value?.id?.value = documentId
+        viewModel.document.id.value = documentId
         if (documentId == 0L) {
             viewModel.setupDatePicker()
-            if (!viewModel.documentHasChanged) {
+            if (hasNotDefaultStringValues()) {
                 setDefaultStringValues()
             }
         } else if (!viewModel.documentHasLoadedFromDb) {
@@ -62,9 +62,12 @@ class DocumentEditFragment : BaseFragment() {
         }
     }
 
+    private fun hasNotDefaultStringValues() = viewModel.documentType.value.isNullOrEmpty() &&
+            viewModel.documentCategory.value.isNullOrEmpty()
+
     private fun setDefaultStringValues() {
-        viewModel.document.value?.type?.value = getString(R.string.vat_invoice)
-        viewModel.document.value?.category?.value = getString(R.string.groceries)
+        viewModel.documentType.value = getString(R.string.vat_invoice)
+        viewModel.documentCategory.value = getString(R.string.groceries)
     }
 
     private fun setupEdtTexts() {
@@ -104,12 +107,12 @@ class DocumentEditFragment : BaseFragment() {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.document_date))
-                .setSelection(viewModel.document.value?.date?.value?.time)
+                .setSelection(viewModel.documentDate.value?.time)
                 .setCalendarConstraints(constraintsBuilder.build())
                 .build()
 
         datePicker.addOnPositiveButtonClickListener {
-            viewModel.document.value?.date?.value = Date(it)
+            viewModel.documentDate.value = Date(it)
         }
 
         binding.dateEdit.apply {
@@ -124,13 +127,6 @@ class DocumentEditFragment : BaseFragment() {
     }
 
     private fun setupObservers() {
-        viewModel.document.observe(viewLifecycleOwner) {
-            it?.let {
-                if (it != viewModel.originalDocument) {
-                    viewModel.documentHasChanged = true
-                }
-            }
-        }
         viewModel.setupDatePicker.observe(viewLifecycleOwner) { setup ->
             setup?.let {
                 if (setup) {
@@ -165,7 +161,7 @@ class DocumentEditFragment : BaseFragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if (viewModel.document.value?.id?.value == 0L) {
+        if (viewModel.document.id.value == 0L) {
             menu.findItem(R.id.delete_document).isVisible = false
         }
     }
