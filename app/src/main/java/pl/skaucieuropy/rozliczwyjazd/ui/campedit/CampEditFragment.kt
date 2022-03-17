@@ -47,7 +47,7 @@ class CampEditFragment : BaseFragment() {
 
     private fun setupCamp() {
         val campId = CampEditFragmentArgs.fromBundle(requireArguments()).argCampId
-        viewModel.camp.value?.id?.value = campId
+        viewModel.camp.id.value = campId
         if (campId == 0L) {
             viewModel.setupDatePicker()
         } else if (!viewModel.campHasLoadedFromDb) {
@@ -74,16 +74,14 @@ class CampEditFragment : BaseFragment() {
                 .setTitleText(getString(R.string.camp_date))
                 .setSelection(
                     Pair(
-                        viewModel.camp.value?.startDate?.value?.time,
-                        viewModel.camp.value?.endDate?.value?.time
+                        viewModel.campStartDate.value?.time,
+                        viewModel.campEndDate.value?.time
                     )
                 ).build()
 
         dateRangePicker.addOnPositiveButtonClickListener {
-            viewModel.camp.value?.apply {
-                startDate.value = Date(it.first)
-                endDate.value = Date(it.second)
-            }
+            viewModel.campStartDate.value = Date(it.first)
+            viewModel.campEndDate.value = Date(it.second)
         }
 
         binding.dateEdit.apply {
@@ -115,7 +113,7 @@ class CampEditFragment : BaseFragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if (viewModel.camp.value?.id?.value == 0L) {
+        if (viewModel.camp.id.value == 0L) {
             menu.findItem(R.id.delete_camp).isVisible = false
         }
     }

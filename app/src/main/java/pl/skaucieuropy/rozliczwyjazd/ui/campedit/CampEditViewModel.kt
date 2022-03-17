@@ -10,12 +10,22 @@ import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
+import java.util.*
 
 class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
-    val camp = MutableLiveData(Camp.empty())
-    var originalCamp = Camp.empty()
-    var campHasLoadedFromDb = false
+    private var _camp = Camp.empty()
+    val camp: Camp
+        get() = _camp
+
+    private var _campHasLoadedFromDb = false
+    val campHasLoadedFromDb: Boolean
+        get() = _campHasLoadedFromDb
+
+    val campName = MutableLiveData(camp.name.value)
+    val campBudget = MutableLiveData(camp.budget.value)
+    val campStartDate = MutableLiveData(camp.startDate.value)
+    val campEndDate = MutableLiveData(camp.endDate.value)
 
     private val _setupDatePicker = MutableLiveData<Boolean?>()
     val setupDatePicker: LiveData<Boolean?>
@@ -30,68 +40,70 @@ class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel(
     }
 
     fun getCampFromDb() {
-        camp.value?.id?.value?.let {
+        camp.id.value?.let {
             viewModelScope.launch {
-                originalCamp = repository.getCampById(it)
-                camp.value = originalCamp
-                campHasLoadedFromDb = true
+                _camp = repository.getCampById(it)
+                campName.value = camp.name.value
+                campBudget.value = camp.budget.value
+                campStartDate.value = camp.startDate.value
+                campEndDate.value = camp.endDate.value
+                _campHasLoadedFromDb = true
                 setupDatePicker()
             }
         }
     }
 
     fun saveCamp() {
-        val currentCamp = camp.value
-        if (currentCamp != null) {
-            viewModelScope.launch {
-                val result = if (currentCamp.id.value == 0L) {
-                    repository.insertCamp(currentCamp)
-                } else {
-                    repository.updateCamp(currentCamp)
-                }
-                result.onSuccess {
-                    showToast(it)
-                }
-                result.onFailure {
-                    val message = it.message
-                    if (message != null) {
-                        showToast(message)
-                    } else {
-                        showToast(R.string.error_saving_camp)
-                    }
-                }
-                navigateToCamps()
+        viewModelScope.launch {
+            updateCampProperties()
+            val result = if (camp.id.value == 0L) {
+                repository.insertCamp(camp)
+            } else {
+                repository.updateCamp(camp)
             }
-        } else {
-            showToast(R.string.error_saving_camp)
+            result.onSuccess {
+                showToast(it)
+            }
+            result.onFailure {
+                val message = it.message
+                if (message != null) {
+                    showToast(message)
+                } else {
+                    showToast(R.string.error_saving_camp)
+                }
+            }
+            navigateToCamps()
         }
     }
 
     fun deleteCamp() {
-        val currentCamp = camp.value
-        if (currentCamp != null) {
-            viewModelScope.launch {
-                val result = if (currentCamp.id.value != 0L) {
-                    repository.deleteCamp(currentCamp)
-                } else {
-                    Result.failure(Throwable(ReckoningRepository.ERROR_DELETING_CAMP))
-                }
-                result.onSuccess {
-                    showToast(it)
-                }
-                result.onFailure {
-                    val message = it.message
-                    if (message != null) {
-                        showToast(message)
-                    } else {
-                        showToast(R.string.error_deleting_camp)
-                    }
-                }
-                navigateToCamps()
+        viewModelScope.launch {
+            updateCampProperties()
+            val result = if (camp.id.value != 0L) {
+                repository.deleteCamp(camp)
+            } else {
+                Result.failure(Throwable(ReckoningRepository.ERROR_DELETING_CAMP))
             }
-        } else {
-            showToast(R.string.error_deleting_camp)
+            result.onSuccess {
+                showToast(it)
+            }
+            result.onFailure {
+                val message = it.message
+                if (message != null) {
+                    showToast(message)
+                } else {
+                    showToast(R.string.error_deleting_camp)
+                }
+            }
+            navigateToCamps()
         }
+    }
+
+    private fun updateCampProperties() {
+        _camp.name.value = campName.value ?: ""
+        _camp.budget.value = campBudget.value ?: 0.0
+        _camp.startDate.value = campStartDate.value ?: Date()
+        _camp.endDate.value = campEndDate.value ?: Date()
     }
 
     fun navigateToCamps() {

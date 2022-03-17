@@ -45,7 +45,7 @@
                         android:inputType="textCapWords"
                         android:maxLines="1"
                         android:nextFocusDown="@id/budget_edit"
-                        android:text="@={viewModel.camp.name}" />
+                        android:text="@={viewModel.campName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,8 +68,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:maxLines="1"
-                        app:endDate="@{viewModel.camp.endDate}"
-                        app:startDate="@{viewModel.camp.startDate}" />
+                        app:endDate="@{viewModel.campEndDate}"
+                        app:startDate="@{viewModel.campStartDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +97,7 @@
                         android:inputType="numberDecimal"
                         android:maxLines="1"
                         android:nextFocusDown="@id/name_edit"
-                        app:budget="@={viewModel.camp.budget}" />
+                        app:budget="@={viewModel.campBudget}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
