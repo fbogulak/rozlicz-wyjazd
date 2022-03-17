@@ -1,8 +1,8 @@
 package pl.skaucieuropy.rozliczwyjazd.repository
 
 import androidx.lifecycle.LiveData
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
 
 interface BaseRepository {
     val allCamps: LiveData<List<Camp>>

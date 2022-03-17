@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.databinding.CampListItemBinding
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 
 class CampsListAdapter(private val clickListener: CampListener, private val menuListener: MenuListener) :
     ListAdapter<Camp, CampsListAdapter.CampViewHolder>(CampDiffCallback) {

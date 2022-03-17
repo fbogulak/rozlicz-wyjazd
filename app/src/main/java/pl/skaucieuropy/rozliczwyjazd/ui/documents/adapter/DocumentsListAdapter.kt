@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.databinding.DocumentListItemBinding
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
 
 class DocumentsListAdapter(private val clickListener: DocumentListener) :
     ListAdapter<Document, DocumentsListAdapter.DocumentViewHolder>(DocumentDiffCallback) {

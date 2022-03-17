@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentCampsBinding
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter.CampsListAdapter
 import java.io.*

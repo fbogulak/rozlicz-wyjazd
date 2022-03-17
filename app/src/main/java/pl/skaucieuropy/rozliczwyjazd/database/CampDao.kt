@@ -2,32 +2,31 @@ package pl.skaucieuropy.rozliczwyjazd.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
 
 @Dao
 interface CampDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(camp: Camp): Long
+    fun insert(camp: DatabaseCamp): Long
 
     @Update
-    fun update(camp: Camp): Int
+    fun update(camp: DatabaseCamp): Int
 
     @Query("SELECT * FROM camp_table WHERE id = :id")
-    fun getCamp(id: Long): Camp
+    fun getCamp(id: Long): DatabaseCamp
 
     @Query("SELECT * FROM camp_table WHERE isActive = 1")
-    fun getActiveCamp(): LiveData<Camp>
+    fun getActiveCamp(): LiveData<DatabaseCamp>
 
     @Query("SELECT id FROM camp_table WHERE isActive = 1")
     fun getActiveCampId(): Long
 
     @Query("SELECT * FROM camp_table ORDER BY startDate DESC")
-    fun getAllCamps(): LiveData<List<Camp>>
+    fun getAllCamps(): LiveData<List<DatabaseCamp>>
 
     @Delete
-    fun delete(camp: Camp): Int
+    fun delete(camp: DatabaseCamp): Int
 
     @Query("UPDATE camp_table SET isActive = 0 WHERE isActive = 1")
     fun resetIsActive(): Int

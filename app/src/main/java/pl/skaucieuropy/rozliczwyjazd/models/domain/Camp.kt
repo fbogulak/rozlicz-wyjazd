@@ -1,13 +1,10 @@
-package pl.skaucieuropy.rozliczwyjazd.models
+package pl.skaucieuropy.rozliczwyjazd.models.domain
 
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
 import java.util.*
 
-@Entity(tableName = "camp_table")
 data class Camp(
-    @PrimaryKey(autoGenerate = true)
     var id: MutableLiveData<Long>,
     var name: MutableLiveData<String>,
     var budget: MutableLiveData<Double>,
@@ -38,4 +35,15 @@ data class Camp(
             )
         }
     }
+}
+
+fun Camp.asDatabaseModel(): DatabaseCamp {
+    return DatabaseCamp(
+        id.value ?: 0,
+        name.value ?: "",
+        budget.value ?: 0.0,
+        startDate.value?.time ?: Calendar.getInstance().timeInMillis,
+        endDate.value?.time ?: Calendar.getInstance().timeInMillis,
+        isActive.value ?: false,
+    )
 }

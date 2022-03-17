@@ -1,13 +1,10 @@
-package pl.skaucieuropy.rozliczwyjazd.models
+package pl.skaucieuropy.rozliczwyjazd.models.domain
 
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
 import java.util.*
 
-@Entity(tableName = "document_table")
 data class Document(
-    @PrimaryKey(autoGenerate = true)
     var id: MutableLiveData<Long>,
     var number: MutableLiveData<String>,
     var type: MutableLiveData<String>,
@@ -35,4 +32,19 @@ data class Document(
             )
         }
     }
+}
+
+fun Document.asDatabaseModel(): DatabaseDocument {
+    return DatabaseDocument(
+        id.value ?: 0,
+        number.value ?: "",
+        type.value ?: "",
+        date.value?.time ?: Calendar.getInstance().timeInMillis,
+        category.value ?: "",
+        amount.value ?: 0.0,
+        comment.value ?: "",
+        isFromTroopAccount.value ?: false,
+        isFromTravelVoucher.value ?: false,
+        campId.value ?: 0,
+    )
 }

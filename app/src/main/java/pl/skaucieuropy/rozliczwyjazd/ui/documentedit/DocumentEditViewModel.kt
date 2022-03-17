@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
 import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel

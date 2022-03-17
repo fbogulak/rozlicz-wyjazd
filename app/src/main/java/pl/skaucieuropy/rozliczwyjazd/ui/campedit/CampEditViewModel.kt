@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.skaucieuropy.rozliczwyjazd.R
-import pl.skaucieuropy.rozliczwyjazd.models.Camp
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel

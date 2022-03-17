@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
-import pl.skaucieuropy.rozliczwyjazd.models.Document
+import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
