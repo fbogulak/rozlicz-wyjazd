@@ -19,49 +19,53 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
         return@withContext database.documentDao.getDocument(id).asDomainModel()
     }
 
-    override suspend fun insertDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
-        try {
-            val newId = database.documentDao.insert(document.asDatabaseModel())
-            if (newId > 0) {
-                return@withContext Result.success(R.string.document_added)
-            } else
-                return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
-        } catch (e: Exception) {
-            return@withContext Result.failure(e)
+    override suspend fun insertDocument(document: Document): Result<Int> =
+        withContext(Dispatchers.IO) {
+            try {
+                val newId = database.documentDao.insert(document.asDatabaseModel())
+                if (newId > 0) {
+                    return@withContext Result.success(R.string.document_added)
+                } else
+                    return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
+            } catch (e: Exception) {
+                return@withContext Result.failure(e)
+            }
         }
-    }
 
-    override suspend fun updateDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
-        try {
-            val rowsUpdated = database.documentDao.update(document.asDatabaseModel())
-            if (rowsUpdated > 0) {
-                return@withContext Result.success(R.string.changes_saved)
-            } else
-                return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
-        } catch (e: Exception) {
-            return@withContext Result.failure(e)
+    override suspend fun updateDocument(document: Document): Result<Int> =
+        withContext(Dispatchers.IO) {
+            try {
+                val rowsUpdated = database.documentDao.update(document.asDatabaseModel())
+                if (rowsUpdated > 0) {
+                    return@withContext Result.success(R.string.changes_saved)
+                } else
+                    return@withContext Result.failure(Throwable(ERROR_SAVING_DOCUMENT))
+            } catch (e: Exception) {
+                return@withContext Result.failure(e)
+            }
         }
-    }
 
     override suspend fun getActiveCampId(): Long = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getActiveCampId()
     }
 
-    override suspend fun deleteDocument(document: Document): Result<Int> = withContext(Dispatchers.IO) {
-        try {
-            val rowsDeleted = database.documentDao.delete(document.asDatabaseModel())
-            if (rowsDeleted > 0) {
-                return@withContext Result.success(R.string.document_deleted)
-            } else
-                return@withContext Result.failure(Throwable(ERROR_DELETING_DOCUMENT))
-        } catch (e: Exception) {
-            return@withContext Result.failure(e)
+    override suspend fun deleteDocument(document: Document): Result<Int> =
+        withContext(Dispatchers.IO) {
+            try {
+                val rowsDeleted = database.documentDao.delete(document.asDatabaseModel())
+                if (rowsDeleted > 0) {
+                    return@withContext Result.success(R.string.document_deleted)
+                } else
+                    return@withContext Result.failure(Throwable(ERROR_DELETING_DOCUMENT))
+            } catch (e: Exception) {
+                return@withContext Result.failure(e)
+            }
         }
-    }
 
-    override suspend fun getDocumentsByCampId(campId: Long): List<Document> = withContext(Dispatchers.IO) {
-        return@withContext database.documentDao.getDocumentsByCampId(campId).asDomainModel()
-    }
+    override suspend fun getDocumentsByCampId(campId: Long): List<Document> =
+        withContext(Dispatchers.IO) {
+            return@withContext database.documentDao.getDocumentsByCampId(campId).asDomainModel()
+        }
 
     override fun getActiveDocuments(query: String?): LiveData<List<Document>> {
         return if (query.isNullOrEmpty()) {
