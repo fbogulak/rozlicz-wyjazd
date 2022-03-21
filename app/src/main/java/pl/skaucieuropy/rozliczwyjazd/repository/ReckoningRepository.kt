@@ -76,6 +76,10 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
         return@withContext database.documentDao.getActiveCampExpenses()
     }
 
+    override suspend fun getActiveCampGroceriesExpenses(): Double = withContext(Dispatchers.IO) {
+        return@withContext database.documentDao.getActiveCampGroceriesExpenses()
+    }
+
     override suspend fun getActiveCamp(): Camp = withContext(Dispatchers.IO) {
         return@withContext database.campDao.getActiveCamp().asDomainModel()
     }

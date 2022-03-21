@@ -2,6 +2,7 @@ package pl.skaucieuropy.rozliczwyjazd.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import pl.skaucieuropy.rozliczwyjazd.constants.GROCERIES
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
 
 @Dao
@@ -33,4 +34,7 @@ interface DocumentDao {
 
     @Query("SELECT SUM(amount) FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1)")
     fun getActiveCampExpenses(): Double
+
+    @Query("SELECT SUM(amount) FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 AND d.category = '$GROCERIES'")
+    fun getActiveCampGroceriesExpenses(): Double
 }

@@ -30,6 +30,10 @@ class SummaryViewModel(private val repository: BaseRepository) : BaseViewModel()
     val moneyPerDay: LiveData<Double>
         get() = _moneyPerDay
 
+    private val _groceriesPerDay = MutableLiveData<Double>()
+    val groceriesPerDay: LiveData<Double>
+        get() = _groceriesPerDay
+
     fun calculateSummary() {
         viewModelScope.launch {
             val activeCamp = repository.getActiveCamp()
@@ -58,6 +62,19 @@ class SummaryViewModel(private val repository: BaseRepository) : BaseViewModel()
                 0.0
             } else {
                 remainingMoney / remainingDays
+            }
+
+            val daysFromStartDate = when {
+                today.isAfter(endDate) -> ChronoUnit.DAYS.between(startDate, endDate) + 1
+                today.isAfter(startDate) -> ChronoUnit.DAYS.between(startDate, today) + 1
+                today.isEqual(startDate) -> 1
+                else -> 0
+            }
+            val groceriesExpenses = repository.getActiveCampGroceriesExpenses()
+            _groceriesPerDay.value = if (daysFromStartDate == 0L) {
+                0.0
+            } else {
+                groceriesExpenses / daysFromStartDate
             }
         }
     }

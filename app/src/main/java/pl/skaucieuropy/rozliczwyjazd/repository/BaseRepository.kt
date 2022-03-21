@@ -15,6 +15,7 @@ interface BaseRepository {
     suspend fun getDocumentsByCampId(campId: Long): List<Document>
     fun getActiveDocuments(query: String?): LiveData<List<Document>>
     suspend fun getActiveCampExpenses(): Double
+    suspend fun getActiveCampGroceriesExpenses(): Double
     suspend fun getActiveCamp(): Camp
     suspend fun getCampById(id: Long): Camp
     suspend fun insertCamp(camp: Camp): Result<Int>
