@@ -47,7 +47,7 @@ class CampEditFragment : BaseFragment() {
 
     private fun setupCamp() {
         val campId = CampEditFragmentArgs.fromBundle(requireArguments()).argCampId
-        viewModel.camp.id.value = campId
+        viewModel.camp.id = campId
         if (campId == 0L) {
             viewModel.setupDatePicker()
         } else if (!viewModel.campHasLoadedFromDb) {
@@ -113,7 +113,7 @@ class CampEditFragment : BaseFragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if (viewModel.camp.id.value == 0L) {
+        if (viewModel.camp.id == 0L) {
             menu.findItem(R.id.delete_camp).isVisible = false
         }
     }

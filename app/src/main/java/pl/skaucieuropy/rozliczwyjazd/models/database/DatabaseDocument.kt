@@ -1,6 +1,5 @@
 package pl.skaucieuropy.rozliczwyjazd.models.database
 
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
@@ -24,31 +23,31 @@ data class DatabaseDocument(
 fun List<DatabaseDocument>.asDomainModel(): List<Document> {
     return map {
         Document(
-            MutableLiveData(it.id),
-            MutableLiveData(it.number),
-            MutableLiveData(it.type),
-            MutableLiveData(Date(it.date)),
-            MutableLiveData(it.category),
-            MutableLiveData(it.amount),
-            MutableLiveData(it.comment),
-            MutableLiveData(it.isFromTroopAccount),
-            MutableLiveData(it.isFromTravelVoucher),
-            MutableLiveData(it.campId)
+            it.id,
+            it.number,
+            it.type,
+            Date(it.date),
+            it.category,
+            it.amount,
+            it.comment,
+            it.isFromTroopAccount,
+            it.isFromTravelVoucher,
+            it.campId
         )
     }
 }
 
 fun DatabaseDocument.asDomainModel(): Document {
     return Document(
-        MutableLiveData(id),
-        MutableLiveData(number),
-        MutableLiveData(type),
-        MutableLiveData(Date(date)),
-        MutableLiveData(category),
-        MutableLiveData(amount),
-        MutableLiveData(comment),
-        MutableLiveData(isFromTroopAccount),
-        MutableLiveData(isFromTravelVoucher),
-        MutableLiveData(campId)
+        id,
+        number,
+        type,
+        Date(date),
+        category,
+        amount,
+        comment,
+        isFromTroopAccount,
+        isFromTravelVoucher,
+        campId
     )
 }

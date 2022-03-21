@@ -112,8 +112,8 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
 
     override suspend fun deleteCamp(camp: Camp): Result<Int> = withContext(Dispatchers.IO) {
         try {
-            val campId = camp.id.value
-            if (campId == null || campId <= 0) {
+            val campId = camp.id
+            if (campId <= 0) {
                 return@withContext Result.failure(Throwable(ERROR_DELETING_CAMP))
             }
             database.documentDao.deleteDocumentsByCampId(campId)
@@ -124,7 +124,7 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
             if (numberOfCamps == 0L) {
                 database.campDao.insert(Camp.default().asDatabaseModel())
             }
-            if (camp.isActive.value == true) {
+            if (camp.isActive) {
                 if (database.campDao.setFirstCampActive() <= 0) {
                     return@withContext Result.failure(Throwable(ERROR_NO_CAMP_SET_AS_ACTIVE))
                 }

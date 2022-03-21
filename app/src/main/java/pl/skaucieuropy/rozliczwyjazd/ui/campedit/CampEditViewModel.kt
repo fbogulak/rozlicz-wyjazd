@@ -22,10 +22,10 @@ class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel(
     val campHasLoadedFromDb: Boolean
         get() = _campHasLoadedFromDb
 
-    val campName = MutableLiveData(camp.name.value)
-    val campBudget = MutableLiveData(camp.budget.value)
-    val campStartDate = MutableLiveData(camp.startDate.value)
-    val campEndDate = MutableLiveData(camp.endDate.value)
+    val campName = MutableLiveData(camp.name)
+    val campBudget = MutableLiveData(camp.budget)
+    val campStartDate = MutableLiveData(camp.startDate)
+    val campEndDate = MutableLiveData(camp.endDate)
 
     private val _setupDatePicker = MutableLiveData<Boolean?>()
     val setupDatePicker: LiveData<Boolean?>
@@ -40,23 +40,21 @@ class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel(
     }
 
     fun getCampFromDb() {
-        camp.id.value?.let {
-            viewModelScope.launch {
-                _camp = repository.getCampById(it)
-                campName.value = camp.name.value
-                campBudget.value = camp.budget.value
-                campStartDate.value = camp.startDate.value
-                campEndDate.value = camp.endDate.value
-                _campHasLoadedFromDb = true
-                setupDatePicker()
-            }
+        viewModelScope.launch {
+            _camp = repository.getCampById(camp.id)
+            campName.value = camp.name
+            campBudget.value = camp.budget
+            campStartDate.value = camp.startDate
+            campEndDate.value = camp.endDate
+            _campHasLoadedFromDb = true
+            setupDatePicker()
         }
     }
 
     fun saveCamp() {
         viewModelScope.launch {
             updateCampProperties()
-            val result = if (camp.id.value == 0L) {
+            val result = if (camp.id == 0L) {
                 repository.insertCamp(camp)
             } else {
                 repository.updateCamp(camp)
@@ -79,7 +77,7 @@ class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel(
     fun deleteCamp() {
         viewModelScope.launch {
             updateCampProperties()
-            val result = if (camp.id.value != 0L) {
+            val result = if (camp.id != 0L) {
                 repository.deleteCamp(camp)
             } else {
                 Result.failure(Throwable(ReckoningRepository.ERROR_DELETING_CAMP))
@@ -100,10 +98,10 @@ class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel(
     }
 
     private fun updateCampProperties() {
-        _camp.name.value = campName.value ?: ""
-        _camp.budget.value = campBudget.value ?: 0.0
-        _camp.startDate.value = campStartDate.value ?: Date()
-        _camp.endDate.value = campEndDate.value ?: Date()
+        _camp.name = campName.value ?: ""
+        _camp.budget = campBudget.value ?: 0.0
+        _camp.startDate = campStartDate.value ?: Date()
+        _camp.endDate = campEndDate.value ?: Date()
     }
 
     fun navigateToCamps() {

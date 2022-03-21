@@ -47,12 +47,10 @@ class DocumentsFragment : BaseFragment(), SearchView.OnQueryTextListener,
     private fun setupRecycler() {
         binding.documentsRecycler.adapter =
             DocumentsListAdapter(DocumentsListAdapter.DocumentListener { document ->
-                document.id.value?.let {
-                    viewModel.navigateToDocumentEdit(
-                        it,
-                        getString(R.string.edit_document_title)
-                    )
-                }
+                viewModel.navigateToDocumentEdit(
+                    document.id,
+                    getString(R.string.edit_document_title)
+                )
             })
         binding.documentsRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

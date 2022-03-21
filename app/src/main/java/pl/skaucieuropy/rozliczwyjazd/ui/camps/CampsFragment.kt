@@ -66,12 +66,10 @@ class CampsFragment : BaseFragment() {
     private fun setupRecycler() {
         binding.campsRecycler.adapter =
             CampsListAdapter(CampsListAdapter.CampListener { camp ->
-                camp.id.value?.let {
-                    viewModel.navigateToCampEdit(
-                        it,
-                        getString(R.string.edit_camp_title)
-                    )
-                }
+                viewModel.navigateToCampEdit(
+                    camp.id,
+                    getString(R.string.edit_camp_title)
+                )
             }, CampsListAdapter.MenuListener { v, camp ->
                 showMenu(v, R.menu.camp_popup_menu, camp)
             })
@@ -96,7 +94,7 @@ class CampsFragment : BaseFragment() {
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.choose_as_active -> {
-                    viewModel.changeActiveCamp(camp.id.value)
+                    viewModel.changeActiveCamp(camp.id)
                     true
                 }
                 R.id.export -> {

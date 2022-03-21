@@ -51,7 +51,7 @@ class DocumentEditFragment : BaseFragment() {
 
     private fun setupDocument() {
         val documentId = DocumentEditFragmentArgs.fromBundle(requireArguments()).argDocumentId
-        viewModel.document.id.value = documentId
+        viewModel.document.id = documentId
         if (documentId == 0L) {
             viewModel.setupDatePicker()
             if (hasNotDefaultStringValues()) {
@@ -161,7 +161,7 @@ class DocumentEditFragment : BaseFragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if (viewModel.document.id.value == 0L) {
+        if (viewModel.document.id == 0L) {
             menu.findItem(R.id.delete_document).isVisible = false
         }
     }

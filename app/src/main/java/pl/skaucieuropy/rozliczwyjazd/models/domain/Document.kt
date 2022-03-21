@@ -1,34 +1,33 @@
 package pl.skaucieuropy.rozliczwyjazd.models.domain
 
-import androidx.lifecycle.MutableLiveData
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
 import java.util.*
 
 data class Document(
-    var id: MutableLiveData<Long>,
-    var number: MutableLiveData<String>,
-    var type: MutableLiveData<String>,
-    var date: MutableLiveData<Date>,
-    var category: MutableLiveData<String>,
-    var amount: MutableLiveData<Double>,
-    var comment: MutableLiveData<String>,
-    var isFromTroopAccount: MutableLiveData<Boolean>,
-    var isFromTravelVoucher: MutableLiveData<Boolean>,
-    var campId: MutableLiveData<Long>
+    var id: Long,
+    var number: String,
+    var type: String,
+    var date: Date,
+    var category: String,
+    var amount: Double,
+    var comment: String,
+    var isFromTroopAccount: Boolean,
+    var isFromTravelVoucher: Boolean,
+    var campId: Long
 ) {
     companion object {
         fun empty(): Document {
             return Document(
-                MutableLiveData(0),
-                MutableLiveData(""),
-                MutableLiveData(""),
-                MutableLiveData(Calendar.getInstance().time),
-                MutableLiveData(""),
-                MutableLiveData(0.0),
-                MutableLiveData(""),
-                MutableLiveData(false),
-                MutableLiveData(false),
-                MutableLiveData(0)
+                0,
+                "",
+                "",
+                Calendar.getInstance().time,
+                "",
+                0.0,
+                "",
+                isFromTroopAccount = false,
+                isFromTravelVoucher = false,
+                0
             )
         }
     }
@@ -36,15 +35,15 @@ data class Document(
 
 fun Document.asDatabaseModel(): DatabaseDocument {
     return DatabaseDocument(
-        id.value ?: 0,
-        number.value ?: "",
-        type.value ?: "",
-        date.value?.time ?: Calendar.getInstance().timeInMillis,
-        category.value ?: "",
-        amount.value ?: 0.0,
-        comment.value ?: "",
-        isFromTroopAccount.value ?: false,
-        isFromTravelVoucher.value ?: false,
-        campId.value ?: 0,
+        id,
+        number,
+        type,
+        date.time,
+        category,
+        amount,
+        comment,
+        isFromTroopAccount,
+        isFromTravelVoucher,
+        campId
     )
 }

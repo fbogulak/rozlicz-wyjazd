@@ -23,14 +23,14 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
     val documentHasLoadedFromDb: Boolean
         get() = _documentHasLoadedFromDb
 
-    val documentNumber = MutableLiveData(document.number.value)
-    val documentType = MutableLiveData(document.type.value)
-    val documentDate = MutableLiveData(document.date.value)
-    val documentCategory = MutableLiveData(document.category.value)
-    val documentAmount = MutableLiveData(document.amount.value)
-    val documentComment = MutableLiveData(document.comment.value)
-    val documentIsFromTroopAccount = MutableLiveData(document.isFromTroopAccount.value)
-    val documentIsFromTravelVoucher = MutableLiveData(document.isFromTravelVoucher.value)
+    val documentNumber = MutableLiveData(document.number)
+    val documentType = MutableLiveData(document.type)
+    val documentDate = MutableLiveData(document.date)
+    val documentCategory = MutableLiveData(document.category)
+    val documentAmount = MutableLiveData(document.amount)
+    val documentComment = MutableLiveData(document.comment)
+    val documentIsFromTroopAccount = MutableLiveData(document.isFromTroopAccount)
+    val documentIsFromTravelVoucher = MutableLiveData(document.isFromTravelVoucher)
 
     private val _setupDatePicker = MutableLiveData<Boolean?>()
     val setupDatePicker: LiveData<Boolean?>
@@ -45,30 +45,29 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
     }
 
     fun getDocumentFromDb() {
-        document.id.value?.let {
-            viewModelScope.launch {
-                _document= repository.getDocumentById(it)
-                documentNumber.value = document.number.value
-                documentType.value = document.type.value
-                documentDate.value = document.date.value
-                documentCategory.value = document.category.value
-                documentAmount.value = document.amount.value
-                documentComment.value = document.comment.value
-                documentIsFromTroopAccount.value = document.isFromTroopAccount.value
-                documentIsFromTravelVoucher.value = document.isFromTravelVoucher.value
-                _documentHasLoadedFromDb = true
-                setupDatePicker()
-            }
+        viewModelScope.launch {
+            _document = repository.getDocumentById(document.id)
+            documentNumber.value = document.number
+            documentType.value = document.type
+            documentDate.value = document.date
+            documentCategory.value = document.category
+            documentAmount.value = document.amount
+            documentComment.value = document.comment
+            documentIsFromTroopAccount.value = document.isFromTroopAccount
+            documentIsFromTravelVoucher.value = document.isFromTravelVoucher
+            _documentHasLoadedFromDb = true
+            setupDatePicker()
         }
     }
+
 
     fun saveDocument() {
         viewModelScope.launch {
             updateDocumentProperties()
-            if (document.type.value == STATEMENT)
-                document.number.value = ""
-            val result = if (document.id.value == 0L) {
-                document.campId.value = repository.getActiveCampId()
+            if (document.type == STATEMENT)
+                document.number = ""
+            val result = if (document.id == 0L) {
+                document.campId = repository.getActiveCampId()
                 repository.insertDocument(document)
             } else {
                 repository.updateDocument(document)
@@ -91,7 +90,7 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
     fun deleteDocument() {
         viewModelScope.launch {
             updateDocumentProperties()
-            val result = if (document.id.value != 0L) {
+            val result = if (document.id != 0L) {
                 repository.deleteDocument(document)
             } else {
                 Result.failure(Throwable(ReckoningRepository.ERROR_DELETING_DOCUMENT))
@@ -112,14 +111,14 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
     }
 
     private fun updateDocumentProperties() {
-        _document.number.value = documentNumber.value ?: ""
-        _document.type.value = documentType.value ?: ""
-        _document.date.value = documentDate.value ?: Date()
-        _document.category.value = documentCategory.value ?: ""
-        _document.amount.value = documentAmount.value ?: 0.0
-        _document.comment.value = documentComment.value ?: ""
-        _document.isFromTroopAccount.value = documentIsFromTroopAccount.value ?: false
-        _document.isFromTravelVoucher.value = documentIsFromTravelVoucher.value ?: false
+        _document.number = documentNumber.value ?: ""
+        _document.type = documentType.value ?: ""
+        _document.date = documentDate.value ?: Date()
+        _document.category = documentCategory.value ?: ""
+        _document.amount = documentAmount.value ?: 0.0
+        _document.comment = documentComment.value ?: ""
+        _document.isFromTroopAccount = documentIsFromTroopAccount.value ?: false
+        _document.isFromTravelVoucher = documentIsFromTravelVoucher.value ?: false
     }
 
     fun navigateToDocuments() {

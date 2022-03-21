@@ -3,8 +3,8 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.databinding.DocumentListItemBinding
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
@@ -23,7 +23,7 @@ class DocumentsListAdapter(private val clickListener: DocumentListener) :
 
     companion object DocumentDiffCallback : DiffUtil.ItemCallback<Document>() {
         override fun areItemsTheSame(oldItem: Document, newItem: Document): Boolean {
-            return oldItem.id.value == newItem.id.value
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Document, newItem: Document): Boolean {

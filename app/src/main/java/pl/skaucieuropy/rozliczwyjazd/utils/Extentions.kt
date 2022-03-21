@@ -34,10 +34,6 @@ fun String.inDoubleQuotes(): String {
     return  "\"" + this + "\""
 }
 
-fun String?.inDoubleQuotesOrEmpty(): String {
-    return this?.let { "\"" + it + "\"" } ?: ""
-}
-
 fun Fragment.hideKeyboard() {
     activity?.currentFocus?.let{
         val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager

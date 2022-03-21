@@ -4,8 +4,8 @@ package pl.skaucieuropy.rozliczwyjazd.ui.camps.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pl.skaucieuropy.rozliczwyjazd.databinding.CampListItemBinding
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
@@ -24,7 +24,7 @@ class CampsListAdapter(private val clickListener: CampListener, private val menu
 
     companion object CampDiffCallback : DiffUtil.ItemCallback<Camp>() {
         override fun areItemsTheSame(oldItem: Camp, newItem: Camp): Boolean {
-            return oldItem.id.value == newItem.id.value
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Camp, newItem: Camp): Boolean {

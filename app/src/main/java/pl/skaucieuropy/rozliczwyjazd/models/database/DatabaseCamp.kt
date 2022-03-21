@@ -1,6 +1,5 @@
 package pl.skaucieuropy.rozliczwyjazd.models.database
 
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
@@ -20,12 +19,12 @@ data class DatabaseCamp(
 fun List<DatabaseCamp>.asDomainModel(): List<Camp> {
     return map {
         Camp(
-            MutableLiveData(it.id),
-            MutableLiveData(it.name),
-            MutableLiveData(it.budget),
-            MutableLiveData(Date(it.startDate)),
-            MutableLiveData(Date(it.endDate)),
-            MutableLiveData(it.isActive)
+            it.id,
+            it.name,
+            it.budget,
+            Date(it.startDate),
+            Date(it.endDate),
+            it.isActive
         )
     }
 }
@@ -33,11 +32,11 @@ fun List<DatabaseCamp>.asDomainModel(): List<Camp> {
 
 fun DatabaseCamp.asDomainModel(): Camp {
     return Camp(
-        MutableLiveData(id),
-        MutableLiveData(name),
-        MutableLiveData(budget),
-        MutableLiveData(Date(startDate)),
-        MutableLiveData(Date(endDate)),
-        MutableLiveData(isActive)
+        id,
+        name,
+        budget,
+        Date(startDate),
+        Date(endDate),
+        isActive
     )
 }

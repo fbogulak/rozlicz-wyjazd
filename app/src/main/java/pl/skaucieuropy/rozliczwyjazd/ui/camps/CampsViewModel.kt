@@ -12,7 +12,6 @@ import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
 import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotes
-import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotesOrEmpty
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,52 +58,43 @@ class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
         }
     }
 
-    fun exportToCsv(camp: Camp?) {
-        camp?.id?.value?.let {
-            viewModelScope.launch {
-                val documents = repository.getDocumentsByCampId(it)
-                val stringBuilder = StringBuilder().append("SEP=,\n")
-                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                val decimalFormat = DecimalFormat("0.00")
+    fun exportToCsv(camp: Camp) {
+        viewModelScope.launch {
+            val documents = repository.getDocumentsByCampId(camp.id)
+            val stringBuilder = StringBuilder().append("SEP=,\n")
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val decimalFormat = DecimalFormat("0.00")
 
-                val documentData = mutableListOf<String>()
-                var type: String
-                var date: String
+            val documentData = mutableListOf<String>()
+            var date: String
 
-                for (document in documents) {
-                    date = document.date.value?.let { dateFormat.format(it) } ?: ""
-                    documentData.add(date)
+            for (document in documents) {
+                date = dateFormat.format(document.date)
+                documentData.add(date)
 
-                    type = document.type.value ?: ""
-                    documentData.add(
-                        if (type == STATEMENT)
-                            "$type z dnia $date"
-                        else
-                            (document.type.value + " nr " + document.number.value).inDoubleQuotesOrEmpty()
-                    )
+                documentData.add(
+                    if (document.type == STATEMENT)
+                        "${document.type} z dnia $date"
+                    else
+                        (document.type + " nr " + document.number).inDoubleQuotes()
+                )
 
-                    documentData.add(document.category.value.inDoubleQuotesOrEmpty())
-                    documentData.add(document.isFromTroopAccount.value?.let { if (it) "TAK" else "NIE" }
-                        ?: "")
-                    documentData.add(document.amount.value?.let {
-                        decimalFormat.format(it).inDoubleQuotes()
-                    } ?: "")
-                    documentData.add(document.isFromTravelVoucher.value?.let { if (it) "TAK" else "NIE" }
-                        ?: "")
-                    documentData.add(document.comment.value.inDoubleQuotesOrEmpty())
+                documentData.add(document.category.inDoubleQuotes())
+                documentData.add(if (document.isFromTroopAccount) "TAK" else "NIE")
+                documentData.add(decimalFormat.format(document.amount).inDoubleQuotes())
+                documentData.add(if (document.isFromTravelVoucher) "TAK" else "NIE")
+                documentData.add(document.comment.inDoubleQuotes())
 
-                    for (value in documentData) {
-                        stringBuilder.append(value).append(",")
-                    }
-                    stringBuilder.append("\n")
-
-                    documentData.clear()
+                for (value in documentData) {
+                    stringBuilder.append(value).append(",")
                 }
-                val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH_mm_ss", Locale.getDefault())
-                val fileName =
-                    (camp.name.value ?: "") + " " + dateTimeFormat.format(Date()) + ".csv"
-                createExportFile(FileData(fileName, stringBuilder.toString()))
+                stringBuilder.append("\n")
+
+                documentData.clear()
             }
+            val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH_mm_ss", Locale.getDefault())
+            val fileName = camp.name + " " + dateTimeFormat.format(Date()) + ".csv"
+            createExportFile(FileData(fileName, stringBuilder.toString()))
         }
     }
 

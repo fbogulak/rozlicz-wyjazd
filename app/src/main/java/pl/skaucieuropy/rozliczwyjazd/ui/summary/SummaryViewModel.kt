@@ -14,14 +14,14 @@ class SummaryViewModel(private val repository: BaseRepository) : BaseViewModel()
     val camp = repository.activeCamp
 
     val remainingMoney = camp.combineWith(repository.activeCampExpenses) { camp, campExpenses ->
-        val budget = camp?.budget?.value ?: 0.0
+        val budget = camp?.budget ?: 0.0
         val expenses = campExpenses ?: 0.0
         budget - expenses
     }
 
     private val remainingDays = Transformations.map(camp) {
-        val startDateMillis = it?.startDate?.value?.time
-        val endDateMillis = it?.endDate?.value?.time
+        val startDateMillis = it?.startDate?.time
+        val endDateMillis = it?.endDate?.time
 
         if (startDateMillis != null && endDateMillis != null) {
             val startDate =

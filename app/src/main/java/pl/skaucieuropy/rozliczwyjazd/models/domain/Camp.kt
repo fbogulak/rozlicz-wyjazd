@@ -1,37 +1,36 @@
 package pl.skaucieuropy.rozliczwyjazd.models.domain
 
-import androidx.lifecycle.MutableLiveData
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
 import java.util.*
 
 data class Camp(
-    var id: MutableLiveData<Long>,
-    var name: MutableLiveData<String>,
-    var budget: MutableLiveData<Double>,
-    var startDate: MutableLiveData<Date>,
-    var endDate: MutableLiveData<Date>,
-    var isActive: MutableLiveData<Boolean>
+    var id: Long,
+    var name: String,
+    var budget: Double,
+    var startDate: Date,
+    var endDate: Date,
+    var isActive: Boolean
 ) {
     companion object {
         fun empty(): Camp {
             return Camp(
-                MutableLiveData(0),
-                MutableLiveData(""),
-                MutableLiveData(0.0),
-                MutableLiveData(Calendar.getInstance().time),
-                MutableLiveData(Calendar.getInstance().time),
-                MutableLiveData(false)
+                0,
+                "",
+                0.0,
+                Calendar.getInstance().time,
+                Calendar.getInstance().time,
+                false
             )
         }
 
         fun default(): Camp {
             return Camp(
-                MutableLiveData(0),
-                MutableLiveData("Obóz 1"),
-                MutableLiveData(0.0),
-                MutableLiveData(Calendar.getInstance().time),
-                MutableLiveData(Calendar.getInstance().time),
-                MutableLiveData(true)
+                0,
+                "Obóz 1",
+                0.0,
+                Calendar.getInstance().time,
+                Calendar.getInstance().time,
+                true
             )
         }
     }
@@ -39,11 +38,11 @@ data class Camp(
 
 fun Camp.asDatabaseModel(): DatabaseCamp {
     return DatabaseCamp(
-        id.value ?: 0,
-        name.value ?: "",
-        budget.value ?: 0.0,
-        startDate.value?.time ?: Calendar.getInstance().timeInMillis,
-        endDate.value?.time ?: Calendar.getInstance().timeInMillis,
-        isActive.value ?: false,
+        id,
+        name,
+        budget,
+        startDate.time,
+        endDate.time,
+        isActive,
     )
 }
