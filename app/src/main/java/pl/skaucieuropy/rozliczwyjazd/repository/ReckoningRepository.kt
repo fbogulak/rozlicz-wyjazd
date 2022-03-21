@@ -72,12 +72,12 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
         }
     }
 
-    override suspend fun getActiveCamp(): Camp = withContext(Dispatchers.IO) {
-        return@withContext database.campDao.getActiveCamp().asDomainModel()
+    override suspend fun getActiveCampExpenses(): Double = withContext(Dispatchers.IO) {
+        return@withContext database.documentDao.getActiveCampExpenses()
     }
 
-    override suspend fun getActiveCampExpenses(): Double = withContext(Dispatchers.IO) {
-        return@withContext database.campDao.getActiveCampExpenses()
+    override suspend fun getActiveCamp(): Camp = withContext(Dispatchers.IO) {
+        return@withContext database.campDao.getActiveCamp().asDomainModel()
     }
 
     override suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {

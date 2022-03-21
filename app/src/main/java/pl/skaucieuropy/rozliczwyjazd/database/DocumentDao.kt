@@ -30,4 +30,7 @@ interface DocumentDao {
 
     @Query("SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 AND category || ' ' || type || ' ' || number || ' ' || amount || ' ' || comment LIKE :expression ORDER BY date DESC")
     fun getFilteredDocuments(expression: String): LiveData<List<DatabaseDocument>>
+
+    @Query("SELECT SUM(amount) FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1)")
+    fun getActiveCampExpenses(): Double
 }

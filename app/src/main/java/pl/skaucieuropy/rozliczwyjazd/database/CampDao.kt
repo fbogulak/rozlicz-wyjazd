@@ -39,7 +39,4 @@ interface CampDao {
 
     @Query("UPDATE camp_table SET isActive = 1 WHERE id = (SELECT id FROM camp_table ORDER BY startDate DESC LIMIT 1)")
     fun setFirstCampActive(): Int
-
-    @Query("SELECT SUM(amount) FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1)")
-    fun getActiveCampExpenses(): Double
 }
