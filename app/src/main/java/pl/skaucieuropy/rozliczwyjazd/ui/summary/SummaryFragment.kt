@@ -25,6 +25,8 @@ class SummaryFragment : BaseFragment() {
     ): View {
         setupBinding(inflater, container)
 
+        viewModel.calculateSummary()
+
         setHasOptionsMenu(true)
 
         return binding.root

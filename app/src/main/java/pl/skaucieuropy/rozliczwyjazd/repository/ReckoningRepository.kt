@@ -14,8 +14,6 @@ import pl.skaucieuropy.rozliczwyjazd.models.domain.asDatabaseModel
 class ReckoningRepository(private val database: ReckoningDatabase) : BaseRepository {
 
     override val allCamps by lazy { database.campDao.getAllCamps().map { it.asDomainModel() } }
-    override val activeCamp by lazy { database.campDao.getActiveCamp().map { it.asDomainModel() } }
-    override val activeCampExpenses by lazy { database.campDao.getActiveCampExpenses() }
 
     override suspend fun getDocumentById(id: Long): Document = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getDocument(id).asDomainModel()
@@ -72,6 +70,14 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
             val expression = "%${query.replace(" ", "%")}%"
             database.documentDao.getFilteredDocuments(expression).map { it.asDomainModel() }
         }
+    }
+
+    override suspend fun getActiveCamp(): Camp = withContext(Dispatchers.IO) {
+        return@withContext database.campDao.getActiveCamp().asDomainModel()
+    }
+
+    override suspend fun getActiveCampExpenses(): Double = withContext(Dispatchers.IO) {
+        return@withContext database.campDao.getActiveCampExpenses()
     }
 
     override suspend fun getCampById(id: Long): Camp = withContext(Dispatchers.IO) {

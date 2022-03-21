@@ -17,7 +17,7 @@ interface CampDao {
     fun getCamp(id: Long): DatabaseCamp
 
     @Query("SELECT * FROM camp_table WHERE isActive = 1")
-    fun getActiveCamp(): LiveData<DatabaseCamp>
+    fun getActiveCamp(): DatabaseCamp
 
     @Query("SELECT id FROM camp_table WHERE isActive = 1")
     fun getActiveCampId(): Long
@@ -41,5 +41,5 @@ interface CampDao {
     fun setFirstCampActive(): Int
 
     @Query("SELECT SUM(amount) FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1)")
-    fun getActiveCampExpenses(): LiveData<Double>
+    fun getActiveCampExpenses(): Double
 }
