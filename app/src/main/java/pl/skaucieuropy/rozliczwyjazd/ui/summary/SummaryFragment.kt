@@ -2,6 +2,9 @@ package pl.skaucieuropy.rozliczwyjazd.ui.summary
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,7 +30,7 @@ class SummaryFragment : BaseFragment() {
 
         viewModel.calculateSummary()
 
-        setHasOptionsMenu(true)
+        setupMenu()
 
         return binding.root
     }
@@ -41,14 +44,17 @@ class SummaryFragment : BaseFragment() {
         binding.viewModel = viewModel
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.summary_overflow_menu, menu)
-    }
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item, requireView().findNavController())
-                || super.onOptionsItemSelected(item)
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.summary_overflow_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return NavigationUI.onNavDestinationSelected(menuItem, requireView().findNavController())
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onDestroyView() {

@@ -3,6 +3,9 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documents
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
@@ -30,7 +33,7 @@ class DocumentsFragment : BaseFragment(), SearchView.OnQueryTextListener,
 
         setupRecycler()
         setupObservers()
-        setHasOptionsMenu(true)
+        setupMenu()
 
         return binding.root
     }
@@ -93,13 +96,21 @@ class DocumentsFragment : BaseFragment(), SearchView.OnQueryTextListener,
         _binding = null
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.documents_overflow_menu, menu)
-        val searchItem = menu.findItem(R.id.search_documents)
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(this)
-        searchItem.setOnActionExpandListener(this)
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.documents_overflow_menu, menu)
+                val searchItem = menu.findItem(R.id.search_documents)
+                val searchView = searchItem.actionView as SearchView
+                searchView.setOnQueryTextListener(this@DocumentsFragment)
+                searchItem.setOnActionExpandListener(this@DocumentsFragment)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

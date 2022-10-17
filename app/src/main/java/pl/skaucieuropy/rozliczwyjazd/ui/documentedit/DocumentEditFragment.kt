@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -37,7 +40,7 @@ class DocumentEditFragment : BaseFragment() {
 
         setupObservers()
         setupListeners()
-        setHasOptionsMenu(true)
+        setupMenu()
         binding.container.requestFocus()
 
         return binding.root
@@ -154,38 +157,42 @@ class DocumentEditFragment : BaseFragment() {
             .show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.document_edit_overflow_menu, menu)
-    }
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        if (viewModel.document.id == 0L) {
-            menu.findItem(R.id.delete_document).isVisible = false
-        }
-    }
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.document_edit_overflow_menu, menu)
+            }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                viewModel.saveDocument()
-                return true
+            override fun onPrepareMenu(menu: Menu) {
+                super.onPrepareMenu(menu)
+                if (viewModel.document.id == 0L) {
+                    menu.findItem(R.id.delete_document).isVisible = false
+                }
             }
-            R.id.delete_document -> {
-                showDeleteConfirmationDialog()
-                return true
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    android.R.id.home -> {
+                        viewModel.saveDocument()
+                        return true
+                    }
+                    R.id.delete_document -> {
+                        showDeleteConfirmationDialog()
+                        return true
+                    }
+                    R.id.cancel_document_changes -> {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.changes_discarded),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        viewModel.navigateToDocuments()
+                    }
+                }
+                return false
             }
-            R.id.cancel_document_changes -> {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.changes_discarded),
-                    Toast.LENGTH_SHORT
-                ).show()
-                viewModel.navigateToDocuments()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun showDeleteConfirmationDialog() {

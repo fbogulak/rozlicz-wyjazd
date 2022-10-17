@@ -6,6 +6,9 @@ import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.util.Pair
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +36,7 @@ class CampEditFragment : BaseFragment() {
         setupEdtTexts()
 
         setupObservers()
-        setHasOptionsMenu(true)
+        setupMenu()
         binding.container.requestFocus()
 
         return binding.root
@@ -106,38 +109,42 @@ class CampEditFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.camp_edit_overflow_menu, menu)
-    }
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        if (viewModel.camp.id == 0L) {
-            menu.findItem(R.id.delete_camp).isVisible = false
-        }
-    }
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.camp_edit_overflow_menu, menu)
+            }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                viewModel.saveCamp()
-                return true
+            override fun onPrepareMenu(menu: Menu) {
+                super.onPrepareMenu(menu)
+                if (viewModel.camp.id == 0L) {
+                    menu.findItem(R.id.delete_camp).isVisible = false
+                }
             }
-            R.id.delete_camp -> {
-                showDeleteConfirmationDialog()
-                return true
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    android.R.id.home -> {
+                        viewModel.saveCamp()
+                        return true
+                    }
+                    R.id.delete_camp -> {
+                        showDeleteConfirmationDialog()
+                        return true
+                    }
+                    R.id.cancel_camp_changes -> {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.changes_discarded),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        viewModel.navigateToCamps()
+                    }
+                }
+                return false
             }
-            R.id.cancel_camp_changes -> {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.changes_discarded),
-                    Toast.LENGTH_SHORT
-                ).show()
-                viewModel.navigateToCamps()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun showDeleteConfirmationDialog() {
