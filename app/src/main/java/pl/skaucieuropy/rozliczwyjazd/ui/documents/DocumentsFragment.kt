@@ -112,11 +112,11 @@ class DocumentsFragment : BaseFragment(), SearchView.OnQueryTextListener,
         return false
     }
 
-    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+    override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
         return true
     }
 
-    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+    override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
         viewModel.searchQuery.value = ""
         viewModel.isSearching = false
         return true
