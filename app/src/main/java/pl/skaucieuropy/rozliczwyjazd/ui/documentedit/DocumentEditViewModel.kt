@@ -60,10 +60,8 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
         }
     }
 
-
     fun saveDocument() {
         viewModelScope.launch {
-            updateDocumentProperties()
             if (document.type == STATEMENT)
                 document.number = ""
             val result = if (document.id == 0L) {
@@ -110,7 +108,7 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
         }
     }
 
-    private fun updateDocumentProperties() {
+    fun updateDocumentProperties() {
         _document.number = documentNumber.value ?: ""
         _document.type = documentType.value ?: ""
         _document.date = documentDate.value ?: Date()

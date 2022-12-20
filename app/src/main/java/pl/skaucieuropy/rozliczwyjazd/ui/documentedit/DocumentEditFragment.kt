@@ -15,6 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
+import pl.skaucieuropy.rozliczwyjazd.constants.SIMPLIFIED_INVOICE
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.documentedit.adapter.NoFilterArrayAdapter
@@ -133,11 +134,30 @@ class DocumentEditFragment : BaseFragment() {
                 }
             }
         }
+        viewModel.documentAmount.observe(viewLifecycleOwner) {
+            checkAmountWithType()
+        }
+        viewModel.documentType.observe(viewLifecycleOwner) {
+            checkAmountWithType()
+        }
+    }
+
+    private fun checkAmountWithType() {
+        val amount = viewModel.documentAmount.value
+        val type = viewModel.documentType.value
+        if (amount != null && type != null && amount > 450 && type == SIMPLIFIED_INVOICE) {
+            binding.amountTextField.error = getString(R.string.amount_over_450)
+        } else {
+            binding.amountTextField.error = null
+        }
     }
 
     private fun setupListeners() {
         binding.infoButton.setOnClickListener {
             showInfoDialog()
+        }
+        binding.saveDocumentFab.setOnClickListener {
+            saveDocument()
         }
     }
 
@@ -148,6 +168,38 @@ class DocumentEditFragment : BaseFragment() {
             .setIcon(R.drawable.ic_info)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 dialog?.dismiss()
+            }
+            .show()
+    }
+
+    private fun saveDocument() {
+        if (validateDocument()) {
+            viewModel.saveDocument()
+        }
+    }
+
+    private fun validateDocument(): Boolean {
+        var validationPassed = true
+        viewModel.updateDocumentProperties()
+        viewModel.document.apply {
+            if (type == SIMPLIFIED_INVOICE && amount > 450) {
+                showErrorDialog()
+                validationPassed = false
+            }
+        }
+        return validationPassed
+    }
+
+    private fun showErrorDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.should_save_incorrect_document_title)
+            .setMessage(getString(R.string.this_is_not_simplified_invoice_error_message))
+            .setIcon(R.drawable.ic_production_quantity_limits)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.saveDocument()
+            }
+            .setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.dismiss()
             }
             .show()
     }
@@ -169,7 +221,7 @@ class DocumentEditFragment : BaseFragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     android.R.id.home -> {
-                        viewModel.saveDocument()
+                        saveDocument()
                         return true
                     }
                     R.id.delete_document -> {
@@ -207,7 +259,7 @@ class DocumentEditFragment : BaseFragment() {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                viewModel.saveDocument()
+                saveDocument()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)

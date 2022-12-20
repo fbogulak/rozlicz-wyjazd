@@ -76,4 +76,7 @@
     <string name="sort_by_creation_timestamp">Sortuj wg daty dodania</string>
     <string name="preference_file_key">pl.skaucieuropy.rozliczwyjazd.PREFERENCE_FILE_KEY</string>
     <string name="saved_documents_order_by_key">DOCUMENTS_ORDER_BY</string>
+    <string name="should_save_incorrect_document_title">Czy zapisać błędny dokument?</string>
+    <string name="this_is_not_simplified_invoice_error_message">Paragon z NIP-em powyżej 450 zł nie jest fakturą uproszczoną i nie może być włączony do rozliczenia.\nAby móc włączyć wydatek do rozliczenia poproś sprzedawcę o wystawienie faktury VAT do tego paragonu z NIP-em.\n\nCzy do tego czasu chcesz zachować w aplikacji nieprawidłowy dokument?</string>
+    <string name="amount_over_450">Kwota powyżej 450 zł</string>
 </resources>
