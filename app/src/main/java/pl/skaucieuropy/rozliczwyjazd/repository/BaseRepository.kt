@@ -3,6 +3,7 @@ package pl.skaucieuropy.rozliczwyjazd.repository
 import androidx.lifecycle.LiveData
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
+import pl.skaucieuropy.rozliczwyjazd.utils.DocumentsOrderBy
 
 interface BaseRepository {
     val allCamps: LiveData<List<Camp>>
@@ -13,7 +14,7 @@ interface BaseRepository {
     suspend fun getActiveCampId(): Long
     suspend fun deleteDocument(document: Document): Result<Int>
     suspend fun getDocumentsByCampId(campId: Long): List<Document>
-    fun getActiveDocuments(query: String?): LiveData<List<Document>>
+    suspend fun getActiveDocuments(query: String?, orderBy: DocumentsOrderBy): List<Document>
     suspend fun getActiveCampExpenses(): Double
     suspend fun getActiveCampGroceriesExpenses(): Double
     suspend fun getActiveCamp(): Camp

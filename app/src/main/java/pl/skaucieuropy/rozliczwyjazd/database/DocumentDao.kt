@@ -1,6 +1,5 @@
 package pl.skaucieuropy.rozliczwyjazd.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import pl.skaucieuropy.rozliczwyjazd.constants.GROCERIES
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
@@ -17,8 +16,13 @@ interface DocumentDao {
     @Query("SELECT * FROM document_table WHERE id = :id")
     fun getDocument(id: Long): DatabaseDocument
 
-    @Query("SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 ORDER BY date DESC")
-    fun getActiveDocuments(): LiveData<List<DatabaseDocument>>
+    @Query(
+        "SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 " +
+                "ORDER BY CASE :orderBy " +
+                "WHEN 'DATE' THEN date " +
+                "WHEN 'CREATION_TIMESTAMP' THEN creationTimestamp END DESC"
+    )
+    fun getActiveDocuments(orderBy: String): List<DatabaseDocument>
 
     @Query("SELECT * FROM document_table WHERE campId = :campId ORDER BY date ASC")
     fun getDocumentsByCampId(campId: Long): List<DatabaseDocument>
@@ -29,8 +33,13 @@ interface DocumentDao {
     @Query("DELETE FROM document_table WHERE campId = :campId")
     fun deleteDocumentsByCampId(campId: Long): Int
 
-    @Query("SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 AND category || ' ' || type || ' ' || number || ' ' || amount || ' ' || comment LIKE :expression ORDER BY date DESC")
-    fun getFilteredDocuments(expression: String): LiveData<List<DatabaseDocument>>
+    @Query(
+        "SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 AND category || ' ' || type || ' ' || number || ' ' || amount || ' ' || comment LIKE :expression " +
+                "ORDER BY CASE :orderBy " +
+                "WHEN 'DATE' THEN date " +
+                "WHEN 'CREATION_TIMESTAMP' THEN creationTimestamp END DESC"
+    )
+    fun getFilteredDocuments(expression: String, orderBy: String): List<DatabaseDocument>
 
     @Query("SELECT SUM(amount) FROM document_table WHERE campId = (SELECT id FROM camp_table WHERE isActive = 1)")
     fun getActiveCampExpenses(): Double

@@ -1,6 +1,5 @@
 package pl.skaucieuropy.rozliczwyjazd.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,6 +9,7 @@ import pl.skaucieuropy.rozliczwyjazd.models.database.asDomainModel
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
 import pl.skaucieuropy.rozliczwyjazd.models.domain.asDatabaseModel
+import pl.skaucieuropy.rozliczwyjazd.utils.DocumentsOrderBy
 
 class ReckoningRepository(private val database: ReckoningDatabase) : BaseRepository {
 
@@ -67,14 +67,15 @@ class ReckoningRepository(private val database: ReckoningDatabase) : BaseReposit
             return@withContext database.documentDao.getDocumentsByCampId(campId).asDomainModel()
         }
 
-    override fun getActiveDocuments(query: String?): LiveData<List<Document>> {
-        return if (query.isNullOrEmpty()) {
-            database.documentDao.getActiveDocuments().map { it.asDomainModel() }
-        } else {
-            val expression = "%${query.replace(" ", "%")}%"
-            database.documentDao.getFilteredDocuments(expression).map { it.asDomainModel() }
+    override suspend fun getActiveDocuments(query: String?, orderBy: DocumentsOrderBy): List<Document> =
+        withContext(Dispatchers.IO) {
+            return@withContext if (query.isNullOrEmpty()) {
+                database.documentDao.getActiveDocuments(orderBy.name).asDomainModel()
+            } else {
+                val expression = "%${query.replace(" ", "%")}%"
+                database.documentDao.getFilteredDocuments(expression, orderBy.name).asDomainModel()
+            }
         }
-    }
 
     override suspend fun getActiveCampExpenses(): Double = withContext(Dispatchers.IO) {
         return@withContext database.documentDao.getActiveCampExpenses()
