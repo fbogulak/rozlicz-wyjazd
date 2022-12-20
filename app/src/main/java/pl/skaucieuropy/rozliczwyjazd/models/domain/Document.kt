@@ -1,6 +1,7 @@
 package pl.skaucieuropy.rozliczwyjazd.models.domain
 
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
+import pl.skaucieuropy.rozliczwyjazd.utils.today
 import java.util.*
 
 data class Document(
@@ -22,7 +23,7 @@ data class Document(
                 0,
                 "",
                 "",
-                Calendar.getInstance().time,
+                Calendar.getInstance().today,
                 Calendar.getInstance().time,
                 "",
                 0.0,

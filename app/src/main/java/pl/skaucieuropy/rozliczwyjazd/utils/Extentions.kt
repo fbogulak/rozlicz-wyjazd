@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import java.text.DecimalFormatSymbols
+import java.util.*
 
 fun String?.toDoubleOrZero(): Double {
     val localSeparator = DecimalFormatSymbols.getInstance().decimalSeparator.toString()
@@ -40,3 +41,12 @@ fun Fragment.hideKeyboard() {
         inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
     }
 }
+
+val Calendar.today: Date
+    get() {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+        return time
+    }

@@ -20,11 +20,13 @@ interface DocumentDao {
         "SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 " +
                 "ORDER BY CASE :orderBy " +
                 "WHEN 'DATE' THEN date " +
-                "WHEN 'CREATION_TIMESTAMP' THEN creationTimestamp END DESC"
+                "WHEN 'CREATION_TIMESTAMP' THEN creationTimestamp END DESC, " +
+                "LENGTH(number) DESC, " +
+                "number DESC"
     )
     fun getActiveDocuments(orderBy: String): List<DatabaseDocument>
 
-    @Query("SELECT * FROM document_table WHERE campId = :campId ORDER BY date ASC")
+    @Query("SELECT * FROM document_table WHERE campId = :campId ORDER BY date, LENGTH(number), number")
     fun getDocumentsByCampId(campId: Long): List<DatabaseDocument>
 
     @Delete
@@ -37,7 +39,9 @@ interface DocumentDao {
         "SELECT d.* FROM document_table d INNER JOIN camp_table c ON d.campId = c.id WHERE c.isActive = 1 AND category || ' ' || type || ' ' || number || ' ' || amount || ' ' || comment LIKE :expression " +
                 "ORDER BY CASE :orderBy " +
                 "WHEN 'DATE' THEN date " +
-                "WHEN 'CREATION_TIMESTAMP' THEN creationTimestamp END DESC"
+                "WHEN 'CREATION_TIMESTAMP' THEN creationTimestamp END DESC, " +
+                "LENGTH(number) DESC, " +
+                "number DESC"
     )
     fun getFilteredDocuments(expression: String, orderBy: String): List<DatabaseDocument>
 
