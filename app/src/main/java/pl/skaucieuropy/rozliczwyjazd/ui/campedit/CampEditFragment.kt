@@ -59,8 +59,6 @@ class CampEditFragment : BaseFragment() {
     }
 
     private fun setupEdtTexts() {
-        binding.dateEdit.keyListener = null
-
         binding.budgetEdit.apply {
             filters = arrayOf(CurrencyInputFilter())
             setOnFocusChangeListener { _, hasFocus ->
@@ -87,13 +85,10 @@ class CampEditFragment : BaseFragment() {
             viewModel.campEndDate.value = Date(it.second)
         }
 
-        binding.dateEdit.apply {
-            setOnClickListener {
-                dateRangePicker.show(parentFragmentManager, "tag")
-            }
-            setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus)
-                    dateRangePicker.show(parentFragmentManager, "tag")
+        binding.dateEdit.setOnClickListener {
+            val dialog = dateRangePicker.dialog
+            if (dialog == null || !dialog.isShowing) {
+                dateRangePicker.show(parentFragmentManager, "CampDatePicker")
             }
         }
     }

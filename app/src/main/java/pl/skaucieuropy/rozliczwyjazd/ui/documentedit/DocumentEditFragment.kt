@@ -74,8 +74,6 @@ class DocumentEditFragment : BaseFragment() {
     }
 
     private fun setupEdtTexts() {
-        binding.dateEdit.keyListener = null
-
         binding.amountEdit.apply {
             filters = arrayOf(CurrencyInputFilter())
             setOnFocusChangeListener { _, hasFocus ->
@@ -118,13 +116,10 @@ class DocumentEditFragment : BaseFragment() {
             viewModel.documentDate.value = Date(it)
         }
 
-        binding.dateEdit.apply {
-            setOnClickListener {
-                datePicker.show(parentFragmentManager, "tag")
-            }
-            setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus)
-                    datePicker.show(parentFragmentManager, "tag")
+        binding.dateEdit.setOnClickListener {
+            val dialog = datePicker.dialog
+            if (dialog == null || !dialog.isShowing) {
+                datePicker.show(parentFragmentManager, "DocumentDatePicker")
             }
         }
     }
