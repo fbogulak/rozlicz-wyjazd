@@ -1,6 +1,7 @@
 package pl.skaucieuropy.rozliczwyjazd
 
 import android.app.Application
+import com.google.android.material.color.DynamicColors
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,6 +20,7 @@ import pl.skaucieuropy.rozliczwyjazd.ui.summary.SummaryViewModel
 class ReckoningApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        DynamicColors.applyToActivitiesIfAvailable(this)
         AndroidThreeTen.init(this)
 
         val appModule = module {
