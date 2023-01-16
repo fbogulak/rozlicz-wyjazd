@@ -82,8 +82,8 @@ class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
                 documentData.add(document.category.inDoubleQuotes())
                 documentData.add(if (document.isFromTroopAccount) "TAK" else "NIE")
                 documentData.add(decimalFormat.format(document.amount).inDoubleQuotes())
-                documentData.add(if (document.isFromTravelVoucher) "TAK" else "NIE")
                 documentData.add(document.comment.inDoubleQuotes())
+                documentData.add(if (document.isFromTravelVoucher) "TAK" else "NIE")
 
                 for (value in documentData) {
                     stringBuilder.append(value).append(",")
