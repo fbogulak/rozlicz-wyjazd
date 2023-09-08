@@ -19,8 +19,16 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.skaucieuropy.rozliczwyjazd.R
+import pl.skaucieuropy.rozliczwyjazd.constants.ACCOMMODATION
 import pl.skaucieuropy.rozliczwyjazd.constants.AMOUNT_FORMAT
+import pl.skaucieuropy.rozliczwyjazd.constants.BUSINESS_TRIP_ORDER
+import pl.skaucieuropy.rozliczwyjazd.constants.INSURANCE
+import pl.skaucieuropy.rozliczwyjazd.constants.INSURANCE_POLICY
+import pl.skaucieuropy.rozliczwyjazd.constants.SETTLEMENT_OF_DELEGATION
 import pl.skaucieuropy.rozliczwyjazd.constants.SIMPLIFIED_INVOICE
+import pl.skaucieuropy.rozliczwyjazd.constants.STATEMENT
+import pl.skaucieuropy.rozliczwyjazd.constants.TICKET
+import pl.skaucieuropy.rozliczwyjazd.constants.TICKETS
 import pl.skaucieuropy.rozliczwyjazd.databinding.FragmentDocumentEditBinding
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.documentedit.adapter.NoFilterArrayAdapter
@@ -156,6 +164,17 @@ class DocumentEditFragment : BaseFragment() {
         }
         viewModel.documentAmountFromOnePercent.observe(viewLifecycleOwner) {
             checkAmountFromOnePercent()
+        }
+        viewModel.documentType.observe(viewLifecycleOwner) {
+            if (binding.typeTextField.hasFocus())
+                when (it) {
+                    TICKET -> viewModel.documentCategory.value = TICKETS
+                    BUSINESS_TRIP_ORDER -> viewModel.documentCategory.value =
+                        SETTLEMENT_OF_DELEGATION
+
+                    INSURANCE_POLICY -> viewModel.documentCategory.value = INSURANCE
+                    STATEMENT -> viewModel.documentCategory.value = ACCOMMODATION
+                }
         }
     }
 
