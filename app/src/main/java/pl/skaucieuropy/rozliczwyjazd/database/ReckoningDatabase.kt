@@ -1,9 +1,12 @@
 package pl.skaucieuropy.rozliczwyjazd.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
@@ -12,8 +15,21 @@ import pl.skaucieuropy.rozliczwyjazd.models.domain.Camp
 import pl.skaucieuropy.rozliczwyjazd.models.domain.asDatabaseModel
 import java.util.concurrent.Executors
 
-@Database(entities = [DatabaseDocument::class, DatabaseCamp::class], version = 2)
+@Database(
+    entities = [DatabaseDocument::class, DatabaseCamp::class],
+    version = 3,
+    autoMigrations = [AutoMigration(
+        from = 2,
+        to = 3,
+        spec = ReckoningDatabase.TwoToThreeAutoMigration::class
+    )]
+)
 abstract class ReckoningDatabase : RoomDatabase() {
+    @DeleteColumn(
+        tableName = "document_table",
+        columnName = "isFromTravelVoucher"
+    )
+    class TwoToThreeAutoMigration : AutoMigrationSpec
 
     abstract val documentDao: DocumentDao
     abstract val campDao: CampDao

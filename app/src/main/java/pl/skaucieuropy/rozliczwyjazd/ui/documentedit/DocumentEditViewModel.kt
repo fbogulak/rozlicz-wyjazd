@@ -11,7 +11,7 @@ import pl.skaucieuropy.rozliczwyjazd.repository.BaseRepository
 import pl.skaucieuropy.rozliczwyjazd.repository.ReckoningRepository
 import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseViewModel
 import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
-import java.util.*
+import java.util.Date
 
 class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
@@ -30,7 +30,7 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
     val documentAmount = MutableLiveData(document.amount)
     val documentComment = MutableLiveData(document.comment)
     val documentIsFromTroopAccount = MutableLiveData(document.isFromTroopAccount)
-    val documentIsFromTravelVoucher = MutableLiveData(document.isFromTravelVoucher)
+    val documentAmountFromOnePercent = MutableLiveData(document.amountFromOnePercent)
 
     private val _setupDatePicker = MutableLiveData<Boolean?>()
     val setupDatePicker: LiveData<Boolean?>
@@ -54,7 +54,7 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
             documentAmount.value = document.amount
             documentComment.value = document.comment
             documentIsFromTroopAccount.value = document.isFromTroopAccount
-            documentIsFromTravelVoucher.value = document.isFromTravelVoucher
+            documentAmountFromOnePercent.value = document.amountFromOnePercent
             _documentHasLoadedFromDb = true
             setupDatePicker()
         }
@@ -116,7 +116,7 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
         _document.amount = documentAmount.value ?: 0.0
         _document.comment = documentComment.value ?: ""
         _document.isFromTroopAccount = documentIsFromTroopAccount.value ?: false
-        _document.isFromTravelVoucher = documentIsFromTravelVoucher.value ?: false
+        _document.amountFromOnePercent = documentAmountFromOnePercent.value
     }
 
     fun navigateToDocuments() {

@@ -2,7 +2,12 @@ package pl.skaucieuropy.rozliczwyjazd.ui.documentedit
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuHost
@@ -21,7 +26,7 @@ import pl.skaucieuropy.rozliczwyjazd.ui.base.BaseFragment
 import pl.skaucieuropy.rozliczwyjazd.ui.documentedit.adapter.NoFilterArrayAdapter
 import pl.skaucieuropy.rozliczwyjazd.utils.CurrencyInputFilter
 import pl.skaucieuropy.rozliczwyjazd.utils.toDoubleOrZero
-import java.util.*
+import java.util.Date
 
 class DocumentEditFragment : BaseFragment() {
 
@@ -83,6 +88,14 @@ class DocumentEditFragment : BaseFragment() {
                 }
             }
         }
+        binding.amountFromOnePercentEdit.apply {
+            filters = arrayOf(CurrencyInputFilter())
+            setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus && !text.isNullOrBlank()) {
+                    setText(AMOUNT_FORMAT.format(text.toString().toDoubleOrZero()))
+                }
+            }
+        }
     }
 
     private fun setupExposedDropdownMenus() {
@@ -136,9 +149,13 @@ class DocumentEditFragment : BaseFragment() {
         }
         viewModel.documentAmount.observe(viewLifecycleOwner) {
             checkAmountWithType()
+            checkAmountFromOnePercent()
         }
         viewModel.documentType.observe(viewLifecycleOwner) {
             checkAmountWithType()
+        }
+        viewModel.documentAmountFromOnePercent.observe(viewLifecycleOwner) {
+            checkAmountFromOnePercent()
         }
     }
 
@@ -149,6 +166,17 @@ class DocumentEditFragment : BaseFragment() {
             binding.amountTextField.error = getString(R.string.amount_over_450)
         } else {
             binding.amountTextField.error = null
+        }
+    }
+
+    private fun checkAmountFromOnePercent() {
+        val amount = viewModel.documentAmount.value
+        val amountFromOnePercent = viewModel.documentAmountFromOnePercent.value
+        if (amountFromOnePercent != null && amount != null && amountFromOnePercent > amount) {
+            binding.amountFromOnePercentTextField.error =
+                getString(R.string.amount_from_one_percent_over_amount)
+        } else {
+            binding.amountFromOnePercentTextField.error = null
         }
     }
 
@@ -183,14 +211,18 @@ class DocumentEditFragment : BaseFragment() {
         viewModel.updateDocumentProperties()
         viewModel.document.apply {
             if (type == SIMPLIFIED_INVOICE && amount > 450) {
-                showErrorDialog()
+                showSimplifiedInvoiceErrorDialog()
+                validationPassed = false
+            }
+            if (amountFromOnePercent != null && amountFromOnePercent!! > amount) {
+                showOnePercentErrorDialog()
                 validationPassed = false
             }
         }
         return validationPassed
     }
 
-    private fun showErrorDialog() {
+    private fun showSimplifiedInvoiceErrorDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.should_save_incorrect_document_title)
             .setMessage(getString(R.string.this_is_not_simplified_invoice_error_message))
@@ -199,6 +231,17 @@ class DocumentEditFragment : BaseFragment() {
                 viewModel.saveDocument()
             }
             .setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showOnePercentErrorDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.amount_from_one_percent_over_amount)
+            .setMessage(getString(R.string.amount_from_one_percent_over_amount_error_message))
+            .setIcon(R.drawable.ic_error)
+            .setPositiveButton(R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -224,10 +267,12 @@ class DocumentEditFragment : BaseFragment() {
                         saveDocument()
                         return true
                     }
+
                     R.id.delete_document -> {
                         showDeleteConfirmationDialog()
                         return true
                     }
+
                     R.id.cancel_document_changes -> {
                         Toast.makeText(
                             requireContext(),

@@ -14,7 +14,8 @@ import pl.skaucieuropy.rozliczwyjazd.ui.base.NavigationCommand
 import pl.skaucieuropy.rozliczwyjazd.utils.inDoubleQuotes
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
 
@@ -82,8 +83,13 @@ class CampsViewModel(private val repository: BaseRepository) : BaseViewModel() {
                 documentData.add(document.category.inDoubleQuotes())
                 documentData.add(if (document.isFromTroopAccount) "TAK" else "NIE")
                 documentData.add(decimalFormat.format(document.amount).inDoubleQuotes())
+                documentData.add(
+                    if (document.amountFromOnePercent == null)
+                        ""
+                    else
+                        decimalFormat.format(document.amountFromOnePercent).inDoubleQuotes()
+                )
                 documentData.add(document.comment.inDoubleQuotes())
-                documentData.add(if (document.isFromTravelVoucher) "TAK" else "NIE")
 
                 for (value in documentData) {
                     stringBuilder.append(value).append(",")

@@ -11,7 +11,6 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="from_troop_account">Płacone bezpośrednio z konta hufca:</string>
-    <string name="from_travel_voucher">Pokryte z bonu turystycznego:</string>
     <string name="document_type">Typ dokumentu</string>
     <string name="category">Kategoria</string>
     <string name="save_changes">Zapisz zmiany</string>
@@ -78,5 +77,8 @@
     <string name="saved_documents_order_by_key">DOCUMENTS_ORDER_BY</string>
     <string name="should_save_incorrect_document_title">Czy zapisać błędny dokument?</string>
     <string name="this_is_not_simplified_invoice_error_message">Paragon z NIP-em powyżej 450 zł nie jest fakturą uproszczoną i nie może być włączony do rozliczenia.\nAby móc włączyć wydatek do rozliczenia poproś sprzedawcę o wystawienie faktury VAT do tego paragonu z NIP-em.\n\nCzy do tego czasu chcesz zachować w aplikacji nieprawidłowy dokument?</string>
+    <string name="amount_from_one_percent_over_amount_error_message">Kwota z 1,5% musi być mniejsza lub równa kwocie dokumentu. Aby móc zapisać dokument proszę poprawić kwoty.</string>
     <string name="amount_over_450">Kwota powyżej 450 zł</string>
+    <string name="amount_from_one_percent_over_amount">Kwota z 1,5% przekracza kwotę dokumentu</string>
+    <string name="amount_from_one_percent">Pokryte z 1,5% podatku (kwota)</string>
 </resources>

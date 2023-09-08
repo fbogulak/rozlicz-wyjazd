@@ -2,7 +2,8 @@ package pl.skaucieuropy.rozliczwyjazd.models.domain
 
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseDocument
 import pl.skaucieuropy.rozliczwyjazd.utils.today
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 data class Document(
     var id: Long,
@@ -14,7 +15,7 @@ data class Document(
     var amount: Double,
     var comment: String,
     var isFromTroopAccount: Boolean,
-    var isFromTravelVoucher: Boolean,
+    var amountFromOnePercent: Double?,
     var campId: Long
 ) {
     companion object {
@@ -29,7 +30,7 @@ data class Document(
                 0.0,
                 "",
                 isFromTroopAccount = false,
-                isFromTravelVoucher = false,
+                null,
                 0
             )
         }
@@ -47,7 +48,7 @@ fun Document.asDatabaseModel(): DatabaseDocument {
         amount,
         comment,
         isFromTroopAccount,
-        isFromTravelVoucher,
+        amountFromOnePercent,
         campId
     )
 }

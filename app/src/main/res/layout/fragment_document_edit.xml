@@ -25,44 +25,30 @@
                 android:layout_height="wrap_content"
                 tools:context=".ui.documentedit.DocumentEditFragment">
 
-                <RadioGroup
-                    android:id="@+id/travel_voucher_radio_group"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/amount_from_one_percent_text_field"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/troop_account_radio_group"
-                    app:layout_constraintTop_toBottomOf="@+id/travel_voucher_label">
-
-                    <RadioButton
-                        android:id="@+id/travel_voucher_yes_radio_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:checked="@={viewModel.documentIsFromTravelVoucher}"
-                        android:text="@string/yes"
-                        android:textSize="16sp" />
-
-                    <RadioButton
-                        android:id="@+id/travel_voucher_no_radio_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:checked="@={!viewModel.documentIsFromTravelVoucher}"
-                        android:text="@string/no"
-                        android:textSize="16sp" />
-                </RadioGroup>
-
-                <TextView
-                    android:id="@+id/travel_voucher_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/from_travel_voucher"
-                    android:textAppearance="?attr/textAppearanceLabelLarge"
-                    app:layout_constraintEnd_toEndOf="@+id/travel_voucher_radio_group"
-                    app:layout_constraintStart_toStartOf="@+id/travel_voucher_radio_group"
-                    app:layout_constraintTop_toBottomOf="@+id/category_text_field" />
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/amount_from_one_percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/troop_account_radio_group"
+                    app:suffixText="@string/pln">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/amount_from_one_percent_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789.,"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:nextFocusDown="@id/comment_edit"
+                        app:amount="@={viewModel.documentAmountFromOnePercent}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/category_text_field"
@@ -212,7 +198,7 @@
                     android:paddingBottom="80dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/travel_voucher_radio_group">
+                    app:layout_constraintTop_toBottomOf="@+id/amount_from_one_percent_text_field">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/comment_edit"
@@ -226,30 +212,27 @@
 
                 <RadioGroup
                     android:id="@+id/troop_account_radio_group"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/troop_account_label"
-                    app:layout_constraintEnd_toStartOf="@+id/travel_voucher_radio_group"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/troop_account_label">
 
                     <RadioButton
                         android:id="@+id/troop_account_yes_radio_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:checked="@={viewModel.documentIsFromTroopAccount}"
                         android:text="@string/yes"
                         android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/troop_account_no_radio_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_height="wrap_content"
                         android:checked="@={!viewModel.documentIsFromTroopAccount}"
                         android:text="@string/no"
                         android:textSize="16sp" />
@@ -259,11 +242,13 @@
                     android:id="@+id/troop_account_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/from_troop_account"
                     android:textAppearance="?attr/textAppearanceLabelLarge"
-                    app:layout_constraintEnd_toEndOf="@+id/troop_account_radio_group"
-                    app:layout_constraintStart_toStartOf="@+id/troop_account_radio_group"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/category_text_field" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

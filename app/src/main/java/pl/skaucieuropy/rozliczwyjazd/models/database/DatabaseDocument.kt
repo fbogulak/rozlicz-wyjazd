@@ -3,7 +3,7 @@ package pl.skaucieuropy.rozliczwyjazd.models.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import pl.skaucieuropy.rozliczwyjazd.models.domain.Document
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "document_table")
 data class DatabaseDocument(
@@ -17,7 +17,7 @@ data class DatabaseDocument(
     var amount: Double,
     var comment: String,
     var isFromTroopAccount: Boolean,
-    var isFromTravelVoucher: Boolean,
+    var amountFromOnePercent: Double?,
     var campId: Long
 )
 
@@ -33,7 +33,7 @@ fun List<DatabaseDocument>.asDomainModel(): List<Document> {
             it.amount,
             it.comment,
             it.isFromTroopAccount,
-            it.isFromTravelVoucher,
+            it.amountFromOnePercent,
             it.campId
         )
     }
@@ -50,7 +50,7 @@ fun DatabaseDocument.asDomainModel(): Document {
         amount,
         comment,
         isFromTroopAccount,
-        isFromTravelVoucher,
+        amountFromOnePercent,
         campId
     )
 }
