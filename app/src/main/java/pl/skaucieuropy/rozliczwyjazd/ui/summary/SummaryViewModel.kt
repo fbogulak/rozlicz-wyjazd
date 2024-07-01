@@ -3,6 +3,7 @@ package pl.skaucieuropy.rozliczwyjazd.ui.summary
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
@@ -36,7 +37,11 @@ class SummaryViewModel(private val repository: BaseRepository) : BaseViewModel()
 
     fun calculateSummary() {
         viewModelScope.launch {
-            val activeCamp = repository.getActiveCamp()
+            var activeCamp: Camp?
+            do {
+                activeCamp = repository.getActiveCamp()
+                if (activeCamp == null) delay(100)
+            } while (activeCamp == null)
             _activeCamp.value = activeCamp
 
             val activeCampExpenses = repository.getActiveCampExpenses()

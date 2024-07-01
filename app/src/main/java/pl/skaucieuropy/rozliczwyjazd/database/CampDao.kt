@@ -1,7 +1,12 @@
 package pl.skaucieuropy.rozliczwyjazd.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import pl.skaucieuropy.rozliczwyjazd.models.database.DatabaseCamp
 
 @Dao
@@ -17,7 +22,7 @@ interface CampDao {
     fun getCamp(id: Long): DatabaseCamp
 
     @Query("SELECT * FROM camp_table WHERE isActive = 1")
-    fun getActiveCamp(): DatabaseCamp
+    fun getActiveCamp(): DatabaseCamp?
 
     @Query("SELECT id FROM camp_table WHERE isActive = 1")
     fun getActiveCampId(): Long
