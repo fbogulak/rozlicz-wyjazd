@@ -82,4 +82,8 @@
         android:id="@+id/aboutFragment"
         android:name="pl.skaucieuropy.rozliczwyjazd.ui.about.AboutFragment"
         android:label="@string/about" />
+    <fragment
+        android:id="@+id/invoiceDataFragment"
+        android:name="pl.skaucieuropy.rozliczwyjazd.ui.invoicedata.InvoiceDataFragment"
+        android:label="@string/invoice_data" />
 </navigation>

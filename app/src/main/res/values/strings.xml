@@ -81,4 +81,10 @@
     <string name="amount_over_450">Kwota powyżej 450 zł</string>
     <string name="amount_from_one_percent_over_amount">Kwota z 1,5% przekracza kwotę dokumentu</string>
     <string name="amount_from_one_percent">Pokryte z 1,5% podatku (kwota)</string>
+    <string name="invoice_data">Dane do faktury</string>
+    <string name="scouts_of_europe">Skauci Europy</string>
+    <string name="address_value">ul. Gibraltarska 4\n03-664 Warszawa</string>
+    <string name="tax_number">NIP: 712 015 74 69</string>
+    <string name="share">Udostępnij</string>
+    <string name="invoice_data_format">%s:\n%s\n%s\n%s</string>
 </resources>
