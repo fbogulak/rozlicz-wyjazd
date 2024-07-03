@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.3"
-
+    defaultConfig {
+        compileSdk 34
+    }
     defaultConfig {
         applicationId "pl.skaucieuropy.rozliczwyjazd"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 8
         versionName "1.0.5"
 
