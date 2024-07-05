@@ -120,7 +120,7 @@ class DocumentEditViewModel(private val repository: BaseRepository) : BaseViewMo
     }
 
     fun navigateToDocuments() {
-        hideKeyboard.call()
+        hideKeyboard.value = true
         navigationCommand.value =
             NavigationCommand.To(DocumentEditFragmentDirections.actionDocumentEditFragmentToDocumentsFragment())
     }

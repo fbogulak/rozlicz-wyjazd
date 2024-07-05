@@ -105,7 +105,7 @@ class CampEditViewModel(private val repository: BaseRepository) : BaseViewModel(
     }
 
     fun navigateToCamps() {
-        hideKeyboard.call()
+        hideKeyboard.value = true
         navigationCommand.value =
             NavigationCommand.To(CampEditFragmentDirections.actionCampEditFragmentToCampsFragment())
     }
