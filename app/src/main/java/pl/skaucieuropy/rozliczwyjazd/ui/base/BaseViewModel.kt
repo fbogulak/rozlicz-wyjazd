@@ -14,7 +14,7 @@ abstract class BaseViewModel : ViewModel() {
     val showSnackBarInt: SingleLiveEvent<Int> = SingleLiveEvent()
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showToastInt: SingleLiveEvent<Int> = SingleLiveEvent()
-    val hideKeyboard: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val hideKeyboard: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     fun showToast(message: String) {
         showToast.value = message
